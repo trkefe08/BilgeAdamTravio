@@ -56,6 +56,8 @@ class AddNewAnnotationVC: UIViewController {
     private lazy var visitDescTxtView: UITextView = {
         let txt = UITextView()
         txt.font = UIFont(name: "Poppins-Regular", size: 12)
+        txt.text = "aaaaaaaaaaaaaaa"
+        txt.textColor = .black
         return txt
     }()
     
@@ -163,10 +165,14 @@ class AddNewAnnotationVC: UIViewController {
         visitDescView.trailing(to: placeNameView)
         visitDescView.height(215)
         
+        
         visitDescLabel.topToSuperview(offset: 8)
         visitDescLabel.leadingToSuperview(offset: 16)
         visitDescTxtView.topToBottom(of: visitDescLabel, offset: 8)
+        visitDescTxtView.leading(to: visitDescLabel)
+        visitDescTxtView.trailingToSuperview(offset: 16)
         visitDescTxtView.bottomToSuperview(offset: -16)
+        
         
         countryCityView.topToBottom(of: visitDescView, offset: 16)
         countryCityView.leading(to: placeNameView)
@@ -200,16 +206,22 @@ class AddNewAnnotationVC: UIViewController {
               let lat = latitude,
               let long = longitude else { return }
         
-        
-        viewModel.upload(image: [selectedImage]) {
-            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long])
-            
+        for (_, image) in selectedImages {
+            viewModel.upload(image: [image]) { urls in
+                guard let urls = urls else { return }
+                self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long]) { message in
+                for link in urls {
+                        self.viewModel.postGallery(params: ["place_id": message, "image_url": link])
+                    }
+                }
+            }
         }
-        let annotationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+    
+        //let annotationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         delegate?.didAddAnnotation(/*title: title, subtitle: desc, coordinate: annotationCoordinate*/)
         
         
-        dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
     }
     
@@ -222,10 +234,10 @@ extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.image], asCopy: true)
-        documentPickerController.delegate = self
-        documentPickerController.allowsMultipleSelection = false
-        present(documentPickerController, animated: true, completion: nil)
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
 }
@@ -243,22 +255,19 @@ extension AddNewAnnotationVC: UICollectionViewDataSource {
     
 }
 
-extension AddNewAnnotationVC: UIDocumentPickerDelegate, UINavigationControllerDelegate {
+extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let selectedURL = urls.first,
-                let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
-                let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddPlaceCollectionViewCell,
-                let selectedImageData = try? Data(contentsOf: selectedURL) else {
-              return
-          }
-          
-          selectedImages[selectedIndexPath] = selectedImageData
-          if let selectedImage = UIImage(data: selectedImageData) {
-              cell.placeImage.image = selectedImage
-              cell.addPhotoImage.isHidden = true
-          }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            if let indexPath = collectionView.indexPathsForSelectedItems?.first {
+                if let cell = collectionView.cellForItem(at: indexPath) as? AddPlaceCollectionViewCell {
+                    cell.placeImage.image = selectedImage
+                    cell.addPhotoImage.isHidden = true
+                }
+            }
+        }
         
+        dismiss(animated: true, completion: nil)
     }
     
 }

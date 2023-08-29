@@ -14,12 +14,13 @@ enum Router: URLRequestConvertible {
     
     case login(parameters: Parameters)
     case register(parameters: Parameters)
-    case place(Parameters: Parameters)
+    case place(parameters: Parameters)
     case travels
     case travelsId(id: String)
     case gallery(id: String)
     case places
     case upload(image: [Data])
+    case postGallery(parameters: Parameters)
     
     var method: HTTPMethod {
         switch self {
@@ -48,12 +49,14 @@ enum Router: URLRequestConvertible {
             return "/v1/places"
         case .upload:
             return "/upload"
+        case .postGallery:
+            return "/v1/galleries"
         }
     }
     
     var parameters: Parameters? {
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters):
             return parameters
         default:
             return nil
@@ -61,7 +64,7 @@ enum Router: URLRequestConvertible {
     }
     
     var multipartFormData:MultipartFormData {
-        var formData = MultipartFormData()
+        let formData = MultipartFormData()
         switch self {
         case .upload(let imageData):
             imageData.forEach { image in
@@ -96,15 +99,10 @@ enum Router: URLRequestConvertible {
         urlRequest.headers = headers
         
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters):
             urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
         case .upload:
-            
-            var uploadURLRequest = try URLEncoding.default.encode(urlRequest, with: parameters)
-            
-            //URLEncoding.default.encode(urlRequest, with: multipartFormData)
-            //uploadURLRequest = try uploadMultipartFormData(urlRequest: uploadURLRequest, imageData: image)
-            
+            let uploadURLRequest = try URLEncoding.default.encode(urlRequest, with: parameters)
             return uploadURLRequest
         default:
             urlRequest = try URLEncoding.default.encode(urlRequest, with: nil)

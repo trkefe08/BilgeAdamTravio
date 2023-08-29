@@ -10,8 +10,8 @@ import Alamofire
 
 protocol AddNewAnnotationProtocol {
     var delegate: AddNewAnnotationDelegate? { get set }
-    func postNewPlace(params: Parameters)
-    func upload(image: [Data], completion: @escaping () -> Void)
+    func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void)
+    func upload(image: [Data], completion: @escaping ([String]?) -> Void)
     
 }
 
@@ -24,9 +24,34 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     
     weak var delegate: AddNewAnnotationDelegate?
     var upload: UploadModel?
+    var place: PlacePostModel?
     
-    func postNewPlace(params: Parameters) {
-        TravioNetwork.shared.makeRequest(request: Router.place(Parameters: params)) { (result: Result<PlacePostModel, Error>) in
+    func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.place(parameters: params)) { (result: Result<PlacePostModel, Error>) in
+            switch result {
+            case .success(let success):
+                self.place = success
+                completion(success.message)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func upload(image: [Data], completion: @escaping ([String]?) -> Void) {
+        TravioNetwork.shared.uploadImage(route:.upload(image: image)) { (result: Result<UploadModel, Error>) in
+            switch result {
+            case .success(let response):
+                self.upload = response
+                completion(response.urls)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func postGallery(params: Parameters) {
+        TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<UploadModel, Error>) in
             switch result {
             case .success(let success):
                 print(success)
@@ -34,18 +59,7 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
                 print(err.localizedDescription)
             }
         }
-    }
-    
-    func upload(image: [Data], completion: @escaping () -> Void) {
-        TravioNetwork.shared.uploadImage(route:.upload(image: image)) { (result: Result<UploadModel, Error>) in
-            switch result {
-            case .success(let response):
-                self.upload = response
-                completion()
-            case .failure(let err):
-                print(err.localizedDescription)
-            }
-        }
+        
     }
     
     
