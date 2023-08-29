@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "dc71baf4f1c263ceb419fc306e926a2bb3081c0b"
+      }
+    },
+    {
+      "identity" : "kingfisher",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Kingfisher.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "7e89cf95dfa132ea7d02b405b9888dd851ec7de0"
+      }
+    },
+    {
+      "identity" : "tinyconstraints",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/roberthein/TinyConstraints.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "a89996a77d364eb85abdd09d42d2274e35ba56dc"
+      }
+    }
+  ],
+  "version" : 2
+}
