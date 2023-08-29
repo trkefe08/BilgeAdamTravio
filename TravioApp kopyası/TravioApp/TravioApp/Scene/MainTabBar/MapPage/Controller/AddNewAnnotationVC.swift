@@ -196,7 +196,7 @@ class AddNewAnnotationVC: UIViewController {
         addPlaceButton.bottomToSuperview(offset: -24, usingSafeArea: true)
         
     }
-    
+    // FIXME: Burası 
     @objc func addPlaceButtonTapped() {
         guard let place = locationLabel.text,
               let title = txtPlaceName.text,
