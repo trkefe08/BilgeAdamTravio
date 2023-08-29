@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 
+
 enum Router: URLRequestConvertible {
     static let baseURLString = "https://api.iosclass.live"
     
@@ -18,7 +19,7 @@ enum Router: URLRequestConvertible {
     case travelsId(id: String)
     case gallery(id: String)
     case places
-    case upload(parameters: Parameters)
+    case upload(image: [Data])
     
     var method: HTTPMethod {
         switch self {
@@ -51,13 +52,27 @@ enum Router: URLRequestConvertible {
     }
     
     var parameters: Parameters? {
-           switch self {
-           case .login(let parameters), .register(let parameters), .place(let parameters), .upload(let parameters):
-               return parameters
-           default:
-               return nil
-           }
-       }
+        switch self {
+        case .login(let parameters), .register(let parameters), .place(let parameters):
+            return parameters
+        default:
+            return nil
+        }
+    }
+    
+    var multipartFormData:MultipartFormData {
+        var formData = MultipartFormData()
+        switch self {
+        case .upload(let imageData):
+            imageData.forEach { image in
+                formData.append(image, withName: "image.jpg", mimeType: "image/jpeg" )
+            }
+            return formData
+        default:
+            break
+        }
+        return formData
+    }
     
     var headers: HTTPHeaders {
         
@@ -67,26 +82,36 @@ enum Router: URLRequestConvertible {
         guard let token = String(data: data, encoding: .utf8) else {
             return HTTPHeaders()
         }
-            let headers: HTTPHeaders = [
-                "Authorization": "Bearer \(token)",
-                "Accept": "application/json"
-            ]
-            return headers
-        }
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(token)",
+            "Accept": "application/json"
+        ]
+        return headers
+    }
     
     func asURLRequest() throws -> URLRequest {
         let url = try Router.baseURLString.asURL()
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method.rawValue
         urlRequest.headers = headers
-
+        
         switch self {
         case .login(let parameters), .register(let parameters), .place(let parameters):
             urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
+        case .upload:
+            
+            var uploadURLRequest = try URLEncoding.default.encode(urlRequest, with: parameters)
+            
+            //URLEncoding.default.encode(urlRequest, with: multipartFormData)
+            //uploadURLRequest = try uploadMultipartFormData(urlRequest: uploadURLRequest, imageData: image)
+            
+            return uploadURLRequest
         default:
             urlRequest = try URLEncoding.default.encode(urlRequest, with: nil)
         }
-
+        
         return urlRequest
     }
+    
+    
 }

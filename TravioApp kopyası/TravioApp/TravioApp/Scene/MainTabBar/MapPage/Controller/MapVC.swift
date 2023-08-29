@@ -10,7 +10,7 @@ import MapKit
 import TinyConstraints
 
 protocol AddAnnotationDelegate: AnyObject {
-    func didAddAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D)
+    func didAddAnnotation(/*title: String, subtitle: String, coordinate: CLLocationCoordinate2D*/)
 }
 
 class MapVC: UIViewController {
@@ -42,7 +42,9 @@ class MapVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         viewModel.delegate = self
-        viewModel.fetchPlaces()
+        viewModel.fetchPlaces() {
+            
+        }
     }
     
     func setupViews() {
@@ -197,15 +199,21 @@ extension MapVC: UICollectionViewDataSource {
 }
 
 extension MapVC: AddAnnotationDelegate {
-    func didAddAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
-        let annotation = MKPointAnnotation()
-        annotation.title = title
-        annotation.subtitle = subtitle
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
+    func didAddAnnotation(/*title: String, subtitle: String, coordinate: CLLocationCoordinate2D*/) {
+//        let annotation = MKPointAnnotation()
+//        annotation.title = title
+//        annotation.subtitle = subtitle
+//        annotation.coordinate = coordinate
+//        mapView.addAnnotation(annotation)
+//
+//        DispatchQueue.main.async {
+//            self.collectionView.reloadData()
+//        }
         
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
+        viewModel.fetchPlaces() {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
     }
 }

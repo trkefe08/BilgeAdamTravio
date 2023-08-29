@@ -10,7 +10,7 @@ import Alamofire
 
 protocol MapViewModelProtocol {
     var delegate: MapViewModelDelegate? { get set }
-    func fetchPlaces()
+    func fetchPlaces(completion: @escaping (() -> Void))
     func getMapInfo() -> [Place]
     func getMapCollectionDetails(at index: Int) -> Place?
     func getMapCollectionCount() -> Int
@@ -34,13 +34,14 @@ class MapViewModel: MapViewModelProtocol {
         loadedImagesIndexes.insert(index)
     }
     
-    func fetchPlaces() {
+    func fetchPlaces(completion: @escaping (() -> Void)) {
         TravioNetwork.shared.makeRequest(request: Router.places) {
             (result:Result<MapModel, Error>) in
             switch result {
             case .success(let result):
                 self.places = result
                 self.delegate?.mapLocationsLoaded()
+                completion()
             case .failure(let err):
                 print(err.localizedDescription)
             }

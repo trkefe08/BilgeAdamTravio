@@ -111,7 +111,7 @@ class AddNewAnnotationVC: UIViewController {
     var countryName: String?
     var latitude: Double?
     var longitude: Double?
-    var selectedImageURLs: [IndexPath: URL] = [:]
+    var selectedImages: [IndexPath: Data] = [:]
     var viewModel = AddNewAnnotationViewModel()
     weak var delegate: AddAnnotationDelegate?
     
@@ -196,17 +196,18 @@ class AddNewAnnotationVC: UIViewController {
               let title = txtPlaceName.text,
               let desc = visitDescTxtView.text,
               let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
-              let selectedImageURL = selectedImageURLs[selectedIndexPath],
-              let selectedImage = UIImage(contentsOfFile: selectedImageURL.path),
+              let selectedImage = selectedImages[selectedIndexPath],
               let lat = latitude,
               let long = longitude else { return }
-        viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long])
         
+        
+        viewModel.upload(image: [selectedImage]) {
+            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long])
+            
+        }
         let annotationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        delegate?.didAddAnnotation(title: title, subtitle: desc, coordinate: annotationCoordinate)
+        delegate?.didAddAnnotation(/*title: title, subtitle: desc, coordinate: annotationCoordinate*/)
         
-        
-        //Upload işlemi
         
         dismiss(animated: true, completion: nil)
         
@@ -246,15 +247,18 @@ extension AddNewAnnotationVC: UIDocumentPickerDelegate, UINavigationControllerDe
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let selectedURL = urls.first,
-              let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first, let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddPlaceCollectionViewCell  else {
-            return
-        }
+                let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
+                let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddPlaceCollectionViewCell,
+                let selectedImageData = try? Data(contentsOf: selectedURL) else {
+              return
+          }
+          
+          selectedImages[selectedIndexPath] = selectedImageData
+          if let selectedImage = UIImage(data: selectedImageData) {
+              cell.placeImage.image = selectedImage
+              cell.addPhotoImage.isHidden = true
+          }
         
-        selectedImageURLs[selectedIndexPath] = selectedURL
-        if let selectedImage = UIImage(contentsOfFile: selectedURL.path) {
-            cell.placeImage.image = selectedImage
-            cell.addPhotoImage.isHidden = true
-        }
     }
     
 }
