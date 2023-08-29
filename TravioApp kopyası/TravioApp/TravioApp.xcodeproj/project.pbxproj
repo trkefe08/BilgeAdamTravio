@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F370F632A9E30840007DD1C /* CustomBackgroundRetangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */; };
+		5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F642A9E309D0007DD1C /* CustomTF.swift */; };
+		5F370F682A9E30BF0007DD1C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5F370F672A9E30BF0007DD1C /* SnapKit */; };
+		5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F692A9E30E00007DD1C /* CustomButton.swift */; };
+		5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F6D2A9E31430007DD1C /* MenuCVC.swift */; };
+		5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */; };
+		5F370F722A9E31820007DD1C /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
 		9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */; };
 		9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA72A9B7F7200427D83 /* LoginVC.swift */; };
@@ -56,6 +63,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackgroundRetangle.swift; sourceTree = "<group>"; };
+		5F370F642A9E309D0007DD1C /* CustomTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTF.swift; sourceTree = "<group>"; };
+		5F370F692A9E30E00007DD1C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		5F370F6D2A9E31430007DD1C /* MenuCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCVC.swift; sourceTree = "<group>"; };
+		5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
+		5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ACBCCDF2A9B850500427D83 /* Kingfisher in Frameworks */,
+				5F370F682A9E30BF0007DD1C /* SnapKit in Frameworks */,
 				9ACBCCBA2A9B805E00427D83 /* TinyConstraints in Frameworks */,
 				9ACBCCBD2A9B807900427D83 /* Alamofire in Frameworks */,
 			);
@@ -202,6 +216,9 @@
 			isa = PBXGroup;
 			children = (
 				9ACBCCD72A9B846C00427D83 /* CustomTextField.swift */,
+				5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */,
+				5F370F642A9E309D0007DD1C /* CustomTF.swift */,
+				5F370F692A9E30E00007DD1C /* CustomButton.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -293,6 +310,9 @@
 			isa = PBXGroup;
 			children = (
 				9ACBCD092A9B8A6A00427D83 /* MenuVC.swift */,
+				5F370F6D2A9E31430007DD1C /* MenuCVC.swift */,
+				5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */,
+				5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */,
 			);
 			path = MenuPage;
 			sourceTree = "<group>";
@@ -348,6 +368,7 @@
 				9ACBCCB92A9B805E00427D83 /* TinyConstraints */,
 				9ACBCCBC2A9B807900427D83 /* Alamofire */,
 				9ACBCCDE2A9B850500427D83 /* Kingfisher */,
+				5F370F672A9E30BF0007DD1C /* SnapKit */,
 			);
 			productName = TravioApp;
 			productReference = 9ACBCCA02A9B7F7200427D83 /* TravioApp.app */;
@@ -381,6 +402,7 @@
 				9ACBCCB82A9B805E00427D83 /* XCRemoteSwiftPackageReference "TinyConstraints" */,
 				9ACBCCBB2A9B807900427D83 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				9ACBCCDD2A9B850500427D83 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 9ACBCCA12A9B7F7200427D83 /* Products */;
 			projectDirPath = "";
@@ -417,11 +439,13 @@
 				9ACBCCE52A9B857800427D83 /* VisitListTableViewCell.swift in Sources */,
 				9ACBCCF32A9B876500427D83 /* MainTabBarController.swift in Sources */,
 				9ACBCD002A9B896800427D83 /* MapCollectionViewCell.swift in Sources */,
+				5F370F722A9E31820007DD1C /* CustomPrivacyView.swift in Sources */,
 				9ACBCCBF2A9B80F600427D83 /* LoginViewModel.swift in Sources */,
 				9ACBCCD52A9B83E200427D83 /* SignUpViewModel.swift in Sources */,
 				9ACBCCEE2A9B869100427D83 /* VisitGalleryModel.swift in Sources */,
 				9ACBCCFD2A9B892800427D83 /* AddNewAnnotationVC.swift in Sources */,
 				9ACBCCE82A9B860000427D83 /* VisitDetailVC.swift in Sources */,
+				5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */,
 				9ACBCD072A9B8A3E00427D83 /* HomeVC.swift in Sources */,
 				9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */,
 				9ACBCCC72A9B81F600427D83 /* FormatType.swift in Sources */,
@@ -429,6 +453,7 @@
 				9ACBCD1F2A9BC1C700427D83 /* PlacePostModel.swift in Sources */,
 				9ACBCCD12A9B837900427D83 /* SignUpVC.swift in Sources */,
 				9ACBCCDC2A9B84E000427D83 /* VisitListVC.swift in Sources */,
+				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ACBCCF02A9B86DC00427D83 /* DetailCollectionViewCell.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
 				9ACBCCCB2A9B828500427D83 /* UIView+Extension.swift in Sources */,
@@ -438,6 +463,8 @@
 				9ACBCD042A9B89FC00427D83 /* KeychainHelper.swift in Sources */,
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
+				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
+				5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */,
 				9ACBCCF82A9B88C300427D83 /* MapViewModel.swift in Sources */,
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
@@ -449,6 +476,7 @@
 				9ACBCCC92A9B826600427D83 /* UIStackView+Extension.swift in Sources */,
 				9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */,
 				9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */,
+				5F370F632A9E30840007DD1C /* CustomBackgroundRetangle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +684,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		9ACBCCB82A9B805E00427D83 /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/roberthein/TinyConstraints.git";
@@ -683,6 +719,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5F370F672A9E30BF0007DD1C /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		9ACBCCB92A9B805E00427D83 /* TinyConstraints */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9ACBCCB82A9B805E00427D83 /* XCRemoteSwiftPackageReference "TinyConstraints" */;

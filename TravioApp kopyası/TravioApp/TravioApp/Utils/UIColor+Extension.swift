@@ -58,3 +58,25 @@ extension UIColor {
     }
     
 }
+
+enum Font {
+    case poppins(fontType: Int, size: CGFloat)
+    
+    var font: UIFont {
+        var x = ""
+        switch self {
+        case .poppins(let type, let size):
+            
+            switch type {
+            case 300: x = "Light"
+            case 400: x = "Regular"
+            case 500: x = "Medium"
+            case 600: x = "SemiBold"
+            case 700: x = "Bold"
+            default: x = "Light"
+            }
+            
+            return UIFont(name: "Poppins-\(x)", size: size).ifNil(UIFont())
+        }
+    }
+}

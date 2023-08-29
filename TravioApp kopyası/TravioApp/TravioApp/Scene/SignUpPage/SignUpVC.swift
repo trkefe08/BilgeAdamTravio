@@ -225,11 +225,9 @@ class SignUpVC: UIViewController {
         stackViewTF.top(to: rectangleView, offset: 72)
         stackViewTF.leadingToSuperview(offset: 24)
         stackViewTF.trailingToSuperview(offset: 24)
-       
-        
+
         usernameView.height(74)
 
-        
         usernameLabel.top(to: usernameView, offset: 8)
         usernameLabel.leading(to: usernameView, offset: 12)
         txtUserName.topToBottom(of: usernameLabel, offset: 8)
