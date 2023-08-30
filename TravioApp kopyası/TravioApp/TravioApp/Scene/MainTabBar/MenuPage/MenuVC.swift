@@ -10,6 +10,14 @@ import SnapKit
 
 class MenuVC: UIViewController {
     
+    
+    var settingsCVArray: [settingsCVS] = [settingsCVS(image: "settings_securitySettings", name: "Security Settings"),
+                                          settingsCVS(image: "settings_appDefaults", name: "App Defaults"),
+                                          settingsCVS(image: "settings_myAddedPlaces", name: "My Added Place"),
+                                          settingsCVS(image: "settings_help&support", name: "Help&Support"),
+                                          settingsCVS(image: "settings_about", name: "About"),
+                                          settingsCVS(image: "settings_termsOfUse", name: "Term of Use")]
+    
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Settings"
@@ -24,8 +32,7 @@ class MenuVC: UIViewController {
         
         return retangle
     }()
-    
-    
+
     private lazy var profileImage:UIImageView = {
        let img = UIImageView()
         img.image = UIImage(named: "bruceWills")
@@ -53,20 +60,20 @@ class MenuVC: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 18
+        layout.minimumLineSpacing = 2
+        layout.minimumInteritemSpacing = 2
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
+        
         cv.backgroundColor = .clear
         
         cv.register(MenuCVC.self, forCellWithReuseIdentifier: "cell")
         
         return cv
     }()
-    
-    
-    
+
     override func viewDidLoad() {
     setupView()
     }
@@ -118,25 +125,37 @@ class MenuVC: UIViewController {
     }
 }
 
-
 extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-   
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-       
-        return 5
+        return settingsCVArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else  {return UICollectionViewCell()}
         
+        cell.configure(item: settingsCVArray[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             return CGSize(width: 358, height: 54)
         }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+//       let x = settingsCVArray[indexPath.row]
+        switch indexPath.row {
+          
+        case 0:
+            let vc = SecuritySettingsVC()
+            navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+        
+    }
     
     
 }

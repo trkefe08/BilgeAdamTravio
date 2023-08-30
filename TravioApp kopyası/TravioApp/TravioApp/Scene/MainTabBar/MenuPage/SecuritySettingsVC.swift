@@ -34,6 +34,7 @@ class SecuritySettingsVC: UIViewController {
     private lazy var backButton:UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -111,6 +112,8 @@ class SecuritySettingsVC: UIViewController {
        let button = CustomButton()
         button.labelText = "Save"
         
+        
+        
         return button
     }()
 
@@ -121,6 +124,9 @@ class SecuritySettingsVC: UIViewController {
         setupView()
     }
     
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
     
     
     func setupView(){
@@ -161,7 +167,6 @@ class SecuritySettingsVC: UIViewController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
             make.width.equalTo(UIScreen.main.bounds.width)
-
         }
    
         backButton.snp.makeConstraints { make in

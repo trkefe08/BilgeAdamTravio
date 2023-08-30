@@ -12,12 +12,12 @@ class MenuCVC: UICollectionViewCell {
     
     private lazy var bView: UIView = {
          let view = UIView()
-        view.backgroundColor = .white
+         view.backgroundColor = .white
          view.layer.cornerRadius = 16
          view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
          view.layer.shadowColor = UIColor.black.cgColor
          view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowOpacity = 0.15
+         view.layer.shadowOpacity = 0.15
          view.layer.shadowRadius = 4
          return view
      }()
@@ -46,15 +46,19 @@ class MenuCVC: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
             setupView()
-       
     }
     
     required init?(coder: NSCoder) {
         super .init(coder: coder)
-    
     }
-  
 
+    func configure(item:settingsCVS) {
+        image.image = UIImage(named: item.image)
+        settingsName.text = item.name
+    }
+    
+    
+    
     func setupView(){
         addSubview(bView)
         bView.addSubviews(image,settingsName,vector)

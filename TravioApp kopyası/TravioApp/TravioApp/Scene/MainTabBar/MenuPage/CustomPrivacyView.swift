@@ -21,7 +21,6 @@ class CustomPrivacyView: UIView {
         label.text = "Deneme"
         label.font = Font.poppins(fontType: 500, size: 14).font
         
-        
         return label
     }()
 
