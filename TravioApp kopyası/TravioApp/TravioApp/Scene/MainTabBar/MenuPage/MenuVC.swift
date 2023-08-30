@@ -10,13 +10,7 @@ import SnapKit
 
 class MenuVC: UIViewController {
     
-    
-    var settingsCVArray: [settingsCVS] = [settingsCVS(image: "settings_securitySettings", name: "Security Settings"),
-                                          settingsCVS(image: "settings_appDefaults", name: "App Defaults"),
-                                          settingsCVS(image: "settings_myAddedPlaces", name: "My Added Place"),
-                                          settingsCVS(image: "settings_help&support", name: "Help&Support"),
-                                          settingsCVS(image: "settings_about", name: "About"),
-                                          settingsCVS(image: "settings_termsOfUse", name: "Term of Use")]
+let MVM = MenuViewModel()
     
     private lazy var header:UILabel = {
         let label = UILabel()
@@ -128,14 +122,17 @@ class MenuVC: UIViewController {
 extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = MVM.countCalc()
         
-        return settingsCVArray.count
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else  {return UICollectionViewCell()}
         
-        cell.configure(item: settingsCVArray[indexPath.row])
+        let array = MVM.settingsCVArray
+        
+        cell.configure(item: array[indexPath.row])
         return cell
     }
     
@@ -145,7 +142,6 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//       let x = settingsCVArray[indexPath.row]
         switch indexPath.row {
           
         case 0:

@@ -9,128 +9,150 @@ import TinyConstraints
 import Kingfisher
 
 class VisitListVC: UIViewController {
-    //MARK: - IBOutlets
-    private lazy var headerLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "My Visits"
-        lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
-        return lbl
+    let visitsViewModel = VisitsViewModel()
+    let visitCVCInstance = VisitCVC()
+  
+    var dizi: [PlaceDetailResponse] = []
+    
+    
+    private lazy var loadingIndicatorView:UIView = {
+        let view = UIView()
+        view.backgroundColor = .blue
+        
+        return view
     }()
     
-    private lazy var rectangleView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.viewColor
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.color = .white
+    
+           return indicator
+       }()
+
+    private lazy var retangle: UIView = {
+        let view = CustomBackgroundRetangle()
+        
+        return view
     }()
     
-    private lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.dataSource = self
-        tv.delegate = self
-        tv.register(VisitListTableViewCell.self, forCellReuseIdentifier: "VisitTableViewCell" )
-        let selectedColor = ColorEnum.viewColor
-        if let colorValue = selectedColor.uiColor {
-            tv.backgroundColor = colorValue
-        }
-        return tv
+    private lazy var header: UILabel = {
+        let label = UILabel()
+        label.text = "My Visits"
+        label.font = Font.poppins(fontType: 600, size: 36).font
+        label.textColor = .white
+        return label
     }()
     
-    //MARK: - Variables
-    var viewModel = VisitListViewModel()
-    
-    //MARK: - LifeCycle
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 45, left: 0, bottom: 0, right: 0)
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.minimumLineSpacing = 16
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(VisitCVC.self, forCellWithReuseIdentifier: "CustomCell")
+        cv.backgroundColor = ColorEnum.viewColor.uiColor
+        
+        return cv
+    }()
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.delegate = self
-        viewModel.fetchVisitList()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        rectangleView.roundCorners(corners: .topLeft, radius: 80)
-    }
-    
-    //MARK: - Funcstions
-    func setupViews() {
-        self.navigationController?.navigationBar.isHidden = true
-        let selectedColor = ColorEnum.travioBackground
-        if let colorValue = selectedColor.uiColor {
-            self.view.backgroundColor = colorValue
-        }
-        self.view.addSubviews(headerLabel, rectangleView)
-        self.rectangleView.addSubviews(tableView)
-        setupLayout()
-    }
-    
-    func setupLayout() {
-        headerLabel.topToSuperview(offset: 24, usingSafeArea: true)
-        headerLabel.leadingToSuperview(offset: 24)
-        
-        rectangleView.topToBottom(of: headerLabel, offset: 52)
-        rectangleView.edgesToSuperview(excluding: .top)
-        
-        tableView.top(to: rectangleView, offset: 45)
-        tableView.leading(to: rectangleView, offset: 24)
-        tableView.trailing(to: rectangleView, offset: -24)
-        tableView.bottomToSuperview()
-    }
-}
-
-extension VisitListVC: VisitListViewModelDelegate {
-    func visitLoaded() {
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-}
-
-extension VisitListVC: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 219
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = VisitDetailVC()
-        guard let newVisitId = viewModel.getVisit(at: indexPath.row)?.id else { return }
-        detailVC.visitId = newVisitId
-        self.navigationController?.pushViewController(detailVC, animated: true)
-        
-    }
-}
-
-extension VisitListVC: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRow
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "VisitTableViewCell", for: indexPath) as? VisitListTableViewCell else { return UITableViewCell()}
-        cell.indexPath = indexPath
-        let model = viewModel.getVisit(at: indexPath.row) ?? PlaceVisit()
-        let imageURL = viewModel.getVisit(at: indexPath.row)?.coverImageURL
-        cell.configureCell(model: model)
-        
-        cell.loadImage(with: imageURL) { [weak self] loadedIndexPath in
-            guard let self = self, let visibleIndexPaths = self.tableView.indexPathsForVisibleRows,
-                  visibleIndexPaths.contains(loadedIndexPath) else {
-                return
-            }
-            
-            self.viewModel.markImageLoaded(at: loadedIndexPath.row)
-            
+        //showLoadingIndicator()
+        loadingIndicatorView.isHidden = true
+        //bir fonksiyona al
+        visitsViewModel.fetchVisitList(callback: { result in
+           
             DispatchQueue.main.async {
-                tableView.reloadRows(at: [loadedIndexPath], with: .none)
+                self.dizi = result.data.places
+                self.collectionView.reloadData()
             }
-            
-            
+           
+        })
+    }
+
+    func showLoadingIndicator() {
+           loadingIndicator.startAnimating()
+           loadingIndicator.isHidden = false
+       }
+       
+       func hideLoadingIndicator() {
+           loadingIndicator.stopAnimating()
+           loadingIndicator.isHidden = true
+       }
+    
+    
+    func setupViews() {
+        view.backgroundColor = ColorEnum.travioBackground.uiColor
+        navigationController?.navigationBar.isHidden = true
+    
+        view.addSubviews(retangle,header,loadingIndicatorView)
+        retangle.addSubviews(collectionView)
+        loadingIndicatorView.addSubview(loadingIndicator)
+        view.bringSubviewToFront(loadingIndicatorView)
+        
+        setupLayouts()
+    }
+    
+    func setupLayouts() {
+        retangle.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview().offset(0)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(128)
         }
         
-        return cell
+        header.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(24)
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.bottom.leading.trailing.equalToSuperview().offset(0)
+            make.top.equalToSuperview().offset(0)
+        }
+        
+        loadingIndicator.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+
+        loadingIndicatorView.snp.makeConstraints { make in
+            make.height.equalTo(UIScreen.main.bounds.height)
+            make.width.equalTo(UIScreen.main.bounds.width)
+            make.centerX.centerY.equalToSuperview()
+        }
     }
+    
+}
+
+extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dizi.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
+        
+        let travel = dizi[indexPath.item]
+        cell.configure(with: travel)
+
+                hideLoadingIndicator()
+                loadingIndicatorView.isHidden = true
+          
+            return cell
+        }
+    
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: collectionView.frame.size.width - 56, height: 219)
+        }
+    
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+            let VisitsDetailVCInstance = VisitDetailVC()
+            VisitsDetailVCInstance.gonderilenId = dizi[indexPath.row].id
+
+            self.navigationController?.pushViewController(VisitsDetailVCInstance, animated: true)
+        }
 }
 

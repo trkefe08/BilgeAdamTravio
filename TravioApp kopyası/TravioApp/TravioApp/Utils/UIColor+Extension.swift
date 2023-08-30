@@ -66,7 +66,6 @@ enum Font {
         var x = ""
         switch self {
         case .poppins(let type, let size):
-            
             switch type {
             case 300: x = "Light"
             case 400: x = "Regular"
@@ -75,7 +74,6 @@ enum Font {
             case 700: x = "Bold"
             default: x = "Light"
             }
-            
             return UIFont(name: "Poppins-\(x)", size: size).ifNil(UIFont())
         }
     }

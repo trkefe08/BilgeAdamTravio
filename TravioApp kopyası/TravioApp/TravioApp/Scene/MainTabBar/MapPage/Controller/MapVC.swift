@@ -179,18 +179,7 @@ extension MapVC: UICollectionViewDataSource {
         guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return UICollectionViewCell()}
         //cell.resetContent()
         cell.configureCell(model: model)
-        /*DispatchQueue.main.async {
-         collectionView.reloadData()
-         }*/
-        
-        
-        /*if let model = viewModel.getMapCollectionDetails(at: indexPath.row) {
-         cell.configureCell(model: model) {
-         DispatchQueue.main.async {
-         collectionView.reloadData()
-         }
-         }
-         }*/
+     
         return cell
     }
     
