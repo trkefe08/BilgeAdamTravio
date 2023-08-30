@@ -196,7 +196,7 @@ class AddNewAnnotationVC: UIViewController {
         addPlaceButton.bottomToSuperview(offset: -24, usingSafeArea: true)
         
     }
-    // FIXME: Burası 
+    // FIXME: Burası
     @objc func addPlaceButtonTapped() {
         guard let place = locationLabel.text,
               let title = txtPlaceName.text,
@@ -206,27 +206,30 @@ class AddNewAnnotationVC: UIViewController {
               let lat = latitude,
               let long = longitude else { return }
         
-        for (_, image) in selectedImages {
-            viewModel.upload(image: [image]) { urls in
-                guard let urls = urls else { return }
-                self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long]) { message in
-                for link in urls {
-                        self.viewModel.postGallery(params: ["place_id": message, "image_url": link])
-                    }
+        viewModel.upload(image: [selectedImage]) { urls in
+            guard let imageUrls = urls else {
+                print("Upload failed or URLs are empty.")
+                return
+            }
+            
+            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls, "latitude": lat, "longitude": long]) { placeId in
+                guard let placeId = placeId else {
+                    print("Failed to post new place or place ID is empty.")
+                    return
                 }
+                
+                for imageUrl in imageUrls {
+                    self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
+                }
+                // Delegate çağrısını yap
+                self.delegate?.didAddAnnotation()
+                
+                // Sayfayı kapat
+                self.dismiss(animated: true, completion: nil)
             }
         }
-    
-        //let annotationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        delegate?.didAddAnnotation(/*title: title, subtitle: desc, coordinate: annotationCoordinate*/)
-        
-        
-        self.dismiss(animated: true, completion: nil)
-        
     }
-    
 }
-
 extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: collectionView.frame.width, height: 215)
@@ -260,6 +263,7 @@ extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
             if let indexPath = collectionView.indexPathsForSelectedItems?.first {
+                selectedImages[indexPath] = selectedImage.jpegData(compressionQuality: 0.5)
                 if let cell = collectionView.cellForItem(at: indexPath) as? AddPlaceCollectionViewCell {
                     cell.placeImage.image = selectedImage
                     cell.addPhotoImage.isHidden = true

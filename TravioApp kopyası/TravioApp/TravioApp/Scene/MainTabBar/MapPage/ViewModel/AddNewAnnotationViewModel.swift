@@ -25,6 +25,7 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     weak var delegate: AddNewAnnotationDelegate?
     var upload: UploadModel?
     var place: PlacePostModel?
+    var uploadImageUrls: [String] = []
     // FIXME: Burası
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.place(parameters: params)) { (result: Result<PlacePostModel, Error>) in
@@ -39,13 +40,14 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     }
     // FIXME: Burası
     func upload(image: [Data], completion: @escaping ([String]?) -> Void) {
-        TravioNetwork.shared.uploadImage(route:.upload(image: image)) { (result: Result<UploadModel, Error>) in
+        TravioNetwork.shared.uploadImage(route: .upload(image: image)) { (result: Result<UploadModel, Error>) in
             switch result {
             case .success(let response):
-                self.upload = response
+                self.uploadImageUrls = response.urls ?? []
                 completion(response.urls)
             case .failure(let err):
                 print(err.localizedDescription)
+                completion(nil)
             }
         }
     }

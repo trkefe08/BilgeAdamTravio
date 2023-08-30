@@ -115,6 +115,7 @@ class MapVC: UIViewController {
     func addNewAnnotationVC(with city: String, country: String, latitude: Double, longitude: Double) {
         let vc = AddNewAnnotationVC()
         vc.cityName = city
+        vc.delegate = self
         vc.countryName = country
         vc.latitude = latitude
         vc.longitude = longitude

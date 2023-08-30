@@ -34,19 +34,24 @@ final class TravioNetwork {
     }
     
     func uploadImage<T: Codable>(route:Router, callback: @escaping (Result<T, Error>) -> Void) {
-    
+        
         let request:URLRequestConvertible = route
-    
+        
         AF.upload(multipartFormData: route.multipartFormData, with: request)
             .validate()
             .responseData { response in
-            switch response.result {
-            case .success(let data):
-                callback(.success(data as! T))
-            case .failure(let error):
-                callback(.failure(error))
+                switch response.result {
+                case .success(let data):
+                    do {
+                        let decodedData = try JSONDecoder().decode(T.self, from: data)
+                        callback(.success(decodedData))
+                    } catch {
+                        callback(.failure(error))
+                    }
+                case .failure(let error):
+                    callback(.failure(error))
+                }
             }
-        }
     }
 }
 
