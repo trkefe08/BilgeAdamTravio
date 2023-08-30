@@ -40,7 +40,6 @@ class VisitCVC: UICollectionViewCell {
         return lbl
     }()
     
-    
     lazy var title:UILabel = {
         let lbl = UILabel()
         lbl.text = "placeName"
@@ -56,7 +55,6 @@ class VisitCVC: UICollectionViewCell {
         
         return img
     }()
-    
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -82,7 +80,6 @@ class VisitCVC: UICollectionViewCell {
     }
   
     func setupViews() {
-       
         addSubviews(containerView)
         containerView.addSubviews(backgroundImage,gradient,locationImage,name,title)
         setupLayouts()
@@ -96,11 +93,9 @@ class VisitCVC: UICollectionViewCell {
         backgroundImage.snp.makeConstraints { make in
             make.edges.equalToSuperview().offset(0)
         }
-        
         title.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(142)
             make.leading.equalToSuperview().offset(8)
-        
         }
         
         locationImage.snp.makeConstraints { make in
@@ -114,7 +109,6 @@ class VisitCVC: UICollectionViewCell {
             make.leading.equalTo(locationImage.snp.trailing).offset(6)
             make.top.equalTo(title.snp.bottom)
         }
-        
         
         gradient.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview().offset(0)

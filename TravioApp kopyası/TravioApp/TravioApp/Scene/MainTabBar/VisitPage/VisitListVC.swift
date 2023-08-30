@@ -61,7 +61,7 @@ class VisitListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        //showLoadingIndicator()
+        showLoadingIndicator()
         loadingIndicatorView.isHidden = true
         //bir fonksiyona al
         visitsViewModel.fetchVisitList(callback: { result in
@@ -150,7 +150,7 @@ extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
             let VisitsDetailVCInstance = VisitDetailVC()
-            VisitsDetailVCInstance.gonderilenId = dizi[indexPath.row].id
+            VisitsDetailVCInstance.postedID = dizi[indexPath.row].id
 
             self.navigationController?.pushViewController(VisitsDetailVCInstance, animated: true)
         }
