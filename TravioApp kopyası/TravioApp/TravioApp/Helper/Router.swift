@@ -68,7 +68,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .upload(let imageData):
             imageData.forEach { image in
-                formData.append(image, withName: "image.jpg", mimeType: "image/jpeg" )
+                formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg" )
             }
             return formData
         default:
@@ -85,11 +85,18 @@ enum Router: URLRequestConvertible {
         guard let token = String(data: data, encoding: .utf8) else {
             return HTTPHeaders()
         }
-        let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(token)",
-            "Accept": "application/json"
-        ]
-        return headers
+        
+        switch self {
+        case .login, .register, .places:
+            return [:]
+        case .travels, .travelsId, .postGallery:
+            return ["Authorization": "Bearer \(token)"]
+        case .upload:
+            return ["Content-Type": "multipart/form-data"]
+        default:
+            return [:]
+        }
+        
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -98,17 +105,18 @@ enum Router: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         urlRequest.headers = headers
         
-        switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters):
-            urlRequest = try JSONEncoding.default.encode(urlRequest, with: parameters)
-        case .upload:
-            let uploadURLRequest = try URLEncoding.default.encode(urlRequest, with: parameters)
-            return uploadURLRequest
-        default:
-            urlRequest = try URLEncoding.default.encode(urlRequest, with: nil)
-        }
+        let encoding: ParameterEncoding = {
+            
+            switch method {
+            case .get:
+                return URLEncoding.default
+            default:
+                return JSONEncoding.default
+            }
+        }()
         
-        return urlRequest
+        return try encoding.encode(urlRequest, with: parameters)
+        
     }
     
     
