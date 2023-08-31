@@ -80,6 +80,7 @@ class VisitDetailVC: UIViewController {
     
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
+        mapView.delegate =  self
         
         return mapView
     }()
@@ -100,6 +101,30 @@ class VisitDetailVC: UIViewController {
         return btn
     }()
     
+    private lazy var addButton:UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = ColorEnum.travioBackground.uiColor
+        
+       
+        return btn
+    }()
+    
+    private lazy var btnImageView:UIImageView = {
+       let img = UIImageView()
+        img.image = UIImage(named: "visits_add")
+        
+        return img
+    }()
+    
+    private lazy var btnlabel:UILabel = {
+       let lbl = UILabel()
+        lbl.font = Font.poppins(fontType: 300, size: 10).font
+        lbl.text = "Add"
+        lbl.textColor = .white
+        
+        return lbl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +136,7 @@ class VisitDetailVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mapView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        addButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -129,9 +155,7 @@ class VisitDetailVC: UIViewController {
                     self.pageControl.isHidden = true
                 }
                 self.collectionView.reloadData()
-     
             }
-            
         }
     }
     
@@ -144,11 +168,10 @@ class VisitDetailVC: UIViewController {
                 guard let vst = self.vdVM.visitDetail else {return}
                     self.descriptionLabel.text = vst.description
                     self.titleLabel.text = vst.title
-                    self.createdBy.text = "created By @\(vst.creator)"
+                    self.createdBy.text = "created by @\(vst.creator)"
                     self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
                        
                     updateMap()
-            
             }
         }
         
@@ -180,6 +203,7 @@ class VisitDetailVC: UIViewController {
         }
     }
     
+    
     private func setupViews() {
         // safe areayı kapatan kod blogu
         let yourView = UIView()
@@ -192,8 +216,9 @@ class VisitDetailVC: UIViewController {
         view.backgroundColor = ColorEnum.viewColor.uiColor
         navigationController?.isNavigationBarHidden = true
        
-        view.addSubviews(collectionView, pageControl, backButton, scrollView)
-    
+        view.addSubviews(collectionView, pageControl, backButton, scrollView, addButton)
+        view.bringSubviewToFront(addButton)
+        addButton.addSubviews(btnImageView,btnlabel)
         setupLayout()
     }
     
@@ -257,9 +282,27 @@ class VisitDetailVC: UIViewController {
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(32)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.leading.equalToSuperview().offset(24)
             make.height.width.equalTo(40)
+        }
+        
+        addButton.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.width.equalTo(50)
+        }
+        
+        btnImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.width.equalTo(22.5)
+            make.height.equalTo(18)
+            make.centerX.equalToSuperview()
+        }
+        
+        btnlabel.snp.makeConstraints { make in
+            make.top.equalTo(btnImageView.snp.bottom)
+            make.centerX.equalToSuperview()
         }
     }
     
@@ -291,5 +334,25 @@ extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegat
         cell.configure(model: image)
         
         return cell
+    }
+}
+
+extension VisitDetailVC: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        let annotationIdentifier = "CustomAnnotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
+        
+        if annotationView == nil {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        annotationView?.image = UIImage(named: "map 1")  // Özelleştirilmiş pin görüntüsü
+        return annotationView
     }
 }

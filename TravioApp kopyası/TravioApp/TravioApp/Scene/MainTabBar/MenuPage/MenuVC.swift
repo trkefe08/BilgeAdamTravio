@@ -48,6 +48,8 @@ let MVM = MenuViewModel()
         button.titleLabel?.font = Font.poppins(fontType: 400, size: 12).font
         button.setTitleColor(ColorEnum.travioBackground.uiColor, for: .normal)
         
+        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
@@ -70,6 +72,12 @@ let MVM = MenuViewModel()
 
     override func viewDidLoad() {
     setupView()
+    }
+    
+    @objc func editButtonTapped(){
+        
+        let vc = EditProfile()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setupView(){
@@ -111,9 +119,9 @@ let MVM = MenuViewModel()
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(editProfileButton.snp.bottom).offset(21)
-            make.leading.equalToSuperview().offset(13)
-            make.trailing.equalToSuperview().offset(-13)
+            make.top.equalTo(editProfileButton.snp.bottom).offset(15)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }
@@ -137,21 +145,20 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: 358, height: 54)
+        return CGSize(width: UIScreen.main.bounds.width-32, height: 54)
         }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         switch indexPath.row {
-          
         case 0:
             let vc = SecuritySettingsVC()
             navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
-        
     }
-    
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: 9, left: 16, bottom: 0, right: 16)
+        }
 }

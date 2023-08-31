@@ -14,6 +14,8 @@
 		5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F6D2A9E31430007DD1C /* MenuCVC.swift */; };
 		5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */; };
 		5F370F722A9E31820007DD1C /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */; };
+		5F3714E42AA0AE2C0017A7B2 /* EditProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E32AA0AE2C0017A7B2 /* EditProfile.swift */; };
+		5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */; };
 		5F9C0C382A9FB97A00F7CE1F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C372A9FB97A00F7CE1F /* LaunchScreen.swift */; };
 		5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C392A9FBDC300F7CE1F /* LoginM.swift */; };
 		5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C3B2A9FC22000F7CE1F /* MenuVM.swift */; };
@@ -71,6 +73,8 @@
 		5F370F6D2A9E31430007DD1C /* MenuCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCVC.swift; sourceTree = "<group>"; };
 		5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
 		5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
+		5F3714E32AA0AE2C0017A7B2 /* EditProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfile.swift; sourceTree = "<group>"; };
+		5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditProfileView.swift; sourceTree = "<group>"; };
 		5F9C0C372A9FB97A00F7CE1F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		5F9C0C392A9FBDC300F7CE1F /* LoginM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginM.swift; sourceTree = "<group>"; };
 		5F9C0C3B2A9FC22000F7CE1F /* MenuVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVM.swift; sourceTree = "<group>"; };
@@ -135,6 +139,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F3714E22AA0AE0C0017A7B2 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				5F3714E32AA0AE2C0017A7B2 /* EditProfile.swift */,
+			);
+			path = "Edit Profile";
+			sourceTree = "<group>";
+		};
 		5F9C0C3D2A9FC24100F7CE1F /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,14 +160,6 @@
 				5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */,
 			);
 			path = SecuritySettings;
-			sourceTree = "<group>";
-		};
-		5F9C0C3F2A9FC26B00F7CE1F /* Custom Components */ = {
-			isa = PBXGroup;
-			children = (
-				5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */,
-			);
-			path = "Custom Components";
 			sourceTree = "<group>";
 		};
 		9ACBCC972A9B7F7200427D83 = {
@@ -242,9 +246,11 @@
 		9ACBCCD62A9B842900427D83 /* CustomComponents */ = {
 			isa = PBXGroup;
 			children = (
+				5F370F712A9E31820007DD1C /* CustomPrivacyView.swift */,
 				5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */,
 				5F370F642A9E309D0007DD1C /* CustomTF.swift */,
 				5F370F692A9E30E00007DD1C /* CustomButton.swift */,
+				5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -335,12 +341,12 @@
 		9ACBCD082A9B8A5100427D83 /* MenuPage */ = {
 			isa = PBXGroup;
 			children = (
-				5F9C0C3F2A9FC26B00F7CE1F /* Custom Components */,
 				5F9C0C3D2A9FC24100F7CE1F /* Menu */,
 				9ACBCD092A9B8A6A00427D83 /* MenuVC.swift */,
 				5F370F6D2A9E31430007DD1C /* MenuCVC.swift */,
 				5FEED56D2A9F7FAE003D971E /* MenuM.swift */,
 				5F9C0C3B2A9FC22000F7CE1F /* MenuVM.swift */,
+				5F3714E22AA0AE0C0017A7B2 /* Edit Profile */,
 				5F9C0C3E2A9FC25700F7CE1F /* SecuritySettings */,
 			);
 			path = MenuPage;
@@ -473,12 +479,14 @@
 				9ACBCCFD2A9B892800427D83 /* AddNewAnnotationVC.swift in Sources */,
 				5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */,
 				9ACBCD072A9B8A3E00427D83 /* HomeVC.swift in Sources */,
+				5F3714E42AA0AE2C0017A7B2 /* EditProfile.swift in Sources */,
 				9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */,
 				9ACBCCC72A9B81F600427D83 /* FormatType.swift in Sources */,
 				9ACBCD1F2A9BC1C700427D83 /* PlacePostModel.swift in Sources */,
 				5F9C0C432A9FDAC300F7CE1F /* VisitCVC.swift in Sources */,
 				9ACBCCD12A9B837900427D83 /* SignUpVC.swift in Sources */,
 				9ACBCCDC2A9B84E000427D83 /* VisitListVC.swift in Sources */,
+				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
 				5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */,
