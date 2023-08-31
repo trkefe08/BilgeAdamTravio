@@ -157,7 +157,15 @@ extension MapVC: MKMapViewDelegate {
         }
         
         return annotationView
-        
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            if let index = viewModel.getIndexForAnnotation(annotation) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+        }
     }
 }
 
@@ -175,42 +183,18 @@ extension MapVC: UICollectionViewDataSource {
         viewModel.getMapCollectionCount()
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapCollectionViewCell", for: indexPath) as? MapCollectionViewCell else {
             return UICollectionViewCell() }
         guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return UICollectionViewCell()}
-        //cell.resetContent()
         cell.configureCell(model: model)
-        /*DispatchQueue.main.async {
-         collectionView.reloadData()
-         }*/
-        
-        
-        /*if let model = viewModel.getMapCollectionDetails(at: indexPath.row) {
-         cell.configureCell(model: model) {
-         DispatchQueue.main.async {
-         collectionView.reloadData()
-         }
-         }
-         }*/
         return cell
     }
     
 }
 
 extension MapVC: AddAnnotationDelegate {
-    func didAddAnnotation(/*title: String, subtitle: String, coordinate: CLLocationCoordinate2D*/) {
-//        let annotation = MKPointAnnotation()
-//        annotation.title = title
-//        annotation.subtitle = subtitle
-//        annotation.coordinate = coordinate
-//        mapView.addAnnotation(annotation)
-//
-//        DispatchQueue.main.async {
-//            self.collectionView.reloadData()
-//        }
-        
+    func didAddAnnotation() {
         viewModel.fetchPlaces() {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()

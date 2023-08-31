@@ -53,6 +53,7 @@
 		9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */; };
 		9ACBCD1F2A9BC1C700427D83 /* PlacePostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */; };
 		9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD202A9BC64800427D83 /* UploadModel.swift */; };
+		9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAnnotationViewModel.swift; sourceTree = "<group>"; };
 		9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePostModel.swift; sourceTree = "<group>"; };
 		9ACBCD202A9BC64800427D83 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
+		9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGalleryModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +326,7 @@
 				9ACBCCF92A9B88EB00427D83 /* MapModel.swift */,
 				9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */,
 				9ACBCD202A9BC64800427D83 /* UploadModel.swift */,
+				9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,
+				9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */,
 				9ACBCCE32A9B854600427D83 /* VisitModel.swift in Sources */,
 				9ACBCCC52A9B81B700427D83 /* UIColor+Extension.swift in Sources */,
 				9ACBCCEC2A9B866900427D83 /* VisitDetailModel.swift in Sources */,

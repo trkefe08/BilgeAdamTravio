@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import MapKit
 
 protocol MapViewModelProtocol {
     var delegate: MapViewModelDelegate? { get set }
@@ -15,6 +16,7 @@ protocol MapViewModelProtocol {
     func getMapCollectionDetails(at index: Int) -> Place?
     func getMapCollectionCount() -> Int
     func markImageLoaded(at index: Int)
+    func getIndexForAnnotation(_ annotation: MKPointAnnotation) -> Int?
     
 }
 
@@ -62,6 +64,18 @@ class MapViewModel: MapViewModelProtocol {
     func getMapCollectionCount() -> Int {
         guard let count = places?.data?.count else { return 0 }
         return count
+    }
+    
+    func getIndexForAnnotation(_ annotation: MKPointAnnotation) -> Int? {
+        let locations = getMapInfo()
+        
+        for (index, location) in locations.enumerated() {
+            if location.latitude == annotation.coordinate.latitude &&
+                location.longitude == annotation.coordinate.longitude {
+                return index
+            }
+        }
+        return nil
     }
     
 }

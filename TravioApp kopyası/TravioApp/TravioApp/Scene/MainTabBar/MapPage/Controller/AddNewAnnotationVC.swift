@@ -108,7 +108,7 @@ class AddNewAnnotationVC: UIViewController {
         return button
     }()
     
-    
+    var images: [Data?] = []
     var cityName: String?
     var countryName: String?
     var latitude: Double?
@@ -116,6 +116,7 @@ class AddNewAnnotationVC: UIViewController {
     var selectedImages: [IndexPath: Data] = [:]
     var viewModel = AddNewAnnotationViewModel()
     weak var delegate: AddAnnotationDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,17 +207,18 @@ class AddNewAnnotationVC: UIViewController {
               let lat = latitude,
               let long = longitude else { return }
         
-        viewModel.upload(image: [selectedImage]) { urls in
+        viewModel.upload(image: images) { urls in
             guard let imageUrls = urls else {
                 print("Upload failed or URLs are empty.")
                 return
             }
             
-            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls, "latitude": lat, "longitude": long]) { placeId in
+            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls.first, "latitude": lat, "longitude": long]) { placeId in
                 guard let placeId = placeId else {
                     print("Failed to post new place or place ID is empty.")
                     return
                 }
+                
                 
                 for imageUrl in imageUrls {
                     self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
@@ -264,6 +266,7 @@ extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationContr
         if let selectedImage = info[.originalImage] as? UIImage {
             if let indexPath = collectionView.indexPathsForSelectedItems?.first {
                 selectedImages[indexPath] = selectedImage.jpegData(compressionQuality: 0.5)
+                images.append(selectedImages[indexPath])
                 if let cell = collectionView.cellForItem(at: indexPath) as? AddPlaceCollectionViewCell {
                     cell.placeImage.image = selectedImage
                     cell.addPhotoImage.isHidden = true

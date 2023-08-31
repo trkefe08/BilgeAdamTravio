@@ -35,7 +35,7 @@ final class TravioNetwork {
     
     func uploadImage<T: Codable>(route:Router, callback: @escaping (Result<T, Error>) -> Void) {
         
-        let request:URLRequestConvertible = route
+        let request: URLRequestConvertible = route
         
         AF.upload(multipartFormData: route.multipartFormData, with: request)
             .validate()

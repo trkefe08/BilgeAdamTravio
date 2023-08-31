@@ -19,12 +19,12 @@ enum Router: URLRequestConvertible {
     case travelsId(id: String)
     case gallery(id: String)
     case places
-    case upload(image: [Data])
+    case upload(image: [Data?])
     case postGallery(parameters: Parameters)
     
     var method: HTTPMethod {
         switch self {
-        case .login, .register, .place, .upload:
+        case .login, .register, .place, .upload, .postGallery:
             return .post
         default:
             return .get
@@ -68,6 +68,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .upload(let imageData):
             imageData.forEach { image in
+                guard let image = image else { return }
                 formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg" )
             }
             return formData
@@ -89,7 +90,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery:
+        case .travels, .travelsId, .postGallery, .place:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
@@ -104,6 +105,7 @@ enum Router: URLRequestConvertible {
         var urlRequest = URLRequest(url: url.appendingPathComponent(path))
         urlRequest.httpMethod = method.rawValue
         urlRequest.headers = headers
+        
         
         let encoding: ParameterEncoding = {
             

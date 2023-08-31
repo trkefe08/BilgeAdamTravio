@@ -11,7 +11,7 @@ import Alamofire
 protocol AddNewAnnotationProtocol {
     var delegate: AddNewAnnotationDelegate? { get set }
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void)
-    func upload(image: [Data], completion: @escaping ([String]?) -> Void)
+    func upload(image: [Data?], completion: @escaping ([String]?) -> Void)
     
 }
 
@@ -39,7 +39,7 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
         }
     }
     // FIXME: Burası
-    func upload(image: [Data], completion: @escaping ([String]?) -> Void) {
+    func upload(image: [Data?], completion: @escaping ([String]?) -> Void) {
         TravioNetwork.shared.uploadImage(route: .upload(image: image)) { (result: Result<UploadModel, Error>) in
             switch result {
             case .success(let response):
@@ -53,7 +53,7 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     }
     // FIXME: Burası düzeltilmeli
     func postGallery(params: Parameters) {
-        TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<UploadModel, Error>) in
+        TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<PostGalleryModel, Error>) in
             switch result {
             case .success(let success):
                 print(success)
