@@ -5,9 +5,8 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 
-import UIKit
 import Alamofire
-
+import UIKit
 
 enum Router: URLRequestConvertible {
     static let baseURLString = "https://api.iosclass.live"
@@ -24,6 +23,7 @@ enum Router: URLRequestConvertible {
     case getAllPlacesForUser
     case getAllGalleryByPlaceID(id: String)
     case getAPlaceById(id: String)
+    case getAllVisits
     
     var method: HTTPMethod {
         switch self {
@@ -60,6 +60,8 @@ enum Router: URLRequestConvertible {
             return "/v1/galleries/\(id)"
         case .getAPlaceById(let id):
             return "/v1/places/\(id)"
+        case .getAllVisits:
+            return "/v1/visits"
         }
     }
     
@@ -72,13 +74,13 @@ enum Router: URLRequestConvertible {
         }
     }
     
-    var multipartFormData:MultipartFormData {
+    var multipartFormData: MultipartFormData {
         let formData = MultipartFormData()
         switch self {
         case .upload(let imageData):
             imageData.forEach { image in
                 guard let image = image else { return }
-                formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg" )
+                formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg")
             }
             return formData
         default:
@@ -88,7 +90,6 @@ enum Router: URLRequestConvertible {
     }
     
     var headers: HTTPHeaders {
-        
         guard let data = KeyChainHelper.shared.read(service: "access_token", account: "bilgeadam") else {
             return HTTPHeaders()
         }
@@ -99,14 +100,13 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
         default:
             return [:]
         }
-        
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -115,9 +115,7 @@ enum Router: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         urlRequest.headers = headers
         
-        
         let encoding: ParameterEncoding = {
-            
             switch method {
             case .get:
                 return URLEncoding.default
@@ -127,8 +125,5 @@ enum Router: URLRequestConvertible {
         }()
         
         return try encoding.encode(urlRequest, with: parameters)
-        
     }
-    
-    
 }

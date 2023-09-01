@@ -12,7 +12,7 @@ class VisitListVC: UIViewController {
     let visitsViewModel = VisitsViewModel()
     let visitCVCInstance = VisitCVC()
   
-    var dizi: [PlaceDetailResponse] = []
+    var dizi: [Visit] = []
     
     
     private lazy var loadingIndicatorView:UIView = {
@@ -67,7 +67,7 @@ class VisitListVC: UIViewController {
         visitsViewModel.fetchVisitList(callback: { result in
            
             DispatchQueue.main.async {
-                self.dizi = result.data.places
+                self.dizi = result.data.visits
                 self.collectionView.reloadData()
             }
            
@@ -150,7 +150,7 @@ extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
             let VisitsDetailVCInstance = VisitDetailVC()
-            VisitsDetailVCInstance.postedID = dizi[indexPath.row].id
+            VisitsDetailVCInstance.postedID = dizi[indexPath.row].placeId
 
             self.navigationController?.pushViewController(VisitsDetailVCInstance, animated: true)
         }

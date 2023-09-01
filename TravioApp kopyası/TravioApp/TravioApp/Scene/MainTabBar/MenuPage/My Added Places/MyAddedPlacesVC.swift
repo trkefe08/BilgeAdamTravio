@@ -39,17 +39,19 @@ class MyAddedPlacesVC: UIViewController {
         return img
     }()
 
-//    private lazy var collectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-//        layout.minimumLineSpacing = 18
-//
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        cv.delegate = self
-//        cv.dataSource = self
-//
-//        return cv
-//    }()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 18
+        layout.sectionInset = UIEdgeInsets(top: 0 , left: 24, bottom: 0, right: 24)
+
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(MyAddedPlaceCVC.self, forCellWithReuseIdentifier: "cell")
+        cv.backgroundColor = .clear
+        return cv
+    }()
 
 
     override func viewDidLoad() {
@@ -68,15 +70,13 @@ class MyAddedPlacesVC: UIViewController {
     func setupView(){
 
         view.addSubviews(retangle,backButton,header)
-        retangle.addSubviews(sortFilter)
+        retangle.addSubviews(sortFilter,collectionView)
 
 
         setupLayouts()
     }
 
     func setupLayouts() {
-
-
 
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
@@ -100,5 +100,34 @@ class MyAddedPlacesVC: UIViewController {
             make.trailing.equalToSuperview().offset(-23)
             make.height.width.equalTo(22)
         }
+        
+        collectionView.snp.makeConstraints { make in
+            make.leading.bottom.trailing.equalToSuperview()
+            make.top.equalToSuperview().offset(60)
+        }
     }
+}
+
+extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MyAddedPlaceCVC else {return UICollectionViewCell()}
+        
+        cell.backgroundColor = .brown
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        
+        return CGSize(width: UIScreen.main.bounds.width - 48, height: 89)
+    }
+    
+   
+    
+    
 }

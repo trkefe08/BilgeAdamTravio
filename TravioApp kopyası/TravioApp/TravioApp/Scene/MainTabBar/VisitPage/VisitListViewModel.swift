@@ -8,15 +8,15 @@
 import Foundation
 
 class VisitsViewModel {
-    var places:[PlaceDetailResponse]?
+    var places:[Visit]?
     
     
-    func fetchVisitList(callback: @escaping (PlaceResponse)->Void) {
-        TravioNetwork.shared.makeRequest(request: Router.getAllPlacesForUser) { (result:Result<PlaceResponse, Error>) in
+    func fetchVisitList(callback: @escaping (ApiResponse)->Void) {
+        TravioNetwork.shared.makeRequest(request: Router.getAllVisits) { (result:Result<ApiResponse, Error>) in
             switch result {
             case .success(let result):
                 print("başarılı")
-                self.places = result.data.places
+                self.places = result.data.visits
                 callback(result)
             case .failure(let err):
                 print("başarılı")

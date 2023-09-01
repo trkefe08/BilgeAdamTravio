@@ -70,7 +70,6 @@ class VisitCVC: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-            
         let maskPath = UIBezierPath(roundedRect: bounds,
                                     byRoundingCorners: [.topLeft, .topRight, .bottomLeft],
                                     cornerRadii: CGSize(width: 16, height: 16))
@@ -116,10 +115,10 @@ class VisitCVC: UICollectionViewCell {
         }
     }
 
-    func configure(with travel: PlaceDetailResponse) {
-        name.text = travel.place
-        title.text = travel.title
+    func configure(with travel: Visit) {
+        name.text = travel.place.place
+        title.text = travel.place.title
       
-        backgroundImage.sd_setImage(with: URL(string: travel.coverImageURL))
+        backgroundImage.sd_setImage(with: URL(string: travel.place.coverImageUrl))
     }
 }
