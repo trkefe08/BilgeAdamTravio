@@ -21,7 +21,6 @@ enum Router: URLRequestConvertible {
     case places
     case upload(image: [Data?])
     case postGallery(parameters: Parameters)
-    case upload(parameters: Parameters)
     case getAllPlacesForUser
     case getAllGalleryByPlaceID(id: String)
     case getAPlaceById(id: String)

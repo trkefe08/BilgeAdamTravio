@@ -159,13 +159,6 @@
 			path = "My Added Places";
 			sourceTree = "<group>";
 		};
-		5F9C0C3D2A9FC24100F7CE1F /* Menu */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Menu;
-			sourceTree = "<group>";
-		};
 		5F9C0C3E2A9FC25700F7CE1F /* SecuritySettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,7 +346,6 @@
 		9ACBCD082A9B8A5100427D83 /* MenuPage */ = {
 			isa = PBXGroup;
 			children = (
-				5F9C0C3D2A9FC24100F7CE1F /* Menu */,
 				9ACBCD092A9B8A6A00427D83 /* MenuVC.swift */,
 				5F370F6D2A9E31430007DD1C /* MenuCVC.swift */,
 				5FEED56D2A9F7FAE003D971E /* MenuM.swift */,
