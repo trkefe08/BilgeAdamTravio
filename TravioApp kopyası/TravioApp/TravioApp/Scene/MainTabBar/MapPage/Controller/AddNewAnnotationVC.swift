@@ -32,8 +32,8 @@ class AddNewAnnotationVC: UIViewController {
         return lbl
     }()
     
-    private lazy var txtPlaceName: CustomTextField = {
-        let tf = CustomTextField()
+    private lazy var txtPlaceName: UITextField = {
+        let tf = UITextField()
         tf.placeholder = "Please write a place name"
         tf.font = UIFont(name: "Poppins-Regular", size: 12)
         tf.delegate = self

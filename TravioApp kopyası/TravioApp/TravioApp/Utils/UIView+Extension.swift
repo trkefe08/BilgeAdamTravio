@@ -22,3 +22,10 @@ extension UIView {
         layer.mask = mask
     }
 }
+
+extension Optional {
+    
+    func ifNil(_ default:Wrapped) -> Wrapped {
+        return self ?? `default`
+    }
+}

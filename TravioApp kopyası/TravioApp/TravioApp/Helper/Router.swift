@@ -21,6 +21,10 @@ enum Router: URLRequestConvertible {
     case places
     case upload(image: [Data?])
     case postGallery(parameters: Parameters)
+    case upload(parameters: Parameters)
+    case getAllPlacesForUser
+    case getAllGalleryByPlaceID(id: String)
+    case getAPlaceById(id: String)
     
     var method: HTTPMethod {
         switch self {
@@ -51,6 +55,12 @@ enum Router: URLRequestConvertible {
             return "/upload"
         case .postGallery:
             return "/v1/galleries"
+        case .getAllPlacesForUser:
+            return "/v1/places/user"
+        case .getAllGalleryByPlaceID(let id):
+            return "/v1/galleries/\(id)"
+        case .getAPlaceById(let id):
+            return "/v1/places/\(id)"
         }
     }
     

@@ -36,7 +36,7 @@ class MapCollectionViewCell: UICollectionViewCell {
     private lazy var iconImage: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFit
-        img.image = #imageLiteral(resourceName: "white")
+        img.image = #imageLiteral(resourceName: "visits_locationMark")
         return img
     }()
     
