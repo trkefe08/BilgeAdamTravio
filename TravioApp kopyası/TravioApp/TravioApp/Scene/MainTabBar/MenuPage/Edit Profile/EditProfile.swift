@@ -104,7 +104,7 @@ class EditProfile: UIViewController {
     }
     
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true)
     }
     
     @objc func changePhotoButtonTapped() {

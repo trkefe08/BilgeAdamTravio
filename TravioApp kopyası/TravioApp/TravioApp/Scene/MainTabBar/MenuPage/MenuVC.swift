@@ -5,14 +5,13 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 class MenuVC: UIViewController {
+    let MVM = MenuViewModel()
     
-let MVM = MenuViewModel()
-    
-    private lazy var header:UILabel = {
+    private lazy var header: UILabel = {
         let label = UILabel()
         label.text = "Settings"
         label.font = Font.poppins(fontType: 600, size: 32).font
@@ -21,29 +20,29 @@ let MVM = MenuViewModel()
         return label
     }()
     
-    private lazy var retangle:CustomBackgroundRetangle = {
-       let retangle = CustomBackgroundRetangle()
+    private lazy var retangle: CustomBackgroundRetangle = {
+        let retangle = CustomBackgroundRetangle()
         
         return retangle
     }()
 
-    private lazy var profileImage:UIImageView = {
-       let img = UIImageView()
+    private lazy var profileImage: UIImageView = {
+        let img = UIImageView()
         img.image = UIImage(named: "bruceWills")
         img.layer.cornerRadius = 60
         return img
     }()
 
-    private lazy var profileName:UILabel = {
-       let label = UILabel()
+    private lazy var profileName: UILabel = {
+        let label = UILabel()
         label.text = "Bruce Wills"
         label.font = Font.poppins(fontType: 600, size: 16).font
         label.textColor = .black
         return label
     }()
     
-    private lazy var editProfileButton:UIButton = {
-       let button = UIButton()
+    private lazy var editProfileButton: UIButton = {
+        let button = UIButton()
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = Font.poppins(fontType: 400, size: 12).font
         button.setTitleColor(ColorEnum.travioBackground.uiColor, for: .normal)
@@ -62,34 +61,31 @@ let MVM = MenuViewModel()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
-        
         cv.backgroundColor = .clear
-        
         cv.register(MenuCVC.self, forCellWithReuseIdentifier: "cell")
         
         return cv
     }()
 
     override func viewDidLoad() {
-    setupView()
+        setupView()
     }
     
-    @objc func editButtonTapped(){
-        
+    @objc func editButtonTapped() {
         let vc = EditProfile()
-        navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
-    func setupView(){
-        self.view.backgroundColor = ColorEnum.travioBackground.uiColor
-        self.view.addSubviews(header,retangle)
-        retangle.addSubviews(profileImage,profileName,editProfileButton,collectionView)
+    func setupView() {
+        view.backgroundColor = ColorEnum.travioBackground.uiColor
+        view.addSubviews(header, retangle)
+        retangle.addSubviews(profileImage, profileName, editProfileButton, collectionView)
         
         setupLayouts()
     }
     
     func setupLayouts() {
-        
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
             make.leading.equalToSuperview().offset(20)
@@ -128,7 +124,6 @@ let MVM = MenuViewModel()
 }
 
 extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = MVM.countCalc()
         
@@ -136,7 +131,7 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else  {return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else { return UICollectionViewCell() }
         
         let array = MVM.settingsCVArray
         
@@ -145,20 +140,25 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width-32, height: 54)
-        }
+        return CGSize(width: UIScreen.main.bounds.width - 32, height: 54)
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         switch indexPath.row {
         case 0:
             let vc = SecuritySettingsVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 1:
+            break
+        case 2:
+            let vc = MyAddedPlacesVC()
             navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
     }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: 9, left: 16, bottom: 0, right: 16)
-        }
+        return UIEdgeInsets(top: 9, left: 16, bottom: 0, right: 16)
+    }
 }

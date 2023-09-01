@@ -227,7 +227,7 @@ class SecuritySettingsVC: UIViewController {
         }
         
         button.snp.makeConstraints { make in
-            make.top.equalTo(location.snp.bottom).offset(124)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(18)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)

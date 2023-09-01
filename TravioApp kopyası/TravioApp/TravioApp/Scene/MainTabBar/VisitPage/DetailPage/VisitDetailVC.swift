@@ -196,7 +196,7 @@ class VisitDetailVC: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
         if let date = dateFormatter.date(from: visitDate) {
-            dateFormatter.dateFormat = "dd - MMMM - yyyy"
+            dateFormatter.dateFormat = "dd MMMM yyyy"
             label.text = dateFormatter.string(from: date)
         } else {
             print("Tarih dönüştürülemedi")
