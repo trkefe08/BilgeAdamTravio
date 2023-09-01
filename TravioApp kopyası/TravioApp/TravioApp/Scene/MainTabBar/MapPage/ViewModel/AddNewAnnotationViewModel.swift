@@ -7,26 +7,20 @@
 
 import Foundation
 import Alamofire
-
+//MARK: - Protocol
 protocol AddNewAnnotationProtocol {
-    var delegate: AddNewAnnotationDelegate? { get set }
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void)
     func upload(image: [Data?], completion: @escaping ([String]?) -> Void)
-    
+    func postGallery(params: Parameters)
 }
 
-
-protocol AddNewAnnotationDelegate: AnyObject {
-    func mapLocationsLoaded()
-}
-
-class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
-    
-    weak var delegate: AddNewAnnotationDelegate?
+//MARK: - Class
+final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
+    //MARK: - Variables
     var upload: UploadModel?
     var place: PlacePostModel?
-    var uploadImageUrls: [String] = []
-    // FIXME: Burası
+    
+    //MARK: - Functions
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.place(parameters: params)) { (result: Result<PlacePostModel, Error>) in
             switch result {
@@ -38,12 +32,11 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
             }
         }
     }
-    // FIXME: Burası
+    
     func upload(image: [Data?], completion: @escaping ([String]?) -> Void) {
         TravioNetwork.shared.uploadImage(route: .upload(image: image)) { (result: Result<UploadModel, Error>) in
             switch result {
             case .success(let response):
-                self.uploadImageUrls = response.urls ?? []
                 completion(response.urls)
             case .failure(let err):
                 print(err.localizedDescription)
@@ -51,7 +44,7 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
             }
         }
     }
-    // FIXME: Burası düzeltilmeli
+    
     func postGallery(params: Parameters) {
         TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<PostGalleryModel, Error>) in
             switch result {
@@ -63,7 +56,5 @@ class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
         }
         
     }
-    
-    
 }
 

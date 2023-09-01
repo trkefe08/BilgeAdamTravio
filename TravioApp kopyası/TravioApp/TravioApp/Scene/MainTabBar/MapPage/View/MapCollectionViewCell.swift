@@ -9,18 +9,16 @@ import UIKit
 import TinyConstraints
 import Kingfisher
 
+//MARK: - Class
 class MapCollectionViewCell: UICollectionViewCell {
-    
-    var indexPath: IndexPath?
-    
+    //MARK: - Views
     private lazy var mainImage: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
-        
         return img
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont(name: "Poppins-SemiBold", size: 24)
         lbl.textColor = .white
@@ -48,7 +46,7 @@ class MapCollectionViewCell: UICollectionViewCell {
         lbl.font = UIFont(name: "Poppins-Regular", size: 14)
         return lbl
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -60,9 +58,9 @@ class MapCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
     
-    func setupViews() {
+    //MARK: - Functions
+   private func setupViews() {
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(mainImage, titleLabel, stackView)
         self.contentView.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
@@ -70,7 +68,7 @@ class MapCollectionViewCell: UICollectionViewCell {
         setupLayout()
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         
         mainImage.edgesToSuperview(excluding: [.left, .right])
         mainImage.leadingToSuperview(offset: 16)
@@ -85,9 +83,7 @@ class MapCollectionViewCell: UICollectionViewCell {
         stackView.leading(to: titleLabel)
         stackView.bottomToSuperview(offset: -8)
         stackView.bringSubviewToFront(mainImage)
-        
     }
-
     
     func configureCell(model: Place) {
         titleLabel.text = model.title
@@ -97,11 +93,4 @@ class MapCollectionViewCell: UICollectionViewCell {
         mainImage.kf.setImage(with: image)
         
     }
-    
-    func resetContent() {
-        titleLabel.text = nil
-        placeLabel.text = nil
-        mainImage.image = nil
-    }
-    
 }

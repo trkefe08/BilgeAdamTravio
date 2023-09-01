@@ -12,7 +12,7 @@ import CoreLocation
 import MapKit
 
 class AddNewAnnotationVC: UIViewController {
-    
+    //MARK: - Views
     private lazy var rectangleView: UIView = {
         let v = UIView()
         v.backgroundColor = ColorEnum.addNewAnnotationVcRectangleColor.uiColor
@@ -107,7 +107,7 @@ class AddNewAnnotationVC: UIViewController {
         button.addTarget(self, action: #selector(addPlaceButtonTapped), for: .touchUpInside)
         return button
     }()
-    
+    //MARK: - Variables
     var images: [Data?] = []
     var cityName: String?
     var countryName: String?
@@ -117,7 +117,7 @@ class AddNewAnnotationVC: UIViewController {
     var viewModel = AddNewAnnotationViewModel()
     weak var delegate: AddAnnotationDelegate?
     
-    
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -131,8 +131,8 @@ class AddNewAnnotationVC: UIViewController {
         countryCityView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
-    
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         self.view.backgroundColor = ColorEnum.viewColor.uiColor
         self.view.addSubviews(rectangleView, placeNameView, visitDescView, countryCityView, collectionView, addPlaceButton)
         self.placeNameView.addSubviews(placeNameLabel, txtPlaceName)
@@ -144,7 +144,7 @@ class AddNewAnnotationVC: UIViewController {
         locationLabel.text = countryName + "," + cityName
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         rectangleView.centerXToSuperview()
         rectangleView.topToSuperview(offset: 16)
         rectangleView.height(8)
@@ -197,41 +197,42 @@ class AddNewAnnotationVC: UIViewController {
         addPlaceButton.bottomToSuperview(offset: -24, usingSafeArea: true)
         
     }
-    // FIXME: Burası
+    
     @objc func addPlaceButtonTapped() {
-        guard let place = locationLabel.text,
-              let title = txtPlaceName.text,
-              let desc = visitDescTxtView.text,
-              let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
-              let selectedImage = selectedImages[selectedIndexPath],
-              let lat = latitude,
-              let long = longitude else { return }
-        
         viewModel.upload(image: images) { urls in
             guard let imageUrls = urls else {
                 print("Upload failed or URLs are empty.")
                 return
             }
-            
-            self.viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls.first, "latitude": lat, "longitude": long]) { placeId in
-                guard let placeId = placeId else {
-                    print("Failed to post new place or place ID is empty.")
-                    return
-                }
-                
-                
-                for imageUrl in imageUrls {
-                    self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
-                }
-                // Delegate çağrısını yap
-                self.delegate?.didAddAnnotation()
-                
-                // Sayfayı kapat
-                self.dismiss(animated: true, completion: nil)
-            }
+            self.postPlaceMethod(imageUrls: imageUrls)
         }
     }
+    func postPlaceMethod(imageUrls: [String?]) {
+        guard let place = locationLabel.text,
+              let title = txtPlaceName.text,
+              let desc = visitDescTxtView.text,
+              let lat = latitude,
+              let long = longitude else { return }
+        
+        viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls.first, "latitude": lat, "longitude": long]) { placeId in
+            guard let placeId = placeId else {
+                print("Failed to post new place or place ID is empty.")
+                return
+            }
+            self.postGalleryMethod(imageUrls: imageUrls, placeId: placeId)
+        }
+    }
+    
+    func postGalleryMethod(imageUrls: [String?], placeId: String ) {
+        for imageUrl in imageUrls {
+            self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
+        }
+        self.delegate?.didAddAnnotation()
+        self.dismiss(animated: true, completion: nil)
+    }
 }
+
+//MARK: - CollectionView Extension
 extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: collectionView.frame.width, height: 215)
@@ -259,7 +260,7 @@ extension AddNewAnnotationVC: UICollectionViewDataSource {
     
     
 }
-
+//MARK: - UIImagePicker Extension
 extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -273,12 +274,11 @@ extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationContr
                 }
             }
         }
-        
         dismiss(animated: true, completion: nil)
     }
-    
 }
 
+//MARK: - UITextField Extension
 extension AddNewAnnotationVC: UITextFieldDelegate {
     
 }
