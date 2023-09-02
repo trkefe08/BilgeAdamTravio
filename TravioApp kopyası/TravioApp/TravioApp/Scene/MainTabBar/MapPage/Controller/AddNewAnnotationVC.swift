@@ -12,7 +12,7 @@ import CoreLocation
 import MapKit
 
 class AddNewAnnotationVC: UIViewController {
-    
+    //MARK: - Views
     private lazy var rectangleView: UIView = {
         let v = UIView()
         v.backgroundColor = ColorEnum.addNewAnnotationVcRectangleColor.uiColor
@@ -32,8 +32,8 @@ class AddNewAnnotationVC: UIViewController {
         return lbl
     }()
     
-    private lazy var txtPlaceName: CustomTextField = {
-        let tf = CustomTextField()
+    private lazy var txtPlaceName: UITextField = {
+        let tf = UITextField()
         tf.placeholder = "Please write a place name"
         tf.font = UIFont(name: "Poppins-Regular", size: 12)
         tf.delegate = self
@@ -56,6 +56,8 @@ class AddNewAnnotationVC: UIViewController {
     private lazy var visitDescTxtView: UITextView = {
         let txt = UITextView()
         txt.font = UIFont(name: "Poppins-Regular", size: 12)
+        txt.text = "aaaaaaaaaaaaaaa"
+        txt.textColor = .black
         return txt
     }()
     
@@ -105,16 +107,17 @@ class AddNewAnnotationVC: UIViewController {
         button.addTarget(self, action: #selector(addPlaceButtonTapped), for: .touchUpInside)
         return button
     }()
-    
-    
+    //MARK: - Variables
+    var images: [Data?] = []
     var cityName: String?
     var countryName: String?
     var latitude: Double?
     var longitude: Double?
-    var selectedImageURLs: [IndexPath: URL] = [:]
+    var selectedImages: [IndexPath: Data] = [:]
     var viewModel = AddNewAnnotationViewModel()
     weak var delegate: AddAnnotationDelegate?
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -128,8 +131,8 @@ class AddNewAnnotationVC: UIViewController {
         countryCityView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
-    
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         self.view.backgroundColor = ColorEnum.viewColor.uiColor
         self.view.addSubviews(rectangleView, placeNameView, visitDescView, countryCityView, collectionView, addPlaceButton)
         self.placeNameView.addSubviews(placeNameLabel, txtPlaceName)
@@ -141,7 +144,7 @@ class AddNewAnnotationVC: UIViewController {
         locationLabel.text = countryName + "," + cityName
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         rectangleView.centerXToSuperview()
         rectangleView.topToSuperview(offset: 16)
         rectangleView.height(8)
@@ -163,10 +166,14 @@ class AddNewAnnotationVC: UIViewController {
         visitDescView.trailing(to: placeNameView)
         visitDescView.height(215)
         
+        
         visitDescLabel.topToSuperview(offset: 8)
         visitDescLabel.leadingToSuperview(offset: 16)
         visitDescTxtView.topToBottom(of: visitDescLabel, offset: 8)
+        visitDescTxtView.leading(to: visitDescLabel)
+        visitDescTxtView.trailingToSuperview(offset: 16)
         visitDescTxtView.bottomToSuperview(offset: -16)
+        
         
         countryCityView.topToBottom(of: visitDescView, offset: 16)
         countryCityView.leading(to: placeNameView)
@@ -192,28 +199,40 @@ class AddNewAnnotationVC: UIViewController {
     }
     
     @objc func addPlaceButtonTapped() {
+        viewModel.upload(image: images) { urls in
+            guard let imageUrls = urls else {
+                print("Upload failed or URLs are empty.")
+                return
+            }
+            self.postPlaceMethod(imageUrls: imageUrls)
+        }
+    }
+    func postPlaceMethod(imageUrls: [String?]) {
         guard let place = locationLabel.text,
               let title = txtPlaceName.text,
               let desc = visitDescTxtView.text,
-              let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
-              let selectedImageURL = selectedImageURLs[selectedIndexPath],
-              let selectedImage = UIImage(contentsOfFile: selectedImageURL.path),
               let lat = latitude,
               let long = longitude else { return }
-        viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": selectedImage, "latitude": lat, "longitude": long])
         
-        let annotationCoordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-        delegate?.didAddAnnotation(title: title, subtitle: desc, coordinate: annotationCoordinate)
-        
-        
-        //Upload işlemi
-        
-        dismiss(animated: true, completion: nil)
-        
+        viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls.first, "latitude": lat, "longitude": long]) { placeId in
+            guard let placeId = placeId else {
+                print("Failed to post new place or place ID is empty.")
+                return
+            }
+            self.postGalleryMethod(imageUrls: imageUrls, placeId: placeId)
+        }
     }
     
+    func postGalleryMethod(imageUrls: [String?], placeId: String ) {
+        for imageUrl in imageUrls {
+            self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
+        }
+        self.delegate?.didAddAnnotation()
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
+//MARK: - CollectionView Extension
 extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: collectionView.frame.width, height: 215)
@@ -221,10 +240,10 @@ extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let documentPickerController = UIDocumentPickerViewController(forOpeningContentTypes: [UTType.image], asCopy: true)
-        documentPickerController.delegate = self
-        documentPickerController.allowsMultipleSelection = false
-        present(documentPickerController, animated: true, completion: nil)
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
 }
@@ -241,24 +260,25 @@ extension AddNewAnnotationVC: UICollectionViewDataSource {
     
     
 }
-
-extension AddNewAnnotationVC: UIDocumentPickerDelegate, UINavigationControllerDelegate {
+//MARK: - UIImagePicker Extension
+extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        guard let selectedURL = urls.first,
-              let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first, let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddPlaceCollectionViewCell  else {
-            return
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            if let indexPath = collectionView.indexPathsForSelectedItems?.first {
+                selectedImages[indexPath] = selectedImage.jpegData(compressionQuality: 0.5)
+                images.append(selectedImages[indexPath])
+                if let cell = collectionView.cellForItem(at: indexPath) as? AddPlaceCollectionViewCell {
+                    cell.placeImage.image = selectedImage
+                    cell.addPhotoImage.isHidden = true
+                }
+            }
         }
-        
-        selectedImageURLs[selectedIndexPath] = selectedURL
-        if let selectedImage = UIImage(contentsOfFile: selectedURL.path) {
-            cell.placeImage.image = selectedImage
-            cell.addPhotoImage.isHidden = true
-        }
+        dismiss(animated: true, completion: nil)
     }
-    
 }
 
+//MARK: - UITextField Extension
 extension AddNewAnnotationVC: UITextFieldDelegate {
     
 }

@@ -5,29 +5,64 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 
+//import Foundation
+//
+//struct PlaceResponse: Codable {
+//    let data: PlaceDataResponse
+//    let status: String
+//}
+//
+//struct PlaceDataResponse: Codable {
+//    let count: Int
+//    let places: [PlaceDetailResponse]
+//}
+//
+//struct PlaceDetailResponse: Codable {
+//    let id: String
+//    let creator: String
+//    let place: String
+//    let title: String
+//    let description: String
+//    let coverImageURL: String
+//    let latitude: Double
+//    let longitude: Double
+//    let createdAt: String
+//    let updatedAt: String
+//
+//    enum CodingKeys: String, CodingKey {
+//        case id, creator, place, title, description
+//        case coverImageURL = "cover_image_url"
+//        case latitude, longitude
+//        case createdAt = "created_at"
+//        case updatedAt = "updated_at"
+//
+//    }
+//}
+
+
 import Foundation
 
-// MARK: - VisitModel
-struct VisitModel: Codable {
-    var data: DataClass?
-    var status: String?
+struct ApiResponse: Codable {
+    let data: VisitData
+    let status: String
 }
 
-// MARK: - DataClass
-struct DataClass: Codable {
-    var count: Int?
-    var visits: [Visit]?
+struct VisitData: Codable {
+    let count: Int
+    let visits: [Visit]
 }
 
-// MARK: - Visit
 struct Visit: Codable {
-    var id, placeID, visitedAt, createdAt: String?
-    var updatedAt: String?
-    var place: PlaceVisit?
-
+    let id: String
+    let placeId: String
+    let visitedAt: String
+    let createdAt: String
+    let updatedAt: String
+    let place: PlaceList
+    
     enum CodingKeys: String, CodingKey {
         case id
-        case placeID = "place_id"
+        case placeId = "place_id"
         case visitedAt = "visited_at"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
@@ -35,18 +70,27 @@ struct Visit: Codable {
     }
 }
 
-// MARK: - Place
-struct PlaceVisit: Codable {
-    var id, creator, place, title: String?
-    var description: String?
-    var coverImageURL: String?
-    var latitude, longitude: Double?
-    var createdAt, updatedAt: String?
-
+struct PlaceList: Codable {
+    let id: String
+    let creator: String
+    let place: String
+    let title: String
+    let description: String
+    let coverImageUrl: String
+    let latitude: Double
+    let longitude: Double
+    let createdAt: String
+    let updatedAt: String
+    
     enum CodingKeys: String, CodingKey {
-        case id, creator, place, title, description
-        case coverImageURL = "cover_image_url"
-        case latitude, longitude
+        case id
+        case creator
+        case place
+        case title
+        case description
+        case coverImageUrl = "cover_image_url"
+        case latitude
+        case longitude
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }

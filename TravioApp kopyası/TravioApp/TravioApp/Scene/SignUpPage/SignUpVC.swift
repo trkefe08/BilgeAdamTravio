@@ -1,275 +1,196 @@
 //
 //  SignUpVC.swift
-//  TravioApp
+//  travio
 //
-//  Created by Tarik Efe on 27.08.2023.
+//  Created by Doğucan Durgun on 18.08.2023.
 //
 
 import UIKit
-import TinyConstraints
 
 class SignUpVC: UIViewController {
-    
-    private lazy var labelSignUp: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Sign Up"
-        lbl.textColor = .white
-        lbl.font = UIFont(name: "Poppins-Bold", size: 36)
-        return lbl
+    // private lazy var ile instance almak
+    private lazy var viewModelInstance: SignUpViewModel = {
+        let view = SignUpViewModel()
+        
+        return view
+    }()
+   
+    private lazy var retangle: UIView = {
+        let view = CustomBackgroundRetangle()
+        
+        return view
     }()
     
-    private lazy var backButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = UIColor.clear
-        btn.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        if let image = UIImage(named: "Vector") {
-            btn.setImage(image, for: .normal)
-        }
-       
+    private lazy var username: CustomTF = {
+        let tf = CustomTF()
+        
+        tf.labelText = "Username"
+        tf.placeholderName = "bilge_adam"
+        
+        return tf
+    }()
+    
+    private lazy var mail: CustomTF = {
+        let tf = CustomTF()
+        tf.labelText = "Email"
+        tf.placeholderName = "developer@bilgeadam.com"
+        
+        return tf
+    }()
+    
+    private lazy var password: CustomTF = {
+        let tf = CustomTF()
+        tf.labelText = "Password"
+        tf.placeholderName = ""
+        tf.txtField.isSecureTextEntry = true
+
+        return tf
+    }()
+    
+    private lazy var passwordConfirm: CustomTF = {
+        let tf = CustomTF()
+        tf.labelText = "Password Confirm"
+        tf.placeholderName = ""
+        tf.txtField.isSecureTextEntry = true
+        
+        return tf
+    }()
+    
+    private lazy var registerButton: UIButton = {
+        let btn = CustomButton()
+        btn.labelText = "Register"
+        btn.backgroundColor = UIColor.gray
+        btn.isEnabled = false
+        
+        btn.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        
         return btn
     }()
     
-    private lazy var rectangleView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.viewColor
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
-    }()
-    
-    private lazy var stackViewTF:UIStackView = {
-        let sv = UIStackView()
-        sv.distribution = .fillEqually
-        sv.spacing = 24
-        sv.axis = .vertical
-        return sv
+    private lazy var backVector: UIButton = {
+        let image = UIButton()
+        image.setImage(UIImage(named: "Vector"), for: .normal)
+        image.addTarget(self, action: #selector(backVectorTapped), for: .touchUpInside)
         
+        return image
     }()
     
-    private lazy var usernameView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.tfBackground
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
+    private lazy var header: UILabel = {
+        let label = UILabel()
+        label.text = "Sign Up"
+        label.font = Font.poppins(fontType: 600, size: 36).font
+        label.textColor = .white
+        return label
     }()
-    
-    private lazy var usernameLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Username"
-        let selectedColor = ColorEnum.fontColor
-        if let colorValue = selectedColor.uiColor {
-            lbl.textColor = colorValue
-        }
-        lbl.font = UIFont(name: "Poppins-SemiBold", size: 14)
-        return lbl
-    }()
-    
-    private lazy var txtUserName: CustomTextField = {
-        let tf = CustomTextField()
-        tf.placeholder = "bilge_adam"
-        tf.delegate = self
-        return tf
-    }()
-    
-    private lazy var emailView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.tfBackground
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
-    }()
-    
-    private lazy var emailLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Email"
-        let selectedColor = ColorEnum.fontColor
-        if let colorValue = selectedColor.uiColor {
-            lbl.textColor = colorValue
-        }
-        lbl.font = UIFont(name: "Poppins-SemiBold", size: 14)
-        return lbl
-    }()
-    
-    private lazy var txtEmail: CustomTextField = {
-        let tf = CustomTextField()
-        tf.placeholder = "developer@bilgeadam.com"
-        tf.delegate = self
-        return tf
-    }()
-    
-    private lazy var passwordView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.tfBackground
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
-    }()
-    
-    private lazy var passwordLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Password"
-        let selectedColor = ColorEnum.fontColor
-        if let colorValue = selectedColor.uiColor {
-            lbl.textColor = colorValue
-        }
-        lbl.font = UIFont(name: "Poppins-SemiBold", size: 14)
-        return lbl
-    }()
-    
-    private lazy var txtPassword: CustomTextField = {
-        let tf = CustomTextField()
-        tf.placeholder = "************"
-        tf.delegate = self
-        return tf
-    }()
-    
-    private lazy var confirmView: UIView = {
-        let v = UIView()
-        let selectedColor = ColorEnum.tfBackground
-        if let colorValue = selectedColor.uiColor {
-            v.backgroundColor = colorValue
-        }
-        return v
-    }()
-    
-    private lazy var confirmLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Password Confirm"
-        let selectedColor = ColorEnum.fontColor
-        if let colorValue = selectedColor.uiColor {
-            lbl.textColor = colorValue
-        }
-        lbl.font = UIFont(name: "Poppins-SemiBold", size: 14)
-        return lbl
-    }()
-    
-    private lazy var txtConfirm: CustomTextField = {
-        let tf = CustomTextField()
-        tf.placeholder = "************"
-        tf.delegate = self
-        return tf
-    }()
-    
-    private lazy var btnSignUp:UIButton = {
-        let button = UIButton()
-        button.setTitle("Sign Up", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
-        let selectedColor = ColorEnum.btnDefaultBackground
-        if let colorValue = selectedColor.uiColor {
-            button.backgroundColor = colorValue
-        }
-        button.addTarget(self, action: #selector(btnSignUpTapped), for: .touchUpInside)
-        return button
-    }()
-
-    let viewModel = SignUpViewModel()
-    
-    
-    override func viewDidLayoutSubviews() {
-        rectangleView.roundCorners(corners: .topLeft, radius: 80)
-        btnSignUp.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 12)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        usernameView.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-        passwordView.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-        emailView.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-        confirmView.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-        
-    }
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupViews()
-        
-        
+        delegates()
     }
-    
-    @objc func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
+
     func setupViews() {
-        
-        self.navigationController?.navigationBar.isHidden = true
-        let selectedColor = ColorEnum.travioBackground
-        if let colorValue = selectedColor.uiColor {
-            view.backgroundColor = colorValue
+        navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = ColorEnum.travioBackground.uiColor
+        view.addSubview(retangle)
+        view.addSubview(backVector)
+        view.addSubview(header)
+        retangle.addSubview(username)
+        retangle.addSubview(mail)
+        retangle.addSubview(password)
+        retangle.addSubview(passwordConfirm)
+        retangle.addSubview(registerButton)
+        setupLayouts()
+    }
+    
+    func delegates() {
+        username.txtField.delegate = self
+        mail.txtField.delegate = self
+        password.txtField.delegate = self
+        passwordConfirm.txtField.delegate = self
+    }
+    
+    func setupLayouts() {
+        retangle.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(124)
+            make.leading.trailing.bottom.equalToSuperview().offset(0)
         }
-        self.view.addSubviews(backButton,labelSignUp,rectangleView)
-        self.rectangleView.addSubviews(stackViewTF, btnSignUp)
-        stackViewTF.addArrangedSubviews(usernameView, emailView, passwordView, confirmView)
-        self.usernameView.addSubviews(usernameLabel, txtUserName)
-        self.emailView.addSubviews(emailLabel, txtEmail)
-        self.passwordView.addSubviews(passwordLabel, txtPassword)
-        self.confirmView.addSubviews(confirmLabel, txtConfirm)
-        setupLayout()
+        username.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(72)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        mail.snp.makeConstraints { make in
+            make.top.equalTo(username.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        password.snp.makeConstraints { make in
+            make.top.equalTo(mail.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        passwordConfirm.snp.makeConstraints { make in
+            make.top.equalTo(password.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        registerButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-23)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
+        
+        backVector.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(32)
+            make.leading.equalToSuperview().offset(24)
+            make.height.equalTo(21.39)
+            make.width.equalTo(24)
+        }
+        
+        header.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(16)
+            make.centerX.equalToSuperview()
+        }
     }
     
-    func setupLayout() {
-        labelSignUp.topToSuperview(offset: 16, usingSafeArea: true)
-        labelSignUp.leadingToSuperview(offset: 120)
+    @objc func registerButtonTapped() {
+        guard let username = username.txtField.text else { return }
+        guard let email = mail.txtField.text else { return }
+        guard let password = password.txtField.text else { return }
         
-        backButton.topToSuperview(offset:32, usingSafeArea: true)
-        backButton.leadingToSuperview(offset:24)
-        backButton.height(21.39)
-        
-        rectangleView.edgesToSuperview(excluding: .top)
-        rectangleView.topToBottom(of: labelSignUp, offset: 56)
-        
-        stackViewTF.top(to: rectangleView, offset: 72)
-        stackViewTF.leadingToSuperview(offset: 24)
-        stackViewTF.trailingToSuperview(offset: 24)
-       
-        
-        usernameView.height(74)
-
-        
-        usernameLabel.top(to: usernameView, offset: 8)
-        usernameLabel.leading(to: usernameView, offset: 12)
-        txtUserName.topToBottom(of: usernameLabel, offset: 8)
-        txtUserName.leading(to: usernameLabel)
-        txtUserName.bottom(to: usernameView, offset: -8)
-        
-        emailLabel.top(to: emailView, offset: 8)
-        emailLabel.leading(to: emailView, offset: 12)
-        txtEmail.topToBottom(of: emailLabel, offset: 8)
-        txtEmail.leading(to: emailLabel)
-        txtEmail.bottom(to: emailView, offset: -8)
-        
-        passwordLabel.top(to: passwordView, offset: 8)
-        passwordLabel.leading(to: passwordView, offset: 12)
-        txtPassword.topToBottom(of: passwordLabel, offset: 8)
-        txtPassword.leading(to: passwordLabel)
-        txtPassword.bottom(to: passwordView, offset: -8)
-        
-        confirmLabel.top(to: confirmView, offset: 8)
-        confirmLabel.leading(to: confirmView, offset: 12)
-        txtConfirm.topToBottom(of: confirmLabel, offset: 8)
-        txtConfirm.leading(to: confirmLabel)
-        txtConfirm.bottom(to: confirmView, offset: -8)
-        
-        btnSignUp.height(54)
-        btnSignUp.bottomToSuperview(offset: -23, usingSafeArea: true)
-        btnSignUp.leadingToSuperview(offset: 24)
-        btnSignUp.trailingToSuperview(offset: 24)
+        let data = RegisterInfo(full_name: username, email: email, password: password)
+        print("tikla")
+        viewModelInstance.signUp(params: ["full_name": username, "email": email, "password": password]) {
+            
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
-    @objc func btnSignUpTapped() {
-        
+    @objc func backVectorTapped() {
+        navigationController?.popViewController(animated: true)
     }
-    
-
 }
 
 extension SignUpVC: UITextFieldDelegate {
-    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if (username.txtField.text?.count)! >= 12 &&
+            mail.txtField.text?.isEmpty == false &&
+            (password.txtField.text?.count)! >= 8 &&
+            (passwordConfirm.txtField.text?.count)! >= 8 &&
+            password.txtField.text == passwordConfirm.txtField.text &&
+            viewModelInstance.isValidEmail(mail.txtField.text!) == true
+        {
+            registerButton.backgroundColor = ColorEnum.travioBackground.uiColor
+            registerButton.isEnabled = true
+        } else {
+            registerButton.backgroundColor = UIColor.gray
+            registerButton.isEnabled = false
+        }
+    }
 }
-
-
-

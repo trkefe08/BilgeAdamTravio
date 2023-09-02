@@ -5,9 +5,9 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 import UIKit
-
-class AddPlaceCollectionViewCell: UICollectionViewCell {
-    
+//MARK: - Class
+final class AddPlaceCollectionViewCell: UICollectionViewCell {
+    //MARK: - Views
     private lazy var rectangleView: UIView = {
         let v = UIView()
         v.backgroundColor = .white
@@ -25,7 +25,7 @@ class AddPlaceCollectionViewCell: UICollectionViewCell {
         img.image = #imageLiteral(resourceName: "addphoto")
         return img
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -37,19 +37,15 @@ class AddPlaceCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        
-    }
-    
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(rectangleView)
         self.rectangleView.addSubviews(placeImage,addPhotoImage)
         setupLayout()
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         rectangleView.leadingToSuperview(offset: 24)
         rectangleView.trailingToSuperview(offset: 24)
         rectangleView.topToSuperview()

@@ -9,12 +9,14 @@ import UIKit
 import MapKit
 import TinyConstraints
 
+//MARK: - Protocol
 protocol AddAnnotationDelegate: AnyObject {
-    func didAddAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D)
+    func didAddAnnotation()
 }
 
-class MapVC: UIViewController {
+final class MapVC: UIViewController {
     
+    //MARK: - Views
     private lazy var mapView: MKMapView = {
         let map = MKMapView()
         map.isScrollEnabled = true
@@ -23,7 +25,6 @@ class MapVC: UIViewController {
         map.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress)))
         return map
     }()
-    
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,22 +37,28 @@ class MapVC: UIViewController {
         return cv
     }()
     
+    //MARK: - Variables
     var viewModel = MapViewModel()
+    var array = [Place]()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         viewModel.delegate = self
-        viewModel.fetchPlaces()
+        viewModel.fetchPlaces() {
+            
+        }
     }
     
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         self.view.backgroundColor = .white
         self.view.addSubviews(mapView, collectionView)
         setupLayout()
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         mapView.edgesToSuperview()
         
         collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
@@ -60,7 +67,7 @@ class MapVC: UIViewController {
         collectionView.bringSubviewToFront(mapView)
     }
     
-    func updateMapWithLocationInfo(_ locationInfo: [Place]) {
+    private func updateMapWithLocationInfo(_ locationInfo: [Place]) {
         for location in locationInfo {
             let annotation = MKPointAnnotation()
             guard let latitude = location.latitude else { return }
@@ -71,18 +78,16 @@ class MapVC: UIViewController {
             mapView.addAnnotation(annotation)
             
         }
-        centerMapOnLocation(locations: locationInfo)
+        centerMapOnLocation(locations: locationInfo.first ?? Place())
     }
     
-    func centerMapOnLocation(locations: [Place]) {
-        for location in locations {
-            guard let latitude = location.latitude else { return }
-            guard let longitude = location.longitude else { return }
-            let location = CLLocation(latitude: latitude, longitude: longitude)
-            let regionRadius: CLLocationDistance = 10000
-            let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-            mapView.setRegion(coordinateRegion, animated: true)
-        }
+    private func centerMapOnLocation(locations: Place) {
+        guard let latitude = locations.latitude else { return }
+        guard let longitude = locations.longitude else { return }
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let regionRadius: CLLocationDistance = 100000
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -110,9 +115,10 @@ class MapVC: UIViewController {
         }
     }
     
-    func addNewAnnotationVC(with city: String, country: String, latitude: Double, longitude: Double) {
+    private func addNewAnnotationVC(with city: String, country: String, latitude: Double, longitude: Double) {
         let vc = AddNewAnnotationVC()
         vc.cityName = city
+        vc.delegate = self
         vc.countryName = country
         vc.latitude = latitude
         vc.longitude = longitude
@@ -121,7 +127,7 @@ class MapVC: UIViewController {
     
     
 }
-
+//MARK: - MapView Extension
 extension MapVC: MapViewModelDelegate {
     func mapLocationsLoaded() {
         updateMapWithLocationInfo(viewModel.getMapInfo())
@@ -154,10 +160,18 @@ extension MapVC: MKMapViewDelegate {
         }
         
         return annotationView
-        
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            if let index = viewModel.getIndexForAnnotation(annotation) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
+        }
     }
 }
-
+//MARK: - CollectionView Extension
 extension MapVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: collectionView.frame.width, height: 178)
@@ -172,40 +186,22 @@ extension MapVC: UICollectionViewDataSource {
         viewModel.getMapCollectionCount()
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapCollectionViewCell", for: indexPath) as? MapCollectionViewCell else {
             return UICollectionViewCell() }
         guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return UICollectionViewCell()}
-        //cell.resetContent()
         cell.configureCell(model: model)
-        /*DispatchQueue.main.async {
-         collectionView.reloadData()
-         }*/
-        
-        
-        /*if let model = viewModel.getMapCollectionDetails(at: indexPath.row) {
-         cell.configureCell(model: model) {
-         DispatchQueue.main.async {
-         collectionView.reloadData()
-         }
-         }
-         }*/
         return cell
     }
     
 }
-
+//MARK: - Protocol Extension
 extension MapVC: AddAnnotationDelegate {
-    func didAddAnnotation(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
-        let annotation = MKPointAnnotation()
-        annotation.title = title
-        annotation.subtitle = subtitle
-        annotation.coordinate = coordinate
-        mapView.addAnnotation(annotation)
-        
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
+    func didAddAnnotation() {
+        viewModel.fetchPlaces() {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         }
     }
 }
