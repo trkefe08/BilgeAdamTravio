@@ -160,4 +160,19 @@ extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource,
 
         return CGSize(width: UIScreen.main.bounds.width - 48, height: 89)
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let vc = VisitDetailVC()
+//        var postedInfo:MyAddedPlace?
+        
+        if isButtonActive {
+            vc.postedID = vm.sortedmyArrayAtoZ[indexPath.row].id
+        } else {
+            vc.postedID = vm.sortedmyArrayZtoA[indexPath.row].id
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }

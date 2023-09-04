@@ -14,6 +14,7 @@ class VisitDetailVC: UIViewController {
     let vdVM = VisitsDetailViewModel()
    
     var postedID: String?
+    var postedInfo:MyAddedPlace?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
