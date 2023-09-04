@@ -11,7 +11,6 @@ import SDWebImage
 
 class MyAddedPlacesVC: UIViewController {
     let vm = MyAddedPlacesVM()
-    let cvc = MyAddedPlaceCVC()
     var isButtonActive = false
 
     private lazy var retangle:CustomBackgroundRetangle = {
@@ -69,12 +68,10 @@ class MyAddedPlacesVC: UIViewController {
         vm.getAllPlacesForUser {
             self.collectionView.reloadData()
         }
-        
     }
 
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
-
     }
     
     @objc func sortFilterTapped() {
@@ -82,16 +79,13 @@ class MyAddedPlacesVC: UIViewController {
                
                if isButtonActive {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
-                   
                    self.collectionView.reloadData()
                     
                } else {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
-                   
                    self.collectionView.reloadData()
                }
     }
-
 
     func setupView(){
 
@@ -165,7 +159,6 @@ extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let vc = VisitDetailVC()
-//        var postedInfo:MyAddedPlace?
         
         if isButtonActive {
             vc.postedID = vm.sortedmyArrayAtoZ[indexPath.row].id

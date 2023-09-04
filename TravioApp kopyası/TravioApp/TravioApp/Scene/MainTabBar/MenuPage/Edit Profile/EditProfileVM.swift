@@ -9,10 +9,10 @@ import Foundation
 
 class EditProfileViewModel {
     
-    var data : ProfileInfo?
+    var data : EditProfileModel?
     
     func getProfile(callback: @escaping ()->Void) {
-        TravioNetwork.shared.makeRequest(request: Router.getProfile) { (result:Result<ProfileInfo, Error>) in
+        TravioNetwork.shared.makeRequest(request: Router.getProfile) { (result:Result<EditProfileModel, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):

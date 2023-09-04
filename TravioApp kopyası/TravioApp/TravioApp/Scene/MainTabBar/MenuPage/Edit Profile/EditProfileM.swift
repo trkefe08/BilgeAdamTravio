@@ -7,20 +7,18 @@
 
 import Foundation
 
-struct ProfileInfo: Codable {
-    let id: String
+struct EditProfileModel: Codable {
     let fullName: String
     let email: String
     let role: String
+    let ppUrl: URL
     let createdAt: String
-    let updatedAt: String
     
     enum CodingKeys: String, CodingKey {
-        case id
         case fullName = "full_name"
         case email
         case role
+        case ppUrl = "pp_url"
         case createdAt = "created_at"
-        case updatedAt = "updated_at"
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class EditProfile: UIViewController {
     
@@ -30,6 +31,8 @@ class EditProfile: UIViewController {
        let img = UIImageView()
         img.image = UIImage(named: "bruceWills")
         img.layer.cornerRadius = 60
+        img.clipsToBounds = true
+        img.contentMode = .scaleAspectFit
         return img
     }()
     
@@ -108,16 +111,29 @@ class EditProfile: UIViewController {
     
     func getProfile(){
         vm.getProfile {
-            
+            self.configure()
         }
     }
     
     
     func configure() {
         guard let data = vm.data else {return}
-        createdDateView.labelText = data.createdAt
         
+        profileImage.sd_setImage(with: data.ppUrl)
+        profileName.text = data.fullName
+        rolView.labelText = data.role
+        fullNameView.txtField.text = data.fullName
+        emailView.txtField.text = data.email
+        
+        if let date = data.createdAt.dateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MM yyyy"
+            createdDateView.labelText = formatter.string(from: date)
+        } else {
+            createdDateView.labelText = "Unknown Date"
+        }
     }
+    
     
     @objc func backButtonTapped() {
         dismiss(animated: true)
@@ -212,4 +228,13 @@ class EditProfile: UIViewController {
     }
     
 
+}
+
+
+extension String {
+    var dateFormatter: Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter.date(from: self)
+    }
 }
