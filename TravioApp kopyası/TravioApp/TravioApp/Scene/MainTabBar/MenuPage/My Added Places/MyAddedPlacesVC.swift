@@ -7,8 +7,12 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class MyAddedPlacesVC: UIViewController {
+    let vm = MyAddedPlacesVM()
+    let cvc = MyAddedPlaceCVC()
+    var isButtonActive = false
 
     private lazy var retangle:CustomBackgroundRetangle = {
        let retangle = CustomBackgroundRetangle()
@@ -34,7 +38,8 @@ class MyAddedPlacesVC: UIViewController {
 
     private lazy var sortFilter:UIButton = {
         let img = UIButton()
-        img.setImage(#imageLiteral(resourceName: "myAddedPlace_aToZ"), for: .normal)
+        img.setImage(#imageLiteral(resourceName: "myAddedPlace_AtoZ"), for: .normal)
+        img.addTarget(self, action: #selector(sortFilterTapped), for: .touchUpInside)
 
         return img
     }()
@@ -43,13 +48,14 @@ class MyAddedPlacesVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 18
-        layout.sectionInset = UIEdgeInsets(top: 0 , left: 24, bottom: 0, right: 24)
+        layout.sectionInset = UIEdgeInsets(top: 10 , left: 24, bottom: 0, right: 24)
 
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
         cv.register(MyAddedPlaceCVC.self, forCellWithReuseIdentifier: "cell")
-        cv.backgroundColor = .clear
+        cv.backgroundColor = ColorEnum.viewColor.uiColor
+        cv.showsVerticalScrollIndicator = false
         return cv
     }()
 
@@ -59,11 +65,31 @@ class MyAddedPlacesVC: UIViewController {
 
         setupView()
         view.backgroundColor = ColorEnum.travioBackground.uiColor
+        
+        vm.getAllPlacesForUser {
+            self.collectionView.reloadData()
+        }
+        
     }
 
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
 
+    }
+    
+    @objc func sortFilterTapped() {
+        isButtonActive.toggle()
+               
+               if isButtonActive {
+                   sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
+                   
+                   self.collectionView.reloadData()
+                    
+               } else {
+                   sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
+                   
+                   self.collectionView.reloadData()
+               }
     }
 
 
@@ -111,23 +137,27 @@ class MyAddedPlacesVC: UIViewController {
 extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return vm.sortedmyArrayAtoZ.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MyAddedPlaceCVC else {return UICollectionViewCell()}
         
-        cell.backgroundColor = .brown
+        if isButtonActive {
+            sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
+            cell.configure(item: vm.sortedmyArrayAtoZ[indexPath.row])
+            
+        } else {
+            sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
+            cell.configure(item: vm.sortedmyArrayZtoA[indexPath.row])
+
+        }
+       
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        
+
         return CGSize(width: UIScreen.main.bounds.width - 48, height: 89)
     }
-    
-   
-    
-    
 }

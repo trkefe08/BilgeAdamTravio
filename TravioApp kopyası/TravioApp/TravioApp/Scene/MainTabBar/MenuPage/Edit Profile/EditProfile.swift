@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class EditProfile: UIViewController {
+    
+    let vm = EditProfileViewModel()
 
     private lazy var header:UILabel = {
         let label = UILabel()
@@ -61,7 +63,7 @@ class EditProfile: UIViewController {
     private lazy var createdDateView:CustomEditProfileView = {
         let view = CustomEditProfileView()
         view.newImage = #imageLiteral(resourceName: "editProfile_date")
-        view.labelText = "Date"
+       // view.labelText = "Date"
         
         return view
     }()
@@ -92,7 +94,7 @@ class EditProfile: UIViewController {
     
     private lazy var saveButton:CustomButton = {
        let button = CustomButton()
-        button.labelText = "Save"
+       button.labelText = "Save"
         
        return button
     }()
@@ -100,7 +102,21 @@ class EditProfile: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        getProfile()
         setupView()
+    }
+    
+    func getProfile(){
+        vm.getProfile {
+            
+        }
+    }
+    
+    
+    func configure() {
+        guard let data = vm.data else {return}
+        createdDateView.labelText = data.createdAt
+        
     }
     
     @objc func backButtonTapped() {

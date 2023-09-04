@@ -18,6 +18,10 @@
 		5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */; };
 		5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */; };
 		5F3714EB2AA213320017A7B2 /* MyAddedPlaceCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */; };
+		5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */; };
+		5F5A9F242AA5D24100C7082C /* MyAddedPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */; };
+		5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F252AA6526D00C7082C /* EditProfileM.swift */; };
+		5F5A9F282AA6527D00C7082C /* EditProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F272AA6527D00C7082C /* EditProfileVM.swift */; };
 		5F9C0C382A9FB97A00F7CE1F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C372A9FB97A00F7CE1F /* LaunchScreen.swift */; };
 		5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C392A9FBDC300F7CE1F /* LoginM.swift */; };
 		5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C3B2A9FC22000F7CE1F /* MenuVM.swift */; };
@@ -80,6 +84,10 @@
 		5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditProfileView.swift; sourceTree = "<group>"; };
 		5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVC.swift; sourceTree = "<group>"; };
 		5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlaceCVC.swift; sourceTree = "<group>"; };
+		5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesM.swift; sourceTree = "<group>"; };
+		5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVM.swift; sourceTree = "<group>"; };
+		5F5A9F252AA6526D00C7082C /* EditProfileM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileM.swift; sourceTree = "<group>"; };
+		5F5A9F272AA6527D00C7082C /* EditProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVM.swift; sourceTree = "<group>"; };
 		5F9C0C372A9FB97A00F7CE1F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		5F9C0C392A9FBDC300F7CE1F /* LoginM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginM.swift; sourceTree = "<group>"; };
 		5F9C0C3B2A9FC22000F7CE1F /* MenuVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuVM.swift; sourceTree = "<group>"; };
@@ -149,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				5F3714E32AA0AE2C0017A7B2 /* EditProfile.swift */,
+				5F5A9F252AA6526D00C7082C /* EditProfileM.swift */,
+				5F5A9F272AA6527D00C7082C /* EditProfileVM.swift */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";
@@ -158,6 +168,8 @@
 			children = (
 				5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */,
 				5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */,
+				5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */,
+				5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */,
 			);
 			path = "My Added Places";
 			sourceTree = "<group>";
@@ -498,8 +510,10 @@
 				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
+				5F5A9F242AA5D24100C7082C /* MyAddedPlacesVM.swift in Sources */,
 				5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */,
 				9ACBCCCB2A9B828500427D83 /* UIView+Extension.swift in Sources */,
+				5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */,
 				9ACBCD0A2A9B8A6A00427D83 /* MenuVC.swift in Sources */,
 				9ACBCD022A9B898300427D83 /* AddPlaceCollectionViewCell.swift in Sources */,
 				5F9C0C382A9FB97A00F7CE1F /* LaunchScreen.swift in Sources */,
@@ -515,6 +529,8 @@
 				5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */,
 				5F9C0C4A2A9FE61300F7CE1F /* VisitDetailCVC.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
+				5F5A9F282AA6527D00C7082C /* EditProfileVM.swift in Sources */,
+				5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,
 				9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */,
 				9ACBCCE32A9B854600427D83 /* VisitModel.swift in Sources */,
