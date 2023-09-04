@@ -8,6 +8,6 @@
 import Foundation
 
 // MARK: - PlacePostModel
-struct PlacePostModel: Codable {
+struct ResponseModel: Codable {
     var message, status: String?
 }

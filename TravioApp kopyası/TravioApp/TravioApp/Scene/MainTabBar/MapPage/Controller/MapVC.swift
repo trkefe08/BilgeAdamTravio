@@ -40,14 +40,13 @@ final class MapVC: UIViewController {
     //MARK: - Variables
     var viewModel = MapViewModel()
     var array = [Place]()
-    
+    var isVisited: String?
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         viewModel.delegate = self
         viewModel.fetchPlaces() {
-            
         }
     }
     
@@ -189,8 +188,18 @@ extension MapVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapCollectionViewCell", for: indexPath) as? MapCollectionViewCell else {
             return UICollectionViewCell() }
-        guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return UICollectionViewCell()}
-        cell.configureCell(model: model)
+        guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return cell }
+        guard let id = viewModel.getMapCollectionId(at: indexPath.row) else { return cell}
+        
+        viewModel.checkVisit(id: id) { check in
+            DispatchQueue.main.async {
+                self.isVisited = check
+                guard let isVisited = self.isVisited else { return }
+                cell.configureCell(model: model, isVisited: isVisited)
+                
+            }
+        }
+       
         return cell
     }
     

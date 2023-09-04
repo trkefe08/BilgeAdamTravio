@@ -28,6 +28,7 @@
 		5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4B2A9FE62600F7CE1F /* VisitDetailVM.swift */; };
 		5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */; };
 		5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEED56D2A9F7FAE003D971E /* MenuM.swift */; };
+		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
 		9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */; };
 		9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA72A9B7F7200427D83 /* LoginVC.swift */; };
@@ -64,9 +65,8 @@
 		9ACBCD182A9B92D300427D83 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ACBCD132A9B92D300427D83 /* Poppins-Light.ttf */; };
 		9ACBCD192A9B92D300427D83 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9ACBCD142A9B92D300427D83 /* Poppins-Medium.ttf */; };
 		9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */; };
-		9ACBCD1F2A9BC1C700427D83 /* PlacePostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */; };
+		9ACBCD1F2A9BC1C700427D83 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1E2A9BC1C700427D83 /* ResponseModel.swift */; };
 		9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD202A9BC64800427D83 /* UploadModel.swift */; };
-		9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +89,7 @@
 		5F9C0C4B2A9FE62600F7CE1F /* VisitDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailVM.swift; sourceTree = "<group>"; };
 		5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailM.swift; sourceTree = "<group>"; };
 		5FEED56D2A9F7FAE003D971E /* MenuM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuM.swift; sourceTree = "<group>"; };
+		9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCheckModel.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,9 +125,8 @@
 		9ACBCD132A9B92D300427D83 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
 		9ACBCD142A9B92D300427D83 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
 		9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAnnotationViewModel.swift; sourceTree = "<group>"; };
-		9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePostModel.swift; sourceTree = "<group>"; };
+		9ACBCD1E2A9BC1C700427D83 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		9ACBCD202A9BC64800427D83 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
-		9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGalleryModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -385,9 +385,9 @@
 			isa = PBXGroup;
 			children = (
 				9ACBCCF92A9B88EB00427D83 /* MapModel.swift */,
-				9ACBCD1E2A9BC1C700427D83 /* PlacePostModel.swift */,
+				9ACBCD1E2A9BC1C700427D83 /* ResponseModel.swift */,
 				9ACBCD202A9BC64800427D83 /* UploadModel.swift */,
-				9AFA3D0A2AA07C4F00ADB979 /* PostGalleryModel.swift */,
+				9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -491,13 +491,14 @@
 				5F3714E42AA0AE2C0017A7B2 /* EditProfile.swift in Sources */,
 				9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */,
 				9ACBCCC72A9B81F600427D83 /* FormatType.swift in Sources */,
-				9ACBCD1F2A9BC1C700427D83 /* PlacePostModel.swift in Sources */,
+				9ACBCD1F2A9BC1C700427D83 /* ResponseModel.swift in Sources */,
 				5F9C0C432A9FDAC300F7CE1F /* VisitCVC.swift in Sources */,
 				9ACBCCD12A9B837900427D83 /* SignUpVC.swift in Sources */,
 				9ACBCCDC2A9B84E000427D83 /* VisitListVC.swift in Sources */,
 				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
+				9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */,
 				5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */,
 				9ACBCCCB2A9B828500427D83 /* UIView+Extension.swift in Sources */,
 				9ACBCD0A2A9B8A6A00427D83 /* MenuVC.swift in Sources */,
@@ -516,7 +517,6 @@
 				5F9C0C4A2A9FE61300F7CE1F /* VisitDetailCVC.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,
-				9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */,
 				9ACBCCE32A9B854600427D83 /* VisitModel.swift in Sources */,
 				5F9C0C482A9FE5FD00F7CE1F /* VisitDetailVC.swift in Sources */,
 				9ACBCCC52A9B81B700427D83 /* UIColor+Extension.swift in Sources */,

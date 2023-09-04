@@ -24,6 +24,7 @@ enum Router: URLRequestConvertible {
     case getAllGalleryByPlaceID(id: String)
     case getAPlaceById(id: String)
     case getAllVisits
+    case checkVisitByPlaceId(id: String)
     
     var method: HTTPMethod {
         switch self {
@@ -62,6 +63,8 @@ enum Router: URLRequestConvertible {
             return "/v1/places/\(id)"
         case .getAllVisits:
             return "/v1/visits"
+        case .checkVisitByPlaceId(let id):
+            return "/v1/visits/user/\(id)"
         }
     }
     
@@ -100,7 +103,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

@@ -17,6 +17,8 @@ protocol MapViewModelProtocol {
     func getMapCollectionDetails(at index: Int) -> Place?
     func getMapCollectionCount() -> Int
     func getIndexForAnnotation(_ annotation: MKPointAnnotation) -> Int?
+    func checkVisit(id: String, completion: @escaping((String?) -> Void))
+    func getMapCollectionId(at index: Int) -> String?
     
 }
 
@@ -47,6 +49,18 @@ class MapViewModel: MapViewModelProtocol {
         }
     }
     
+    func checkVisit(id: String, completion: @escaping((String?) -> Void)) {
+        TravioNetwork.shared.makeRequest(request: Router.checkVisitByPlaceId(id: id)) { (result:Result<ResponseCheckModel, Error>) in
+            switch result {
+            case .success(let result):
+                completion(result.status)
+            case .failure(let err):
+                print(Router.checkVisitByPlaceId(id: id))
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     
     func getMapInfo() -> [Place] {
         guard let latitude = places?.data?.places else { return [Place]() }
@@ -56,6 +70,11 @@ class MapViewModel: MapViewModelProtocol {
     func getMapCollectionDetails(at index: Int) -> Place? {
         guard let collection = places?.data?.places else { return Place() }
         return collection[index]
+    }
+    
+    func getMapCollectionId(at index: Int) -> String? {
+        guard let collection = places?.data?.places else { return "" }
+        return collection[index].id
     }
     
     func getMapCollectionCount() -> Int {
