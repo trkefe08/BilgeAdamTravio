@@ -177,6 +177,20 @@ extension MapVC: UICollectionViewDelegateFlowLayout {
         return size
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = VisitDetailVC()
+        guard let id = viewModel.getMapCollectionId(at: indexPath.row) else { return }
+        vc.placeId = id
+        viewModel.checkVisit(id: id) { check in
+            if check == "success" {
+                vc.isVisited = true
+            } else {
+                vc.isVisited = false
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+       
+    }
 }
 
 extension MapVC: UICollectionViewDataSource {
@@ -189,17 +203,9 @@ extension MapVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MapCollectionViewCell", for: indexPath) as? MapCollectionViewCell else {
             return UICollectionViewCell() }
         guard let model = viewModel.getMapCollectionDetails(at: indexPath.row) else { return cell }
-        guard let id = viewModel.getMapCollectionId(at: indexPath.row) else { return cell}
         
-        viewModel.checkVisit(id: id) { check in
-            DispatchQueue.main.async {
-                self.isVisited = check
-                guard let isVisited = self.isVisited else { return }
-                cell.configureCell(model: model, isVisited: isVisited)
-                
-            }
-        }
-       
+        cell.configureCell(model: model)
+        
         return cell
     }
     

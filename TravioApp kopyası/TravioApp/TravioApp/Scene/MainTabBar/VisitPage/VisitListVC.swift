@@ -63,9 +63,7 @@ class VisitListVC: UIViewController {
         setupViews()
         showLoadingIndicator()
         loadingIndicatorView.isHidden = true
-        //bir fonksiyona al
         visitsViewModel.fetchVisitList(callback: { result in
-           
             DispatchQueue.main.async {
                 self.dizi = result.data.visits
                 self.collectionView.reloadData()

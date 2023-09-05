@@ -38,7 +38,7 @@ class MainTabBarController: UITabBarController {
         vc2.tabBarItem = UITabBarItem(title: "Visits", image: img2, selectedImage: selectedImg2)
 
         
-        let vc3 = MapVC()
+        let vc3 = UINavigationController(rootViewController: MapVC())
         let img3 = #imageLiteral(resourceName: "map")
         let selectedImg3 = #imageLiteral(resourceName: "map")
         vc3.tabBarItem = UITabBarItem(title: "Map", image: img3, selectedImage: selectedImg3)

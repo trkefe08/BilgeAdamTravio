@@ -41,7 +41,7 @@ class LoginVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Email"
         view.placeholderName = "bilgeadam@gmail.com"
-        view.txtField.text = "dogucandurgun@gmail.com"
+        view.txtField.text = "T@gmail.com"
         
         return view
     }()
@@ -50,7 +50,7 @@ class LoginVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Password"
         view.placeholderName = "*********"
-        view.txtField.text = "dogucandurgun"
+        view.txtField.text = "12345678"
         view.txtField.isSecureTextEntry = true
         
         return view

@@ -16,7 +16,7 @@ final class TravioNetwork {
     
     func makeRequest<T: Codable>(request: URLRequestConvertible, callback: @escaping (Result<T, Error>) -> Void) {
         
-        AF.request(request).validate().responseJSON { response in
+        AF.request(request).validate(statusCode: 200..<501).responseJSON { response in
             
             switch response.result {
             case .success(let value):

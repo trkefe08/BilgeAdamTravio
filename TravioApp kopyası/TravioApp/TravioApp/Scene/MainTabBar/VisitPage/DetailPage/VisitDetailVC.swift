@@ -12,8 +12,10 @@ import UIKit
 
 class VisitDetailVC: UIViewController {
     let vdVM = VisitsDetailViewModel()
-   
+    
     var postedID: String?
+    var placeId: String?
+    var isVisited: Bool?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,7 +38,7 @@ class VisitDetailVC: UIViewController {
         pageControl.backgroundStyle = .prominent
         pageControl.currentPage = 0
         pageControl.allowsContinuousInteraction = false
-
+        
         pageControl.pageIndicatorTintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         pageControl.currentPageIndicatorTintColor = .black
         return pageControl
@@ -58,14 +60,14 @@ class VisitDetailVC: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-       
+        
         label.font = Font.poppins(fontType: 600, size: 30).font
         return label
     }()
     
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
-       
+        
         return label
     }()
     
@@ -84,10 +86,10 @@ class VisitDetailVC: UIViewController {
         
         return mapView
     }()
-
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-      
+        
         label.font = Font.poppins(fontType: 500, size: 14).font
         label.numberOfLines = 0
         return label
@@ -101,25 +103,20 @@ class VisitDetailVC: UIViewController {
         return btn
     }()
     
-    private lazy var addButton:UIButton = {
+    private lazy var visitButton:UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = ColorEnum.travioBackground.uiColor
-        
-       
+        btn.backgroundColor = .clear
         return btn
     }()
     
     private lazy var btnImageView:UIImageView = {
-       let img = UIImageView()
-        img.image = UIImage(named: "visits_add")
-        
+        let img = UIImageView()
         return img
     }()
     
     private lazy var btnlabel:UILabel = {
-       let lbl = UILabel()
+        let lbl = UILabel()
         lbl.font = Font.poppins(fontType: 300, size: 10).font
-        lbl.text = "Add"
         lbl.textColor = .white
         
         return lbl
@@ -128,29 +125,29 @@ class VisitDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      getGallery()
-      updateComponents()
-      setupViews()
+        getGallery()
+        updateComponents()
+        setupViews()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         mapView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        addButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        visitButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: scrollContentView.frame.height)
     }
     
     func getGallery() {
-        guard let id = postedID else { return }
+        guard let id = postedID ?? placeId else { return }
         vdVM.getAllGalleryByPlaceID(id: id) {
             DispatchQueue.main.async {
                 
                 let pNumber = self.vdVM.myArray.count
                 self.pageControl.numberOfPages = pNumber
-
+                
                 if pNumber == 0 {
                     self.pageControl.isHidden = true
                 }
@@ -159,40 +156,54 @@ class VisitDetailVC: UIViewController {
         }
     }
     
+    private func deleteButton() {
+        btnImageView.image = UIImage(named: "delete")
+        btnlabel.text = "Delete"
+    }
     
-    func updateComponents() {
+    private func addButton() {
+        btnImageView.image = UIImage(named: "visits_add")
+        visitButton.backgroundColor = ColorEnum.travioBackground.uiColor
+        btnlabel.text = "Add"
+    }
+    
+   private func updateComponents() {
+       if isVisited == false {
+           addButton()
+       } else {
+           deleteButton()
+       }
         
-        guard let id = postedID else { return }
+        guard let id = postedID ?? placeId else { return }
         vdVM.fetchDetails(id: id) { success in
             DispatchQueue.main.async {
                 guard let vst = self.vdVM.visitDetail else {return}
-                    self.descriptionLabel.text = vst.description
-                    self.titleLabel.text = vst.title
-                    self.createdBy.text = "created by @\(vst.creator)"
-                    self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
-                       
-                    updateMap()
+                self.descriptionLabel.text = vst.description
+                self.titleLabel.text = vst.title
+                self.createdBy.text = "created by @\(vst.creator)"
+                self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
+                
+                updateMap()
             }
         }
         
-        func updateMap(){
-            guard let vst = self.vdVM.visitDetail else {return}
-            // Yeni koordinatları ayarlıyoruz
+         func updateMap(){
+            guard let vst = self.vdVM.visitDetail else { return }
             let coordinate = CLLocationCoordinate2D(latitude: vst.latitude, longitude: vst.longitude )
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             annotation.title = vst.title
             self.mapView.addAnnotation(annotation)
-
-            // Haritayı yeni koordinata odaklıyoruz
+            
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
             self.mapView.setRegion(region, animated: true)
-
+            
         }
         
     }
-    func dateFormatter(visitDate: String, label: UILabel) {
-       
+    
+    private func dateFormatter(visitDate: String, label: UILabel) {
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
         if let date = dateFormatter.date(from: visitDate) {
@@ -205,7 +216,6 @@ class VisitDetailVC: UIViewController {
     
     
     private func setupViews() {
-        // safe areayı kapatan kod blogu
         let yourView = UIView()
         yourView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(yourView)
@@ -215,10 +225,10 @@ class VisitDetailVC: UIViewController {
         
         view.backgroundColor = ColorEnum.viewColor.uiColor
         navigationController?.isNavigationBarHidden = true
-       
-        view.addSubviews(collectionView, pageControl, backButton, scrollView, addButton)
-        view.bringSubviewToFront(addButton)
-        addButton.addSubviews(btnImageView,btnlabel)
+        
+        view.addSubviews(collectionView, pageControl, backButton, scrollView, visitButton)
+        view.bringSubviewToFront(visitButton)
+        visitButton.addSubviews(btnImageView,btnlabel)
         setupLayout()
     }
     
@@ -287,7 +297,7 @@ class VisitDetailVC: UIViewController {
             make.height.width.equalTo(40)
         }
         
-        addButton.snp.makeConstraints { make in
+        visitButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.trailing.equalToSuperview().offset(-16)
             make.height.width.equalTo(50)
@@ -316,12 +326,12 @@ extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegat
         let size = CGSize(width: collectionView.frame.width, height: 250)
         return size
     }
-
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
         pageControl.currentPage = Int(pageIndex)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return vdVM.getImagesCount()
     }

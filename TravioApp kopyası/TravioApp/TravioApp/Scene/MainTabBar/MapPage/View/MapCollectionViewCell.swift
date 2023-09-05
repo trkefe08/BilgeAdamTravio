@@ -18,12 +18,6 @@ class MapCollectionViewCell: UICollectionViewCell {
         return img
     }()
     
-    private lazy var flyImage: UIImageView = {
-        let img = UIImageView()
-        img.contentMode = .scaleAspectFit
-        return img
-    }()
-    
     private lazy var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont(name: "Poppins-SemiBold", size: 24)
@@ -71,7 +65,7 @@ class MapCollectionViewCell: UICollectionViewCell {
     private func setupViews() {
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(mainImage)
-        self.mainImage.addSubviews(flyImage, titleLabel, stackView)
+        self.mainImage.addSubviews(titleLabel, stackView)
         stackView.addArrangedSubviews(iconImage, placeLabel)
         setupLayout()
     }
@@ -81,11 +75,6 @@ class MapCollectionViewCell: UICollectionViewCell {
         mainImage.edgesToSuperview(excluding: [.left, .right])
         mainImage.leadingToSuperview(offset: 16)
         mainImage.trailingToSuperview(offset: 16)
-        
-        flyImage.topToSuperview()
-        flyImage.trailingToSuperview()
-        flyImage.height(40)
-        flyImage.width(45)
         
         titleLabel.leadingToSuperview(offset: 22)
         titleLabel.bottomToTop(of: stackView, offset: 3)
@@ -98,18 +87,12 @@ class MapCollectionViewCell: UICollectionViewCell {
         stackView.bottomToSuperview(offset: -8)
     }
     
-    func configureCell(model: Place, isVisited: String) {
+    func configureCell(model: Place) {
         titleLabel.text = model.title
         placeLabel.text = model.place
         guard let image = URL(string: model.coverImageURL ?? "Not found") else { return }
         mainImage.kf.indicatorType = .activity
         mainImage.kf.setImage(with: image)
-       
-        if isVisited == "success" {
-            flyImage.image = UIImage(named: "fly")
-        } else {
-            flyImage.image = nil
-        }
-        
+            
     }
 }

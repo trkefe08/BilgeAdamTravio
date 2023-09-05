@@ -55,7 +55,6 @@ class MapViewModel: MapViewModelProtocol {
             case .success(let result):
                 completion(result.status)
             case .failure(let err):
-                print(Router.checkVisitByPlaceId(id: id))
                 print(err.localizedDescription)
             }
         }
