@@ -127,7 +127,7 @@ class AddNewAnnotationVC: UIViewController {
     override func viewDidLayoutSubviews() {
         self.view.roundCorners(corners: [.topLeft, .topRight], radius: 24)
         rectangleView.roundCorners(corners: .allCorners, radius: 6)
-        //placeNameView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        placeNameView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         visitDescView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         countryCityView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)

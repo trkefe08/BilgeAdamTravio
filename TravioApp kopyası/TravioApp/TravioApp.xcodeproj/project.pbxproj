@@ -29,6 +29,7 @@
 		5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */; };
 		5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEED56D2A9F7FAE003D971E /* MenuM.swift */; };
 		9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */; };
+		9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */; };
 		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
 		9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */; };
@@ -91,6 +92,7 @@
 		5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailM.swift; sourceTree = "<group>"; };
 		5FEED56D2A9F7FAE003D971E /* MenuM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuM.swift; sourceTree = "<group>"; };
 		9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
+		9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCheckModel.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				9ACBCD062A9B8A3E00427D83 /* HomeVC.swift */,
+				9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 				5F9C0C432A9FDAC300F7CE1F /* VisitCVC.swift in Sources */,
 				9ACBCCD12A9B837900427D83 /* SignUpVC.swift in Sources */,
 				9ACBCCDC2A9B84E000427D83 /* VisitListVC.swift in Sources */,
+				9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */,
 				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
