@@ -8,11 +8,15 @@
 import UIKit
 import SnapKit
 import SDWebImage
+import Alamofire
 
 class EditProfile: UIViewController {
+
     
     let vm = EditProfileViewModel()
-
+    let mv = MenuVC()
+    let mvm = MenuViewModel()
+    var finalURL:URL?
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
@@ -32,7 +36,7 @@ class EditProfile: UIViewController {
         img.image = UIImage(named: "bruceWills")
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
-        img.contentMode = .scaleAspectFit
+        img.contentMode = .scaleAspectFill
         return img
     }()
     
@@ -99,6 +103,7 @@ class EditProfile: UIViewController {
        let button = CustomButton()
        button.labelText = "Save"
         
+       button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
        return button
     }()
     
@@ -135,14 +140,46 @@ class EditProfile: UIViewController {
     }
     
     
+    
+    
     @objc func backButtonTapped() {
         dismiss(animated: true)
-    }
-    
-    @objc func changePhotoButtonTapped() {
         
     }
-    
+ 
+    @objc func saveButtonTapped() {
+        
+        guard let fullName = fullNameView.txtField.text else { return }
+        guard let mail = emailView.txtField.text else { return }
+        guard let url = vm.images?.urls?.first else {return}
+        
+        let params: Parameters = [
+            "full_name": fullName,
+            "email": mail,
+            "pp_url": url]
+        
+        DispatchQueue.global().async {
+            self.vm.editProfile(params: params){
+                
+            }
+        }
+
+
+        dismiss(animated: true) {
+            DispatchQueue.main.async {
+                self.mvm.getProfile {
+                    self.mv.configure()
+                }
+                
+            }
+          
+            
+        }
+            
+        
+         
+        
+    }
  
     func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
@@ -230,11 +267,28 @@ class EditProfile: UIViewController {
 
 }
 
+extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-extension String {
-    var dateFormatter: Date? {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter.date(from: self)
+    @objc func changePhotoButtonTapped() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            profileImage.image = selectedImage
+           let imageData = selectedImage.jpegData(compressionQuality: 0.5)
+            vm.uploadImage(image: [imageData] ) {
+                
+            }
+        }
+        
+        
+               
+        dismiss(animated: true)
+    }
+
 }
+

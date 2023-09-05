@@ -23,7 +23,6 @@ class MyAddedPlaceCVC: UICollectionViewCell {
     
     private lazy var placeImage: UIImageView = {
        let img = UIImageView()
-        img.image = #imageLiteral(resourceName: "default")
         img.contentMode = .scaleToFill
         
         return img

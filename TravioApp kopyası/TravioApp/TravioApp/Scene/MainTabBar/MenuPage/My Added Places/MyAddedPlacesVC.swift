@@ -92,7 +92,6 @@ class MyAddedPlacesVC: UIViewController {
         view.addSubviews(retangle,backButton,header)
         retangle.addSubviews(sortFilter,collectionView)
 
-
         setupLayouts()
     }
 
@@ -165,7 +164,8 @@ extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource,
         } else {
             vc.postedID = vm.sortedmyArrayZtoA[indexPath.row].id
         }
-        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+

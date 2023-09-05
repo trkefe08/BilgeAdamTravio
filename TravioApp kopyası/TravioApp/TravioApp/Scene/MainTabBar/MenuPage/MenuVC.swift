@@ -7,9 +7,12 @@
 
 import SnapKit
 import UIKit
+import SDWebImage
 
 class MenuVC: UIViewController {
+  
     let MVM = MenuViewModel()
+ 
     
     private lazy var header: UILabel = {
         let label = UILabel()
@@ -30,6 +33,8 @@ class MenuVC: UIViewController {
         let img = UIImageView()
         img.image = UIImage(named: "bruceWills")
         img.layer.cornerRadius = 60
+        img.clipsToBounds = true
+        img.contentMode = .scaleAspectFill
         return img
     }()
 
@@ -71,10 +76,31 @@ class MenuVC: UIViewController {
         setupView()
     }
     
+ 
     @objc func editButtonTapped() {
         let vc = EditProfile()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("sa")
+        MVM.getProfile {
+            
+            self.configure()
+        }
+        
+//        ep.triggerClosure {
+//            print("closure tetiklendi")
+//        }
+       
+        
+    }
+    
+    func configure() {
+        
+        profileName.text = MVM.data?.fullName
+        profileImage.sd_setImage(with: MVM.data?.ppUrl)
     }
     
     func setupView() {
