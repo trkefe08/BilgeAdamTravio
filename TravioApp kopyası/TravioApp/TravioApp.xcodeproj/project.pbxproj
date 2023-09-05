@@ -28,6 +28,7 @@
 		5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4B2A9FE62600F7CE1F /* VisitDetailVM.swift */; };
 		5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */; };
 		5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEED56D2A9F7FAE003D971E /* MenuM.swift */; };
+		9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */; };
 		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
 		9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */; };
@@ -89,6 +90,7 @@
 		5F9C0C4B2A9FE62600F7CE1F /* VisitDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailVM.swift; sourceTree = "<group>"; };
 		5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitDetailM.swift; sourceTree = "<group>"; };
 		5FEED56D2A9F7FAE003D971E /* MenuM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuM.swift; sourceTree = "<group>"; };
+		9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCheckModel.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				9ACBCCC62A9B81F600427D83 /* FormatType.swift */,
 				9ACBCCC82A9B826600427D83 /* UIStackView+Extension.swift */,
 				9ACBCCCA2A9B828500427D83 /* UIView+Extension.swift */,
+				9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				9ACBCCF82A9B88C300427D83 /* MapViewModel.swift in Sources */,
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,
 				5F3714EB2AA213320017A7B2 /* MyAddedPlaceCVC.swift in Sources */,
+				9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */,
 				5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */,
 				5F9C0C4A2A9FE61300F7CE1F /* VisitDetailCVC.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,

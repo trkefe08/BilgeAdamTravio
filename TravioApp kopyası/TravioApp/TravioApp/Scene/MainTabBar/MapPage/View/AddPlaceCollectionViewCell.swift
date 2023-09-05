@@ -8,7 +8,7 @@ import UIKit
 //MARK: - Class
 final class AddPlaceCollectionViewCell: UICollectionViewCell {
     //MARK: - Views
-    private lazy var rectangleView: UIView = {
+    lazy var rectangleView: UIView = {
         let v = UIView()
         v.backgroundColor = .white
         return v
@@ -29,7 +29,6 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        
         layoutIfNeeded()
         rectangleView.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
     }
@@ -37,21 +36,25 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     //MARK: - Functions
     private func setupViews() {
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(rectangleView)
-        self.rectangleView.addSubviews(placeImage,addPhotoImage)
+        self.rectangleView.addSubviews(placeImage, addPhotoImage)
         setupLayout()
     }
     
     private func setupLayout() {
-        rectangleView.leadingToSuperview(offset: 24)
-        rectangleView.trailingToSuperview(offset: 24)
-        rectangleView.topToSuperview()
-        rectangleView.bottomToSuperview()
+        rectangleView.leadingToSuperview()
+        rectangleView.trailingToSuperview()
+        rectangleView.topToSuperview(offset: 8)
+        rectangleView.bottomToSuperview(offset: -8)
         
-        placeImage.edgesToSuperview()
+        placeImage.leadingToSuperview(offset: 16)
+        placeImage.trailingToSuperview(offset: 16)
+        placeImage.topToSuperview(offset: 16)
+        placeImage.bottomToSuperview(offset: -16)
         
         addPhotoImage.centerXToSuperview()
         addPhotoImage.centerYToSuperview()
