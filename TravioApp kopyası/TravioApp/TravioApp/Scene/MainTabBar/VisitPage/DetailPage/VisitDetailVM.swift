@@ -40,6 +40,28 @@ class VisitsDetailViewModel {
         }
     }
     
+    func addVisit(parameters: Parameters, completion: @escaping () -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.postAVisit(parameters: parameters)) { (result:Result<ResponseModel, Error>) in
+            switch result {
+            case .success(_):
+                completion()
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
+    func deleteVisit(id: String, completion: @escaping () -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.deleteAVisitById(id: id)) { (result:Result<ResponseModel, Error>) in
+            switch result {
+            case .success(_):
+                completion()
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     func getImagesCount() -> Int{
         return myArray.count
     }

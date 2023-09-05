@@ -11,7 +11,6 @@ import SDWebImage
 
 class VisitDetailCVC: UICollectionViewCell {
     
-    
     private lazy var detailImage:UIImageView = {
        let img = UIImageView()
         img.image = UIImage(named: "istanbul")

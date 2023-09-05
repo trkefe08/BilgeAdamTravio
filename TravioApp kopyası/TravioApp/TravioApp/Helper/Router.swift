@@ -25,11 +25,15 @@ enum Router: URLRequestConvertible {
     case getAPlaceById(id: String)
     case getAllVisits
     case checkVisitByPlaceId(id: String)
+    case postAVisit(parameters: Parameters)
+    case deleteAVisitById(id: String)
     
     var method: HTTPMethod {
         switch self {
-        case .login, .register, .place, .upload, .postGallery:
+        case .login, .register, .place, .upload, .postGallery, .postAVisit:
             return .post
+        case .deleteAVisitById:
+            return .delete
         default:
             return .get
         }
@@ -65,12 +69,16 @@ enum Router: URLRequestConvertible {
             return "/v1/visits"
         case .checkVisitByPlaceId(let id):
             return "/v1/visits/user/\(id)"
+        case .postAVisit:
+            return "/v1/visits"
+        case .deleteAVisitById(let id):
+            return "/v1/visits/\(id)"
         }
     }
     
     var parameters: Parameters? {
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters):
             return parameters
         default:
             return nil
@@ -103,7 +111,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId, .postAVisit, .deleteAVisitById:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
@@ -120,7 +128,7 @@ enum Router: URLRequestConvertible {
         
         let encoding: ParameterEncoding = {
             switch method {
-            case .get:
+            case .get, .delete:
                 return URLEncoding.default
             default:
                 return JSONEncoding.default

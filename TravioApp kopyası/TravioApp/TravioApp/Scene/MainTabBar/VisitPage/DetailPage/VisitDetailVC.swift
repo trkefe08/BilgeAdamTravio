@@ -11,7 +11,7 @@ import SnapKit
 import UIKit
 
 class VisitDetailVC: UIViewController {
-    let vdVM = VisitsDetailViewModel()
+    let viewModel = VisitsDetailViewModel()
     
     var postedID: String?
     var placeId: String?
@@ -106,6 +106,7 @@ class VisitDetailVC: UIViewController {
     private lazy var visitButton:UIButton = {
         let btn = UIButton()
         btn.backgroundColor = .clear
+        btn.addTarget(self, action: #selector(visitButtonTapped), for: .touchUpInside)
         return btn
     }()
     
@@ -142,10 +143,10 @@ class VisitDetailVC: UIViewController {
     
     func getGallery() {
         guard let id = postedID ?? placeId else { return }
-        vdVM.getAllGalleryByPlaceID(id: id) {
+        viewModel.getAllGalleryByPlaceID(id: id) {
             DispatchQueue.main.async {
                 
-                let pNumber = self.vdVM.myArray.count
+                let pNumber = self.viewModel.myArray.count
                 self.pageControl.numberOfPages = pNumber
                 
                 if pNumber == 0 {
@@ -175,9 +176,9 @@ class VisitDetailVC: UIViewController {
        }
         
         guard let id = postedID ?? placeId else { return }
-        vdVM.fetchDetails(id: id) { success in
+        viewModel.fetchDetails(id: id) { success in
             DispatchQueue.main.async {
-                guard let vst = self.vdVM.visitDetail else {return}
+                guard let vst = self.viewModel.visitDetail else {return}
                 self.descriptionLabel.text = vst.description
                 self.titleLabel.text = vst.title
                 self.createdBy.text = "created by @\(vst.creator)"
@@ -188,7 +189,7 @@ class VisitDetailVC: UIViewController {
         }
         
          func updateMap(){
-            guard let vst = self.vdVM.visitDetail else { return }
+            guard let vst = self.viewModel.visitDetail else { return }
             let coordinate = CLLocationCoordinate2D(latitude: vst.latitude, longitude: vst.longitude )
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
@@ -319,6 +320,29 @@ class VisitDetailVC: UIViewController {
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+    
+    @objc func visitButtonTapped() {
+        if btnlabel.text == "Add" {
+            viewModel.addVisit(parameters: ["place_id": placeId, "visited_at": "2023-08-10T00:00:00Z"]) {
+                self.deleteButton()
+                self.visitButton.backgroundColor = .clear
+                self.showAlert(message: "Visit Listenize Başarıyla Eklendi")
+            }
+        } else {
+            guard let id = postedID ?? placeId else { return }
+            viewModel.deleteVisit(id: id) {
+                self.addButton()
+                self.showAlert(message: "Visit Listenizden Başarıyla Kaldırıldı")
+            }
+        }
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Bilgi", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UICollectionViewDataSource {
@@ -333,13 +357,13 @@ extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return vdVM.getImagesCount()
+        return viewModel.getImagesCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? VisitDetailCVC else {return UICollectionViewCell()}
         
-        let image = vdVM.myArray[indexPath.row].imageUrl
+        let image = viewModel.myArray[indexPath.row].imageUrl
         
         cell.configure(model: image)
         
