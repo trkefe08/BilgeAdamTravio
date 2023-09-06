@@ -10,13 +10,19 @@ import SnapKit
 import SDWebImage
 import Alamofire
 
+protocol ProfileUpdateDelegate: AnyObject {
+    func didUpdateProfile()
+}
+
+
 class EditProfile: UIViewController {
 
-    
+    var oldURL:String?
     let vm = EditProfileViewModel()
     let mv = MenuVC()
     let mvm = MenuViewModel()
     var finalURL:URL?
+    weak var delegate: ProfileUpdateDelegate?
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
@@ -70,7 +76,7 @@ class EditProfile: UIViewController {
     private lazy var createdDateView:CustomEditProfileView = {
         let view = CustomEditProfileView()
         view.newImage = #imageLiteral(resourceName: "editProfile_date")
-       // view.labelText = "Date"
+        view.labelText = "Date"
         
         return view
     }()
@@ -109,22 +115,25 @@ class EditProfile: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
+      
+        
+        
         getProfile()
         setupView()
     }
     
     func getProfile(){
         vm.getProfile {
+            self.oldURL = self.vm.data?.ppUrl
             self.configure()
         }
     }
     
-    
     func configure() {
         guard let data = vm.data else {return}
         
-        profileImage.sd_setImage(with: data.ppUrl)
+        profileImage.sd_setImage(with: URL(string:data.ppUrl))
         profileName.text = data.fullName
         rolView.labelText = data.role
         fullNameView.txtField.text = data.fullName
@@ -149,36 +158,23 @@ class EditProfile: UIViewController {
  
     @objc func saveButtonTapped() {
         
-        guard let fullName = fullNameView.txtField.text else { return }
-        guard let mail = emailView.txtField.text else { return }
-        guard let url = vm.images?.urls?.first else {return}
+        guard let fullName = fullNameView.txtField.text else {return}
+        guard let mail = emailView.txtField.text else {return}
+        let url = vm.images?.urls?.first ?? oldURL
         
         let params: Parameters = [
             "full_name": fullName,
             "email": mail,
             "pp_url": url]
         
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             self.vm.editProfile(params: params){
-                
             }
         }
-
-
+        
         dismiss(animated: true) {
-            DispatchQueue.main.async {
-                self.mvm.getProfile {
-                    self.mv.configure()
-                }
-                
-            }
-          
-            
+            self.delegate?.didUpdateProfile()
         }
-            
-        
-         
-        
     }
  
     func setupView(){
@@ -261,10 +257,7 @@ class EditProfile: UIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
-        
     }
-    
-
 }
 
 extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -281,12 +274,9 @@ extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDel
             profileImage.image = selectedImage
            let imageData = selectedImage.jpegData(compressionQuality: 0.5)
             vm.uploadImage(image: [imageData] ) {
-                
             }
         }
         
-        
-               
         dismiss(animated: true)
     }
 

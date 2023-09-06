@@ -11,7 +11,7 @@ struct EditProfileModel: Codable {
     let fullName: String
     let email: String
     let role: String
-    let ppUrl: URL
+    let ppUrl: String
     let createdAt: String
     
     enum CodingKeys: String, CodingKey {

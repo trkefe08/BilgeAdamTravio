@@ -33,7 +33,7 @@ class EditProfileViewModel {
   
         TravioNetwork.shared.makeRequest(request: Router.putEditProfile(parameters: params)) { (result:Result<EditProfileResponse, Error>) in
                 switch result {
-                case .success(let result):
+                case .success:
                     callback()
                 case .failure(let err):
                     print(err.localizedDescription)
