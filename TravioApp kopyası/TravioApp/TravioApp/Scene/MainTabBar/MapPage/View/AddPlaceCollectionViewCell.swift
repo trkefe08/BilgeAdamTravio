@@ -29,7 +29,7 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        layoutIfNeeded()
+        rectangleView.layoutIfNeeded()
         rectangleView.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
     }
     

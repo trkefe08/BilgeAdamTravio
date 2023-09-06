@@ -31,20 +31,31 @@ class HomeVC: UIViewController {
         return tv
     }()
     //MARK: - Variables
-    var popularPlaces: PopularPlacesModel?
-    var lastPlaces: PopularPlacesModel?
-    var allVisits: ApiResponse?
+    var popularPlaces: [Place] = []
+    var lastPlaces: [Place] = []
+    var allVisits: [Place] = []
     var viewModel = HomeViewModel()
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         viewModel.fetchPopularPlaces(limit: 5) { popular in
+            guard let popular = popular.data?.places else { return }
             self.popularPlaces = popular
         }
         viewModel.fetchLastPlaces(limit: 5) { last in
+            guard let last = last.data?.places else { return }
             self.lastPlaces = last
         }
+        
+        viewModel.fetchVisits(page: 1, limit: 5) { visit in
+            self.allVisits = visit.data.visits.map { item in
+                item.place
+            }
+            
+            
+        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -93,11 +104,11 @@ extension HomeVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
         switch indexPath.section {
         case 0:
-            cell.configureCell(popular: popularPlaces)
+            cell.configureCell(model: popularPlaces)
         case 1:
-            cell.configureCell(popular: lastPlaces)
+            cell.configureCell(model: lastPlaces)
         case 2:
-            cell.configureCell(visits: allVisits)
+            cell.configureCell(model: allVisits)
         default:
             break
         }

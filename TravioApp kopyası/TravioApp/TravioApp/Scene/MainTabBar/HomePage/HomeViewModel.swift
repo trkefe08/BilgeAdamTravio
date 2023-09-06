@@ -9,8 +9,8 @@ import Foundation
 
 class HomeViewModel {
     
-    func fetchPopularPlaces(limit: Int, completion: @escaping (PopularPlacesModel) -> Void) {
-        TravioNetwork.shared.makeRequest(request: Router.getPopularPlaces(limit: 5)) { (result: Result<PopularPlacesModel, Error>) in
+    func fetchPopularPlaces(limit: Int, completion: @escaping (MapModel) -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.getPopularPlaces(limit: 5)) { (result: Result<MapModel, Error>) in
             switch result {
             case .success(let result):
                 completion(result)
@@ -20,8 +20,8 @@ class HomeViewModel {
         }
     }
     
-    func fetchLastPlaces(limit: Int, completion: @escaping(PopularPlacesModel) -> Void) {
-        TravioNetwork.shared.makeRequest(request: Router.getLastPlaces(limit: limit)) { (result: Result<PopularPlacesModel, Error>) in
+    func fetchLastPlaces(limit: Int, completion: @escaping(MapModel) -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.getLastPlaces(limit: limit)) { (result: Result<MapModel, Error>) in
             switch result {
             case .success(let result):
                 completion(result)
@@ -31,7 +31,14 @@ class HomeViewModel {
         }
     }
     
-    func fetchVisits() {
-        
+    func fetchVisits(page: Int, limit: Int, completion: @escaping(ApiResponse) -> Void) {
+        TravioNetwork.shared.makeRequest(request: Router.getAllVisitsLimit(page: page, limit: limit)) { (result: Result<ApiResponse, Error>) in
+            switch result {
+            case .success(let result):
+                completion(result)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
     }
 }

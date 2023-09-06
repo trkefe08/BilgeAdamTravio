@@ -20,6 +20,8 @@ class HomeTableViewCell: UITableViewCell {
         cv.backgroundColor = .clear
         return cv
     }()
+    
+    var popularLastAndVisits: [Place] = []
 
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -30,7 +32,8 @@ class HomeTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(popular: PopularPlacesModel? = nil, visits: ApiResponse? = nil) {
+    func configureCell(model: [Place]) {
+        popularLastAndVisits = model
         
     }
     
@@ -43,11 +46,12 @@ extension HomeTableViewCell: UICollectionViewDelegateFlowLayout {
 extension HomeTableViewCell: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return popularLastAndVisits.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else { return UICollectionViewCell() }
+        return cell
     }
     
     
