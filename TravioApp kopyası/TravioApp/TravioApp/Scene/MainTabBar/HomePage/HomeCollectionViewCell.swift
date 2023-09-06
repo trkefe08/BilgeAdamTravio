@@ -7,6 +7,7 @@
 
 import UIKit
 import TinyConstraints
+import Kingfisher
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
@@ -41,7 +42,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     private lazy var iconImage: UIImageView = {
         let img = UIImageView()
-        img.contentMode = .scaleAspectFill
+        img.contentMode = .scaleAspectFit
         img.image = #imageLiteral(resourceName: "visits_locationMark2")
         return img
     }()
@@ -56,6 +57,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        mainImage.layoutIfNeeded()
+        mainImage.roundCorners(corners: [.topLeft,.topRight,.bottomLeft], radius: 16)
     }
     
     required init?(coder: NSCoder) {
@@ -63,8 +66,9 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
+        self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.addSubviews(mainImage)
-        self.stackView.addSubviews(iconImage, placeLabel)
+        self.stackView.addArrangedSubviews(iconImage, placeLabel)
         self.mainImage.addSubviews(gradientView,titleLabel,stackView)
         setupLayout()
     }
@@ -76,19 +80,27 @@ class HomeCollectionViewCell: UICollectionViewCell {
         gradientView.trailingToSuperview()
         gradientView.bottomToSuperview()
         gradientView.height(88.59)
+        gradientView.bringSubviewToFront(mainImage)
         
         titleLabel.leadingToSuperview(offset: 16)
         titleLabel.bottomToSuperview(offset: -26)
         titleLabel.bringSubviewToFront(gradientView)
         
+        stackView.topToBottom(of: titleLabel)
         stackView.leading(to: titleLabel)
+        stackView.trailingToSuperview(offset: 8)
         stackView.bottomToSuperview(offset: -5)
+        
         iconImage.height(12)
         iconImage.width(9)
         stackView.bringSubviewToFront(gradientView)
     }
     
     func configureCell(model: Place) {
-        
+        guard let image = URL(string: model.coverImageURL ?? "Not found") else { return }
+        mainImage.kf.indicatorType = .activity
+        mainImage.kf.setImage(with: image)
+        titleLabel.text = model.title
+        placeLabel.text = model.place
     }
 }

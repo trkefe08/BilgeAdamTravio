@@ -27,7 +27,9 @@ class HomeVC: UIViewController {
         let tv = UITableView()
         tv.dataSource = self
         tv.delegate = self
-        tv.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell" )
+        tv.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell")
+        tv.separatorColor = UIColor.clear
+        tv.backgroundColor = ColorEnum.viewColor.uiColor
         return tv
     }()
     //MARK: - Variables
@@ -52,10 +54,7 @@ class HomeVC: UIViewController {
             self.allVisits = visit.data.visits.map { item in
                 item.place
             }
-            
-            
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -82,7 +81,7 @@ class HomeVC: UIViewController {
         rectangleView.trailingToSuperview()
         rectangleView.bottomToSuperview()
         
-        tableView.topToSuperview(offset: 87)
+        tableView.topToSuperview(offset: 55)
         tableView.leadingToSuperview(offset: 24)
         tableView.trailingToSuperview()
         tableView.bottomToSuperview()
@@ -125,11 +124,21 @@ extension HomeVC: UITableViewDelegate {
         let label = UILabel()
         let sectionTitles = ["Popular Places", "New Places", "My Added Places"]
         label.text = sectionTitles[section]
+        label.textColor = ColorEnum.fontColor.uiColor
         label.font = Font.poppins(fontType: 500, size: 20).font
         label.textColor = ColorEnum.fontColor.uiColor
+        label.sizeToFit()
+        label.textAlignment = .left
+
+        label.adjustsFontSizeToFitWidth = true
         headerView.addSubview(label)
-        headerView.backgroundColor = ColorEnum.viewColor.uiColor
+        headerView.backgroundColor = UIColor.clear
         
         return headerView
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 178
+    }
+    
 }

@@ -119,6 +119,6 @@ class VisitCVC: UICollectionViewCell {
         name.text = travel.place.place
         title.text = travel.place.title
       
-        backgroundImage.sd_setImage(with: URL(string: travel.place.coverImageUrl))
+        backgroundImage.sd_setImage(with: URL(string: travel.place.coverImageURL ?? "not found"))
     }
 }
