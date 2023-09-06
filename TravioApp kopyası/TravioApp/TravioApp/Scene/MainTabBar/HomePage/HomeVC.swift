@@ -30,10 +30,21 @@ class HomeVC: UIViewController {
         tv.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell" )
         return tv
     }()
+    //MARK: - Variables
+    var popularPlaces: PopularPlacesModel?
+    var lastPlaces: PopularPlacesModel?
+    var allVisits: ApiResponse?
+    var viewModel = HomeViewModel()
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        viewModel.fetchPopularPlaces(limit: 5) { popular in
+            self.popularPlaces = popular
+        }
+        viewModel.fetchLastPlaces(limit: 5) { last in
+            self.lastPlaces = last
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,7 +90,18 @@ extension HomeVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        switch indexPath.section {
+        case 0:
+            cell.configureCell(popular: popularPlaces)
+        case 1:
+            cell.configureCell(popular: lastPlaces)
+        case 2:
+            cell.configureCell(visits: allVisits)
+        default:
+            break
+        }
+        return cell
     }
     
     

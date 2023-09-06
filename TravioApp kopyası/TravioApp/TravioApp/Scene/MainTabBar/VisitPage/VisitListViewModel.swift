@@ -10,7 +10,6 @@ import Foundation
 class VisitsViewModel {
     var places:[Visit]?
     
-    
     func fetchVisitList(callback: @escaping (ApiResponse)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAllVisits) { (result:Result<ApiResponse, Error>) in
             switch result {
