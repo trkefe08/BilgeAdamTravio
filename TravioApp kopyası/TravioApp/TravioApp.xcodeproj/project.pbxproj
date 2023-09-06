@@ -18,6 +18,8 @@
 		5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */; };
 		5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */; };
 		5F3714EB2AA213320017A7B2 /* MyAddedPlaceCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */; };
+		5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */; };
+		5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */; };
 		5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */; };
 		5F5A9F242AA5D24100C7082C /* MyAddedPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */; };
 		5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F252AA6526D00C7082C /* EditProfileM.swift */; };
@@ -84,6 +86,8 @@
 		5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditProfileView.swift; sourceTree = "<group>"; };
 		5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVC.swift; sourceTree = "<group>"; };
 		5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlaceCVC.swift; sourceTree = "<group>"; };
+		5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsM.swift; sourceTree = "<group>"; };
+		5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVM.swift; sourceTree = "<group>"; };
 		5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesM.swift; sourceTree = "<group>"; };
 		5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVM.swift; sourceTree = "<group>"; };
 		5F5A9F252AA6526D00C7082C /* EditProfileM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileM.swift; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				5F370F6F2A9E31650007DD1C /* SecuritySettingsVC.swift */,
+				5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */,
+				5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */,
 			);
 			path = SecuritySettings;
 			sourceTree = "<group>";
@@ -522,6 +528,7 @@
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
 				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
+				5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */,
 				5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */,
 				9ACBCCF82A9B88C300427D83 /* MapViewModel.swift in Sources */,
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,
@@ -540,6 +547,7 @@
 				9ACBCCC92A9B826600427D83 /* UIStackView+Extension.swift in Sources */,
 				5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */,
 				5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */,
+				5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */,
 				5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */,
 				5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */,
 				9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */,

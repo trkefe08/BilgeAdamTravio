@@ -7,9 +7,12 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class SecuritySettingsVC: UIViewController {
-
+    
+    let vm = SecuritySettingsVM()
+    
     private lazy var scrollView: UIScrollView = {
            let scrollView = UIScrollView()
            scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +66,7 @@ class SecuritySettingsVC: UIViewController {
         tf.labelText = "New Password"
         tf.placeholderName = ""
         tf.isSecure = true
-        
-        
+    
         return tf
     }()
     
@@ -85,7 +87,6 @@ class SecuritySettingsVC: UIViewController {
         
         return label
     }()
-    
     
     private lazy var camera: CustomPrivacyView = {
        let view = CustomPrivacyView()
@@ -112,16 +113,33 @@ class SecuritySettingsVC: UIViewController {
        let button = CustomButton()
         button.labelText = "Save"
         
-        
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
         setupView()
+    }
+    
+    @objc func saveButtonTapped() {
+        
+        guard let password = newPassword.txtField.text else {return}
+        guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
+        
+        if password == passwordConfirm {
+            
+            let params: Parameters = ["new_password": password]
+
+        
+                self.vm.changePassword(params: params) {
+
+                
+            }
+        }
     }
     
     @objc func backButtonTapped() {
@@ -132,7 +150,6 @@ class SecuritySettingsVC: UIViewController {
     func setupView(){
         navigationController?.navigationBar.isHidden = true
         
-      
         view.addSubviews(retangle,backButton,header)
         scrollView.addSubview(contentView)
         retangle.addSubviews(scrollView)
@@ -140,7 +157,6 @@ class SecuritySettingsVC: UIViewController {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         contentView.addSubviews(changePasswordLabel,newPassword,newPasswordConfirm,privacyLabel,camera,photoLibrary,location,button)
         
-    
         setupLayouts()
     }
 

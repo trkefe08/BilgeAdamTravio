@@ -26,12 +26,13 @@ enum Router: URLRequestConvertible {
     case getAllVisits
     case getProfile
     case putEditProfile(parameters: Parameters)
+    case changePassword(parameters: Parameters)
  
     var method: HTTPMethod {
         switch self {
         case .login, .register, .place, .upload, .postGallery:
             return .post
-        case .putEditProfile:
+        case .putEditProfile, .changePassword:
             return .put
         default:
             return .get
@@ -70,12 +71,14 @@ enum Router: URLRequestConvertible {
             return "/v1/me"
         case .putEditProfile:
             return "/v1/edit-profile"
+        case .changePassword:
+            return "/v1/change-password"
         }
     }
     
     var parameters: Parameters? {
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters), .changePassword(let parameters):
             return parameters
         default:
             return nil
@@ -108,7 +111,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile, .changePassword:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
