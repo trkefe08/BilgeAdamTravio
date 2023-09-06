@@ -129,16 +129,35 @@ extension HomeVC: UITableViewDelegate {
         label.textColor = ColorEnum.fontColor.uiColor
         label.sizeToFit()
         label.textAlignment = .left
-
         label.adjustsFontSizeToFitWidth = true
-        headerView.addSubview(label)
         headerView.backgroundColor = UIColor.clear
+        
+        let seeAllButton = UIButton(type: .system)
+        seeAllButton.setTitle("See All", for: .normal)
+        seeAllButton.backgroundColor = .clear
+        seeAllButton.setTitleColor(ColorEnum.seeAllButtonColor.uiColor, for: .normal)
+        seeAllButton.titleLabel?.font = Font.poppins(fontType: 500, size: 14).font
+        seeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
+        
+        let stackView = UIStackView(arrangedSubviews: [label, seeAllButton])
+        stackView.axis = .horizontal
+        
+        headerView.addSubview(stackView)
+        
+        stackView.leading(to: headerView)
+        stackView.trailing(to: headerView, offset: -16)
+        stackView.centerY(to: headerView)
         
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 178
+    }
+    
+    
+    @objc func seeAllButtonTapped() {
+        
     }
     
 }

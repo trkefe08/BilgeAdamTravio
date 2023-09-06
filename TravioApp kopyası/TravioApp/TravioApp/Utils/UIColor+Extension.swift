@@ -15,6 +15,8 @@ enum ColorEnum: String {
     case btnDefaultBackground = "#999999"
     case addNewAnnotationVcRectangleColor = "#D9D9D9"
     case shadowColor = "#000000"
+    case seeAllButtonColor = "#17C0EB"
+
     
     var uiColor: UIColor? {
         return UIColor(hexString: rawValue)
