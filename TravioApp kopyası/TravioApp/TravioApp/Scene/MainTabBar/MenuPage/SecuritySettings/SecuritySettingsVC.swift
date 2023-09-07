@@ -9,10 +9,15 @@ import UIKit
 import SnapKit
 import Alamofire
 import AVFoundation
+import Photos
+import CoreLocation
+
+
 
 class SecuritySettingsVC: UIViewController {
-    
+  
     let vm = SecuritySettingsVM()
+   
     
     private lazy var scrollView: UIScrollView = {
            let scrollView = UIScrollView()
@@ -29,7 +34,6 @@ class SecuritySettingsVC: UIViewController {
     
     private lazy var retangle:CustomBackgroundRetangle = {
         let view = CustomBackgroundRetangle()
-        
         
         return view
     }()
@@ -100,13 +104,14 @@ class SecuritySettingsVC: UIViewController {
     private lazy var photoLibrary: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Photo Library"
-        
+        view.switchComponent.addTarget(self, action: #selector(photoLibrarySwitch), for: .valueChanged)
         return view
     }()
     
     private lazy var location: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Location"
+        view.switchComponent.addTarget(self, action: #selector(locationSwitch), for: .valueChanged)
         
         return view
     }()
@@ -122,48 +127,100 @@ class SecuritySettingsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        updateLocationSwitchState()
+        updatePhotoLibrarySwitchState()
+        updateSwitchStates()
         setupView()
+        
     }
-    
-  
+   
+   
+    func updateLocationSwitchState() {
+        let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
+        switch locationAuthorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            location.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            location.switchComponent.isOn  = false
+        @unknown default:
+            location.switchComponent.isOn  = false
+        }
+    }
+
+    @objc func locationSwitch(_ sender: UISwitch) {
+        openAppSettings()
+
+    }
+  // FIX ME -- viewwillappearda güncellenmemeli. Arka plandan gelince güncellenmesi lazım switchin.
+    override func viewWillAppear(_ animated: Bool) {
+        updateSwitchStates()
+    }
+    func updatePhotoLibrarySwitchState() {
+        let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+
+        switch photoLibraryAuthorizationStatus {
+        case .authorized:
+            // İzin verilmiş, switch'i açık tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = false
+        case .limited:
+            // seçili fotoğraflarda
+            photoLibrary.switchComponent.isOn = true
+        @unknown default:
+            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = false
+        }
+    }
+
+    @objc func photoLibrarySwitch(_ sender: UISwitch) {
+        if photoLibrary.switchComponent.isOn {
+            // Burada izin alabilirsiniz.
+            openAppSettings()
+        } else {
+            // Kullanıcıya ayarları açması için yönlendirebilirsiniz.
+            openAppSettings()
+        }
+    }
     
     @objc func cameraSwitch(_ sender: UISwitch) {
-        if sender.isOn {
-                   // Kamera izni iste
-                   AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
-                       if granted {
-                           // İzin verildi
-                           print("İzin verildi")
-                       } else {
-                           // İzin reddedildi
-                           print("İzin reddedildi")
-                       }
-                   })
-               } else {
-                   // Kamera iznini kapatma işlemleri (eğer gerekliyse)
-                   if let url = URL(string: UIApplication.openSettingsURLString) {
-                               if UIApplication.shared.canOpenURL(url) {
-                                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                               }
-                           }
-                       
-               }
-           
+        if camera.switchComponent.isOn {
+        } else {
+            openAppSettings()
+        }
     }
     
+    func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
     
+    func updateSwitchStates() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            // İzin verilmiş, switch'i açık tutabilirsiniz.
+            camera.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
+            camera.switchComponent.isOn = false
+        @unknown default:
+            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+            camera.switchComponent.isOn = false
+        }
+    }
     
     @objc func saveButtonTapped() {
         
         guard let password = newPassword.txtField.text else {return}
         guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
         
-        
         if password == passwordConfirm {
-            
-            
+     
             if password.count == 0 {
                 
             } else if password.count < 6 {
@@ -205,15 +262,12 @@ class SecuritySettingsVC: UIViewController {
             let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
-            
         }
-        
     }
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-    
     
     func setupView(){
         navigationController?.navigationBar.isHidden = true
@@ -231,13 +285,13 @@ class SecuritySettingsVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
     }
+
     
     func setupLayouts() {
      
-        
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.bottom.top.equalToSuperview()
-            
+
         }
         
         contentView.snp.makeConstraints { make in
@@ -319,3 +373,4 @@ class SecuritySettingsVC: UIViewController {
     }
 
 }
+
