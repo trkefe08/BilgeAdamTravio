@@ -37,37 +37,15 @@ class HomeVC: UIViewController {
     var lastPlaces: [Place] = []
     var allVisits: [Place] = []
     var viewModel = HomeViewModel()
+    var dispatchGroup = DispatchGroup()
     //MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        configure()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.fetchPopularPlaces(limit: 5) { popular in
-            guard let popular = popular.data?.places else { return }
-            self.popularPlaces = popular
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        viewModel.fetchLastPlaces(limit: 5) { last in
-            guard let last = last.data?.places else { return }
-            self.lastPlaces = last
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-        viewModel.fetchVisits(page: 1, limit: 5) { visit in
-            self.allVisits = visit.data.visits.map { item in
-                item.place
-                
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,6 +53,34 @@ class HomeVC: UIViewController {
     }
     
     //MARK: - Functions
+    private func configure() {
+        dispatchGroup.enter()
+        viewModel.fetchPopularPlaces(limit: 5) { popular in
+            guard let popular = popular.data?.places else { return }
+            self.popularPlaces = popular
+            self.dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        viewModel.fetchLastPlaces(limit: 5) { last in
+            guard let last = last.data?.places else { return }
+            self.lastPlaces = last
+            self.dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        viewModel.fetchVisits(page: 1, limit: 5) { visit in
+            self.allVisits = visit.data.visits.map { item in
+                item.place
+                
+            }
+            self.dispatchGroup.leave()
+        }
+        dispatchGroup.notify(queue: .main) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
@@ -148,7 +154,7 @@ extension HomeVC: UITableViewDelegate {
         label.sizeToFit()
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-        headerView.backgroundColor = UIColor.clear
+        headerView.backgroundColor = ColorEnum.viewColor.uiColor
         
         let seeAllButton = UIButton(type: .system)
         seeAllButton.setTitle("See All", for: .normal)

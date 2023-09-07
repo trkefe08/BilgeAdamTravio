@@ -19,7 +19,6 @@ class HomeTableViewCell: UITableViewCell {
         cv.backgroundColor = ColorEnum.viewColor.uiColor
         cv.showsHorizontalScrollIndicator = false
         cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
-        cv.backgroundColor = .clear
         return cv
     }()
     //MARK: - Variables
@@ -36,6 +35,7 @@ class HomeTableViewCell: UITableViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
+        self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.addSubviews(collectionView)
         setupLayout()
     }

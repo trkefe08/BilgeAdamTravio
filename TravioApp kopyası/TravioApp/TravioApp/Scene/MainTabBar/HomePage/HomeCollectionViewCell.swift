@@ -57,7 +57,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        self.radiusWithShadow(corners: [.topLeft,.topRight,.bottomLeft])
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +64,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
+        self.radiusWithShadow(corners: [.topLeft,.topRight,.bottomLeft])
         self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.addSubviews(mainImage)
         self.stackView.addArrangedSubviews(iconImage, placeLabel)
