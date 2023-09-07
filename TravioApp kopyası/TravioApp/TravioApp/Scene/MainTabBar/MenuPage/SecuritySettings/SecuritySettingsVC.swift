@@ -7,9 +7,18 @@
 
 import UIKit
 import SnapKit
+import Alamofire
+import AVFoundation
+import Photos
+import CoreLocation
+
+
 
 class SecuritySettingsVC: UIViewController {
-
+  
+    let vm = SecuritySettingsVM()
+   
+    
     private lazy var scrollView: UIScrollView = {
            let scrollView = UIScrollView()
            scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +34,6 @@ class SecuritySettingsVC: UIViewController {
     
     private lazy var retangle:CustomBackgroundRetangle = {
         let view = CustomBackgroundRetangle()
-        
         
         return view
     }()
@@ -63,8 +71,7 @@ class SecuritySettingsVC: UIViewController {
         tf.labelText = "New Password"
         tf.placeholderName = ""
         tf.isSecure = true
-        
-        
+    
         return tf
     }()
     
@@ -86,10 +93,10 @@ class SecuritySettingsVC: UIViewController {
         return label
     }()
     
-    
     private lazy var camera: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Camera"
+        view.switchComponent.addTarget(self, action: #selector(cameraSwitch), for: .valueChanged)
         
         return view
     }()
@@ -97,13 +104,14 @@ class SecuritySettingsVC: UIViewController {
     private lazy var photoLibrary: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Photo Library"
-        
+        view.switchComponent.addTarget(self, action: #selector(photoLibrarySwitch), for: .valueChanged)
         return view
     }()
     
     private lazy var location: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Location"
+        view.switchComponent.addTarget(self, action: #selector(locationSwitch), for: .valueChanged)
         
         return view
     }()
@@ -112,27 +120,158 @@ class SecuritySettingsVC: UIViewController {
        let button = CustomButton()
         button.labelText = "Save"
         
-        
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         
         return button
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        updateLocationSwitchState()
+        updatePhotoLibrarySwitchState()
+        updateSwitchStates()
         setupView()
+        
+    }
+   
+   
+    func updateLocationSwitchState() {
+        let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
+        switch locationAuthorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            location.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            location.switchComponent.isOn  = false
+        @unknown default:
+            location.switchComponent.isOn  = false
+        }
+    }
+
+    @objc func locationSwitch(_ sender: UISwitch) {
+        openAppSettings()
+
+    }
+  // FIX ME -- viewwillappearda güncellenmemeli. Arka plandan gelince güncellenmesi lazım switchin.
+    override func viewWillAppear(_ animated: Bool) {
+        updateSwitchStates()
+    }
+    func updatePhotoLibrarySwitchState() {
+        let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+
+        switch photoLibraryAuthorizationStatus {
+        case .authorized:
+            // İzin verilmiş, switch'i açık tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = false
+        case .limited:
+            // seçili fotoğraflarda
+            photoLibrary.switchComponent.isOn = true
+        @unknown default:
+            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+            photoLibrary.switchComponent.isOn = false
+        }
+    }
+
+    @objc func photoLibrarySwitch(_ sender: UISwitch) {
+        if photoLibrary.switchComponent.isOn {
+            // Burada izin alabilirsiniz.
+            openAppSettings()
+        } else {
+            // Kullanıcıya ayarları açması için yönlendirebilirsiniz.
+            openAppSettings()
+        }
+    }
+    
+    @objc func cameraSwitch(_ sender: UISwitch) {
+        if camera.switchComponent.isOn {
+        } else {
+            openAppSettings()
+        }
+    }
+    
+    func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func updateSwitchStates() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            // İzin verilmiş, switch'i açık tutabilirsiniz.
+            camera.switchComponent.isOn = true
+        case .denied, .restricted, .notDetermined:
+            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
+            camera.switchComponent.isOn = false
+        @unknown default:
+            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+            camera.switchComponent.isOn = false
+        }
+    }
+    
+    @objc func saveButtonTapped() {
+        
+        guard let password = newPassword.txtField.text else {return}
+        guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
+        
+        if password == passwordConfirm {
+     
+            if password.count == 0 {
+                
+            } else if password.count < 6 {
+                
+                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en az 6 eleman içermelidir", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+            } else if password.count > 12 {
+                
+                
+                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en fazla 12 eleman içermelidir", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+            } else {
+                
+                
+                let params: Parameters = ["new_password": password]
+                self.vm.changePassword(params: params) {
+                 
+                }
+                
+                let alertController = UIAlertController(title: "Başarılı", message: """
+                                                                Şifreniz başarıyla değiştirildi
+                                                                Yeni Şifre
+                                                                ** \(password) **
+                                                                """, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+            
+        } else {
+            let alertController = UIAlertController(title: "Uyarı", message: "Şifreler eşleşmiyor", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
-    
     func setupView(){
         navigationController?.navigationBar.isHidden = true
         
-      
         view.addSubviews(retangle,backButton,header)
         scrollView.addSubview(contentView)
         retangle.addSubviews(scrollView)
@@ -140,20 +279,19 @@ class SecuritySettingsVC: UIViewController {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         contentView.addSubviews(changePasswordLabel,newPassword,newPasswordConfirm,privacyLabel,camera,photoLibrary,location,button)
         
-    
         setupLayouts()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
     }
+
     
     func setupLayouts() {
      
-        
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.bottom.top.equalToSuperview()
-            
+
         }
         
         contentView.snp.makeConstraints { make in
@@ -235,3 +373,4 @@ class SecuritySettingsVC: UIViewController {
     }
 
 }
+

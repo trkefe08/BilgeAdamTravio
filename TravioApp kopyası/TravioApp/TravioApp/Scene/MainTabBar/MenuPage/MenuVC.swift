@@ -34,7 +34,7 @@ class MenuVC: UIViewController {
 
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(named: "bruceWills")
+        img.image = UIImage(systemName: "person.circle.fill")
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill

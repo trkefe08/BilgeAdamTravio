@@ -24,7 +24,6 @@ enum Router: URLRequestConvertible {
     case getAllGalleryByPlaceID(id: String)
     case getAPlaceById(id: String)
     case getAllVisits
-<<<<<<< HEAD
     case checkVisitByPlaceId(id: String)
     case postAVisit(parameters: Parameters)
     case deleteAVisitById(id: String)
@@ -32,11 +31,10 @@ enum Router: URLRequestConvertible {
     case getLastPlaces(limit: Int)
     case getAllVisitsLimit(page: Int, limit: Int)
     
-=======
     case getProfile
     case putEditProfile(parameters: Parameters)
+    case changePassword(parameters: Parameters)
  
->>>>>>> sprint2/features/EditProfile
     var method: HTTPMethod {
         switch self {
         case .login, .register, .place, .upload, .postGallery, .postAVisit:
@@ -44,10 +42,11 @@ enum Router: URLRequestConvertible {
 <<<<<<< HEAD
         case .deleteAVisitById:
             return .delete
-=======
         case .putEditProfile:
+=======
+        case .putEditProfile, .changePassword:
+>>>>>>> sprint2/features/SecuritySettings
             return .put
->>>>>>> sprint2/features/EditProfile
         default:
             return .get
         }
@@ -81,7 +80,6 @@ enum Router: URLRequestConvertible {
             return "/v1/places/\(id)"
         case .getAllVisits:
             return "/v1/visits"
-<<<<<<< HEAD
         case .checkVisitByPlaceId(let id):
             return "/v1/visits/user/\(id)"
         case .postAVisit:
@@ -94,12 +92,12 @@ enum Router: URLRequestConvertible {
             return "/v1/places/last"
         case .getAllVisitsLimit:
             return "/v1/visits"
-=======
         case .getProfile:
             return "/v1/me"
         case .putEditProfile:
             return "/v1/edit-profile"
->>>>>>> sprint2/features/EditProfile
+        case .changePassword:
+            return "/v1/change-password"
         }
     }
     
@@ -107,9 +105,10 @@ enum Router: URLRequestConvertible {
         switch self {
 <<<<<<< HEAD
         case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters):
-=======
         case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters):
->>>>>>> sprint2/features/EditProfile
+=======
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters), .changePassword(let parameters):
+>>>>>>> sprint2/features/SecuritySettings
             return parameters
         case .getPopularPlaces(let limit), .getLastPlaces(let limit):
             return ["limit": limit]
@@ -148,9 +147,10 @@ enum Router: URLRequestConvertible {
             return [:]
 <<<<<<< HEAD
         case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId, .postAVisit, .deleteAVisitById, .getAllVisitsLimit:
-=======
         case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile:
->>>>>>> sprint2/features/EditProfile
+=======
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile, .changePassword:
+>>>>>>> sprint2/features/SecuritySettings
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

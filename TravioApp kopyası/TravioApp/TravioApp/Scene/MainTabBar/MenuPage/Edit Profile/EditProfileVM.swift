@@ -39,7 +39,6 @@ class EditProfileViewModel {
                     print(err.localizedDescription)
                     callback()
                 }
-            
         }
     }
     
