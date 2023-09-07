@@ -31,12 +31,17 @@ enum Router: URLRequestConvertible {
     case getLastPlaces(limit: Int)
     case getAllVisitsLimit(page: Int, limit: Int)
     
+    case getProfile
+    case putEditProfile(parameters: Parameters)
+ 
     var method: HTTPMethod {
         switch self {
         case .login, .register, .place, .upload, .postGallery, .postAVisit:
             return .post
         case .deleteAVisitById:
             return .delete
+        case .putEditProfile:
+            return .put
         default:
             return .get
         }
@@ -82,12 +87,17 @@ enum Router: URLRequestConvertible {
             return "/v1/places/last"
         case .getAllVisitsLimit:
             return "/v1/visits"
+        case .getProfile:
+            return "/v1/me"
+        case .putEditProfile:
+            return "/v1/edit-profile"
         }
     }
     
     var parameters: Parameters? {
         switch self {
         case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters):
             return parameters
         case .getPopularPlaces(let limit), .getLastPlaces(let limit):
             return ["limit": limit]
@@ -125,6 +135,7 @@ enum Router: URLRequestConvertible {
         case .login, .register, .places:
             return [:]
         case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId, .postAVisit, .deleteAVisitById, .getAllVisitsLimit:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

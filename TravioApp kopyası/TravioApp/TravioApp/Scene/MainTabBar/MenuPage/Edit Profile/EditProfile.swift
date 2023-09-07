@@ -7,9 +7,22 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
+import Alamofire
+
+protocol ProfileUpdateDelegate: AnyObject {
+    func didUpdateProfile()
+}
+
 
 class EditProfile: UIViewController {
 
+    var oldURL:String?
+    let vm = EditProfileViewModel()
+    let mv = MenuVC()
+    let mvm = MenuViewModel()
+    var finalURL:URL?
+    weak var delegate: ProfileUpdateDelegate?
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
@@ -28,6 +41,8 @@ class EditProfile: UIViewController {
        let img = UIImageView()
         img.image = UIImage(named: "bruceWills")
         img.layer.cornerRadius = 60
+        img.clipsToBounds = true
+        img.contentMode = .scaleAspectFill
         return img
     }()
     
@@ -92,25 +107,75 @@ class EditProfile: UIViewController {
     
     private lazy var saveButton:CustomButton = {
        let button = CustomButton()
-        button.labelText = "Save"
+       button.labelText = "Save"
         
+       button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
        return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
+      
+        
+        
+        getProfile()
         setupView()
     }
     
+    func getProfile(){
+        vm.getProfile {
+            self.oldURL = self.vm.data?.ppUrl
+            self.configure()
+        }
+    }
+    
+    func configure() {
+        guard let data = vm.data else {return}
+        
+        profileImage.sd_setImage(with: URL(string:data.ppUrl))
+        profileName.text = data.fullName
+        rolView.labelText = data.role
+        fullNameView.txtField.text = data.fullName
+        emailView.txtField.text = data.email
+        
+        if let date = data.createdAt.dateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd MM yyyy"
+            createdDateView.labelText = formatter.string(from: date)
+        } else {
+            createdDateView.labelText = "Unknown Date"
+        }
+    }
+    
+    
+    
+    
     @objc func backButtonTapped() {
         dismiss(animated: true)
-    }
-    
-    @objc func changePhotoButtonTapped() {
         
     }
-    
+ 
+    @objc func saveButtonTapped() {
+        
+        guard let fullName = fullNameView.txtField.text else {return}
+        guard let mail = emailView.txtField.text else {return}
+        let url = vm.images?.urls?.first ?? oldURL
+        
+        let params: Parameters = [
+            "full_name": fullName,
+            "email": mail,
+            "pp_url": url]
+        
+        DispatchQueue.main.async {
+            self.vm.editProfile(params: params){
+            }
+        }
+        
+        dismiss(animated: true) {
+            self.delegate?.didUpdateProfile()
+        }
+    }
  
     func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
@@ -192,8 +257,28 @@ class EditProfile: UIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
-        
     }
-    
+}
+
+extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    @objc func changePhotoButtonTapped() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.originalImage] as? UIImage {
+            profileImage.image = selectedImage
+           let imageData = selectedImage.jpegData(compressionQuality: 0.5)
+            vm.uploadImage(image: [imageData] ) {
+            }
+        }
+        
+        dismiss(animated: true)
+    }
 
 }
+

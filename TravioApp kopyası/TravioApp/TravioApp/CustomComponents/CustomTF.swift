@@ -10,12 +10,18 @@ import UIKit
 
 class CustomTF: UIView {
     
+    var txtFieldChange = "" {
+        didSet {
+            txtField.text = txtFieldChange
+        }
+    }
+    
+    
     var isSecure = true {
         didSet {
             txtField.isSecureTextEntry = true
         }
     }
-    
     
     var placeholderName = "" {
         didSet {
