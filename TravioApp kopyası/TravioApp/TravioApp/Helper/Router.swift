@@ -41,7 +41,6 @@ enum Router: URLRequestConvertible {
             return .post
         case .deleteAVisitById:
             return .delete
-        case .putEditProfile:
         case .putEditProfile, .changePassword:
             return .put
         default:
@@ -100,9 +99,7 @@ enum Router: URLRequestConvertible {
     
     var parameters: Parameters? {
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters):
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters):
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters), .changePassword(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters), .putEditProfile(let parameters), .changePassword(let parameters):
             return parameters
         case .getPopularPlaces(let limit), .getLastPlaces(let limit):
             return ["limit": limit]
@@ -139,9 +136,7 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId, .postAVisit, .deleteAVisitById, .getAllVisitsLimit:
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile:
-        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile, .changePassword:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser,.checkVisitByPlaceId, .postAVisit, .deleteAVisitById, .getAllVisitsLimit, .getAllVisits, .getProfile, .putEditProfile, .changePassword:
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
@@ -159,7 +154,6 @@ enum Router: URLRequestConvertible {
         let encoding: ParameterEncoding = {
             switch method {
             case .get, .delete:
-            case .get:
                 return URLEncoding.default
             default:
                 return JSONEncoding.default
