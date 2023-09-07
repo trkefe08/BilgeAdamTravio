@@ -50,7 +50,7 @@ class LoginVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Password"
         view.placeholderName = "*********"
-        view.txtField.text = "dogucandurgun"
+        view.txtField.text = "dogucan"
         view.txtField.isSecureTextEntry = true
         
         return view

@@ -16,7 +16,6 @@ class CustomTF: UIView {
         }
     }
     
-    
     var isSecure = true {
         didSet {
             txtField.isSecureTextEntry = true

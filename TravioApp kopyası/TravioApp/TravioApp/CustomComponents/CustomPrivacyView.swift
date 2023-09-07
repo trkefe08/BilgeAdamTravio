@@ -24,7 +24,7 @@ class CustomPrivacyView: UIView {
         return label
     }()
 
-    private lazy var switchComponent: UISwitch = {
+    lazy var switchComponent: UISwitch = {
        let swt = UISwitch()
         swt.isOn = false
         

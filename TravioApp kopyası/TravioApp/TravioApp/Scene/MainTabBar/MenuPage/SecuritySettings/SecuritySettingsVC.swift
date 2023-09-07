@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Alamofire
+import AVFoundation
 
 class SecuritySettingsVC: UIViewController {
     
@@ -91,6 +92,7 @@ class SecuritySettingsVC: UIViewController {
     private lazy var camera: CustomPrivacyView = {
        let view = CustomPrivacyView()
         view.labelText = "Camera"
+        view.switchComponent.addTarget(self, action: #selector(cameraSwitch), for: .valueChanged)
         
         return view
     }()
@@ -125,21 +127,87 @@ class SecuritySettingsVC: UIViewController {
         setupView()
     }
     
+  
+    
+    @objc func cameraSwitch(_ sender: UISwitch) {
+        if sender.isOn {
+                   // Kamera izni iste
+                   AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                       if granted {
+                           // İzin verildi
+                           print("İzin verildi")
+                       } else {
+                           // İzin reddedildi
+                           print("İzin reddedildi")
+                       }
+                   })
+               } else {
+                   // Kamera iznini kapatma işlemleri (eğer gerekliyse)
+                   if let url = URL(string: UIApplication.openSettingsURLString) {
+                               if UIApplication.shared.canOpenURL(url) {
+                                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                               }
+                           }
+                       
+               }
+           
+    }
+    
+    
+    
     @objc func saveButtonTapped() {
         
         guard let password = newPassword.txtField.text else {return}
         guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
         
+        
         if password == passwordConfirm {
             
-            let params: Parameters = ["new_password": password]
-
-        
-                self.vm.changePassword(params: params) {
-
+            
+            if password.count == 0 {
                 
+            } else if password.count < 6 {
+                
+                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en az 6 eleman içermelidir", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+            } else if password.count > 12 {
+                
+                
+                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en fazla 12 eleman içermelidir", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+                
+                
+            } else {
+                
+                
+                let params: Parameters = ["new_password": password]
+                self.vm.changePassword(params: params) {
+                 
+                }
+                
+                let alertController = UIAlertController(title: "Başarılı", message: """
+                                                                Şifreniz başarıyla değiştirildi
+                                                                Yeni Şifre
+                                                                ** \(password) **
+                                                                """, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
             }
+            
+        } else {
+            let alertController = UIAlertController(title: "Uyarı", message: "Şifreler eşleşmiyor", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+            
         }
+        
     }
     
     @objc func backButtonTapped() {

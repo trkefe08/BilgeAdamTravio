@@ -11,7 +11,7 @@ import UIKit
 class CustomBackgroundRetangle: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = ColorEnum.viewColor.uiColor // Beyaz rengi tanımladığın bir yer olmalı
+        backgroundColor = ColorEnum.viewColor.uiColor 
     }
     
     @available(*, unavailable)
@@ -23,7 +23,7 @@ class CustomBackgroundRetangle: UIView {
         super.layoutSubviews()
         
         let maskPath = UIBezierPath(roundedRect: bounds,
-                                    byRoundingCorners: [.topLeft], // Burada istediğin köşeyi seçebilirsin
+                                    byRoundingCorners: [.topLeft],
                                     cornerRadii: CGSize(width: 80, height: 80))
         
         let shape = CAShapeLayer()
