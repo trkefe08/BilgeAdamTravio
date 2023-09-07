@@ -8,7 +8,7 @@
 import Foundation
 
 class HomeViewModel {
-    
+    //MARK: - Functions
     func fetchPopularPlaces(limit: Int, completion: @escaping (MapModel) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.getPopularPlaces(limit: 5)) { (result: Result<MapModel, Error>) in
             switch result {

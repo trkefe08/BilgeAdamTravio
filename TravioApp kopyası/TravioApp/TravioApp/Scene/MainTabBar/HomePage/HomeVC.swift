@@ -24,7 +24,7 @@ class HomeVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .grouped)
         tv.dataSource = self
         tv.delegate = self
         tv.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell")
@@ -44,17 +44,30 @@ class HomeVC: UIViewController {
         viewModel.fetchPopularPlaces(limit: 5) { popular in
             guard let popular = popular.data?.places else { return }
             self.popularPlaces = popular
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
         viewModel.fetchLastPlaces(limit: 5) { last in
             guard let last = last.data?.places else { return }
             self.lastPlaces = last
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
         
         viewModel.fetchVisits(page: 1, limit: 5) { visit in
             self.allVisits = visit.data.visits.map { item in
                 item.place
+                
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -63,6 +76,7 @@ class HomeVC: UIViewController {
     
     //MARK: - Functions
     private func setupViews() {
+        self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
         self.view.addSubviews(imgHeader,rectangleView)
         self.rectangleView.addSubviews(tableView)
@@ -85,6 +99,10 @@ class HomeVC: UIViewController {
         tableView.leadingToSuperview(offset: 24)
         tableView.trailingToSuperview()
         tableView.bottomToSuperview()
+        
+    }
+    
+    @objc func seeAllButtonTapped() {
         
     }
     
@@ -143,11 +161,10 @@ extension HomeVC: UITableViewDelegate {
         stackView.axis = .horizontal
         
         headerView.addSubview(stackView)
-        
         stackView.leading(to: headerView)
         stackView.trailing(to: headerView, offset: -16)
         stackView.centerY(to: headerView)
-        
+        stackView.bottomToSuperview(offset: -2)
         return headerView
     }
     
@@ -156,8 +173,6 @@ extension HomeVC: UITableViewDelegate {
     }
     
     
-    @objc func seeAllButtonTapped() {
-        
-    }
+    
     
 }

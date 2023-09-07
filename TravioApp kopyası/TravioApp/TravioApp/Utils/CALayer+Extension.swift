@@ -16,7 +16,7 @@ extension CALayer {
         blur: CGFloat = 4,
         spread: CGFloat = 0,
         cornerRadiusValue: CGFloat = 16,
-        corners: UIRectCorner = .topLeft // Default olarak tüm köşelere yuvarlak köşe uygula
+        corners: UIRectCorner = .allCorners
     ) {
         cornerRadius = cornerRadiusValue
         shadowColor = color.cgColor

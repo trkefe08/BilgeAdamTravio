@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeTableViewCell: UITableViewCell {
-    
+    //MARK: - Views
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -22,10 +22,10 @@ class HomeTableViewCell: UITableViewCell {
         cv.backgroundColor = .clear
         return cv
     }()
-    
+    //MARK: - Variables
     var popularLastAndVisits: [Place] = []
 
-
+    //MARK: - Constructor
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -34,13 +34,13 @@ class HomeTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         self.contentView.addSubviews(collectionView)
         setupLayout()
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         collectionView.edgesToSuperview()
     }
     
@@ -53,7 +53,7 @@ class HomeTableViewCell: UITableViewCell {
     }
     
 }
-
+//MARK: - CollectionViewCell Extensions
 extension HomeTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.size.width - 86, height: 178)

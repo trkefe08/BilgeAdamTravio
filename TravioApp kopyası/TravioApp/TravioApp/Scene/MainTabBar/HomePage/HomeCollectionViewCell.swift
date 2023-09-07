@@ -10,7 +10,7 @@ import TinyConstraints
 import Kingfisher
 
 class HomeCollectionViewCell: UICollectionViewCell {
-    
+    //MARK: - Views
     private lazy var mainImage: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
@@ -53,18 +53,17 @@ class HomeCollectionViewCell: UICollectionViewCell {
         lbl.textColor = .white
         return lbl
     }()
-    
+    //MARK: - Constructor
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        mainImage.layoutIfNeeded()
-        mainImage.roundCorners(corners: [.topLeft,.topRight,.bottomLeft], radius: 16)
+        self.radiusWithShadow(corners: [.topLeft,.topRight,.bottomLeft])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    //MARK: - Functions
     private func setupViews() {
         self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.addSubviews(mainImage)

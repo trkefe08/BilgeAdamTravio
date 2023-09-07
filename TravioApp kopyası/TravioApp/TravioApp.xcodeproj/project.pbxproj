@@ -30,8 +30,8 @@
 		5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEED56D2A9F7FAE003D971E /* MenuM.swift */; };
 		9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */; };
 		9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */; };
+		9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */; };
 		9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */; };
-		9ABAD8192AA8624B00990482 /* PopularPlacesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8182AA8624B00990482 /* PopularPlacesModel.swift */; };
 		9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD81A2AA8645400990482 /* HomeViewModel.swift */; };
 		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
@@ -96,8 +96,8 @@
 		5FEED56D2A9F7FAE003D971E /* MenuM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuM.swift; sourceTree = "<group>"; };
 		9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
 		9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
-		9ABAD8182AA8624B00990482 /* PopularPlacesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesModel.swift; sourceTree = "<group>"; };
 		9ABAD81A2AA8645400990482 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCheckModel.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -240,6 +240,7 @@
 				9ACBCCC82A9B826600427D83 /* UIStackView+Extension.swift */,
 				9ACBCCCA2A9B828500427D83 /* UIView+Extension.swift */,
 				9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */,
+				9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -356,7 +357,6 @@
 				9ABAD81A2AA8645400990482 /* HomeViewModel.swift */,
 				9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */,
 				9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */,
-				9ABAD8182AA8624B00990482 /* PopularPlacesModel.swift */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -503,6 +503,7 @@
 				9ACBCCFD2A9B892800427D83 /* AddNewAnnotationVC.swift in Sources */,
 				5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */,
 				9ACBCD072A9B8A3E00427D83 /* HomeVC.swift in Sources */,
+				9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */,
 				5F3714E42AA0AE2C0017A7B2 /* EditProfile.swift in Sources */,
 				9ACBCCA82A9B7F7200427D83 /* LoginVC.swift in Sources */,
 				9ACBCCC72A9B81F600427D83 /* FormatType.swift in Sources */,
@@ -543,7 +544,6 @@
 				9ACBCCC92A9B826600427D83 /* UIStackView+Extension.swift in Sources */,
 				5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */,
 				5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */,
-				9ABAD8192AA8624B00990482 /* PopularPlacesModel.swift in Sources */,
 				5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */,
 				5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */,
 				9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */,
