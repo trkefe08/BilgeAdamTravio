@@ -36,7 +36,7 @@ class HomeTableViewCell: UITableViewCell {
     //MARK: - Functions
     private func setupViews() {
         self.backgroundColor = ColorEnum.viewColor.uiColor
-        collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
+        //collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(collectionView)
         setupLayout()

@@ -10,7 +10,7 @@ import TinyConstraints
 import Kingfisher
 
 class PopularPlacesCollectionViewCell: UICollectionViewCell {
-    
+    //MARK: - Views
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -45,7 +45,7 @@ class PopularPlacesCollectionViewCell: UICollectionViewCell {
         mark.image = #imageLiteral(resourceName: "myAddedPlace_locationMark")
         return mark
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -60,7 +60,7 @@ class PopularPlacesCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+    //MARK: - Functions
     private func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)

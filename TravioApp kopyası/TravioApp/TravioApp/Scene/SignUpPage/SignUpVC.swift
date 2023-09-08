@@ -164,7 +164,7 @@ class SignUpVC: UIViewController {
         guard let email = mail.txtField.text else { return }
         guard let password = password.txtField.text else { return }
         
-        let data = RegisterInfo(full_name: username, email: email, password: password)
+        //let data = RegisterInfo(full_name: username, email: email, password: password)
         print("tikla")
         viewModelInstance.signUp(params: ["full_name": username, "email": email, "password": password]) {
             

@@ -115,6 +115,9 @@ class HomeVC: UIViewController {
         if tappedSection == 0 {
             let vc = PopularPlacesVC()
             self.navigationController?.pushViewController(vc, animated: true)
+        } else if tappedSection == 1 {
+            let vc = NewPlacesVC()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

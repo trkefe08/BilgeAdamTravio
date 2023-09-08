@@ -7,11 +7,8 @@
 
 import UIKit
 
-class PopularPlacesVC: UIViewController {
-    
-    var viewModel = PopularPlacesViewModel()
-    var isButtonActive = true
-    
+final class PopularPlacesVC: UIViewController {
+    //MARK: - Views
     private lazy var rectangle:CustomBackgroundRetangle = {
         let retangle = CustomBackgroundRetangle()
         return retangle
@@ -54,8 +51,10 @@ class PopularPlacesVC: UIViewController {
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
-    
-    
+    //MARK: - Variables
+    private var viewModel = PopularPlacesViewModel()
+    private var isButtonActive = true
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -63,7 +62,7 @@ class PopularPlacesVC: UIViewController {
             self.collectionView.reloadData()
         })
     }
-    
+    //MARK: - Functions
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -114,7 +113,7 @@ class PopularPlacesVC: UIViewController {
         collectionView.topToSuperview(offset: 60)
     }
 }
-
+//MARK: - UICollectionView Extensions
 extension PopularPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

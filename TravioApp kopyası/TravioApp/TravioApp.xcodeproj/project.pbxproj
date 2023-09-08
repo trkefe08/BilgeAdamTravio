@@ -37,6 +37,9 @@
 		9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */; };
 		9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */; };
 		9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */; };
+		9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */; };
+		9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */; };
+		9ABA3C252AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */; };
 		9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */; };
 		9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD81A2AA8645400990482 /* HomeViewModel.swift */; };
 		9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
@@ -112,6 +115,9 @@
 		9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
+		9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesVC.swift; sourceTree = "<group>"; };
+		9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesViewModel.swift; sourceTree = "<group>"; };
+		9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ABAD81A2AA8645400990482 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesVC.swift; sourceTree = "<group>"; };
@@ -204,12 +210,31 @@
 			path = SecuritySettings;
 			sourceTree = "<group>";
 		};
-		9ABE01FD2AAB037A00A2CF69 /* SeeAllPages */ = {
+		9ABA3C1E2AAB903F00A8ECB3 /* PopularPage */ = {
 			isa = PBXGroup;
 			children = (
 				9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */,
 				9ABE02002AAB0AF300A2CF69 /* PopularPlacesViewModel.swift */,
 				9ABE02022AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift */,
+			);
+			path = PopularPage;
+			sourceTree = "<group>";
+		};
+		9ABA3C1F2AAB905B00A8ECB3 /* NewPlacePage */ = {
+			isa = PBXGroup;
+			children = (
+				9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */,
+				9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */,
+				9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */,
+			);
+			path = NewPlacePage;
+			sourceTree = "<group>";
+		};
+		9ABE01FD2AAB037A00A2CF69 /* SeeAllPages */ = {
+			isa = PBXGroup;
+			children = (
+				9ABA3C1E2AAB903F00A8ECB3 /* PopularPage */,
+				9ABA3C1F2AAB905B00A8ECB3 /* NewPlacePage */,
 			);
 			path = SeeAllPages;
 			sourceTree = "<group>";
@@ -549,6 +574,7 @@
 				9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */,
 				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
+				9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
 				5F5A9F242AA5D24100C7082C /* MyAddedPlacesVM.swift in Sources */,
 				9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */,
@@ -564,6 +590,7 @@
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
 				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
+				9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */,
 				5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */,
 				5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */,
 				9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */,
@@ -585,6 +612,7 @@
 				9ACBCCD32A9B83C900427D83 /* SignUpM.swift in Sources */,
 				9ACBCCC92A9B826600427D83 /* UIStackView+Extension.swift in Sources */,
 				5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */,
+				9ABA3C252AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift in Sources */,
 				9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */,
 				5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */,
 				5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */,

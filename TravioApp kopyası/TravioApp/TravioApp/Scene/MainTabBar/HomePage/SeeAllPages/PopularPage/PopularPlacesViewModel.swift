@@ -8,9 +8,10 @@
 import Foundation
 
 class PopularPlacesViewModel {
+    //MARK: - Variables
     var sortedmyArrayAtoZ:[MyAddedPlace] = []
     var sortedmyArrayZtoA:[MyAddedPlace] = []
-    
+    //MARK: - Functions
     func fetchPopularPlaces(limit: Int, completion: @escaping ()->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getPopularPlaces(limit: limit)) { (result:Result<MyAddedResponse, Error>) in
             DispatchQueue.main.async {
