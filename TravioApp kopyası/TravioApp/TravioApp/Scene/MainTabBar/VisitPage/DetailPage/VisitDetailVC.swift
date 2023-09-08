@@ -123,6 +123,17 @@ class VisitDetailVC: UIViewController {
         return lbl
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        guard let id = postedID ?? placeId else { return }
+        viewModel.checkVisit(id: id) { check in
+            if check == "success" {
+                self.deleteButton()
+            } else {
+                self.addButton()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -169,13 +180,13 @@ class VisitDetailVC: UIViewController {
     }
     
    private func updateComponents() {
-       if isVisited == false {
-           addButton()
-       } else {
-           deleteButton()
-       }
-        
-        guard let id = postedID ?? placeId else { return }
+//       if isVisited == false {
+//           addButton()
+//       } else {
+//           deleteButton()
+//       }
+//
+        guard let id = postedID ?? placeId  else { return }
         viewModel.fetchDetails(id: id) { success in
             DispatchQueue.main.async {
                 guard let vst = self.viewModel.visitDetail else {return}

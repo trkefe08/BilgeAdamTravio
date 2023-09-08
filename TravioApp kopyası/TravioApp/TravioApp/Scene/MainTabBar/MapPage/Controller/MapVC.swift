@@ -161,6 +161,8 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
     
+    
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             if let index = viewModel.getIndexForAnnotation(annotation) {
@@ -181,15 +183,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout {
         let vc = VisitDetailVC()
         guard let id = viewModel.getMapCollectionId(at: indexPath.row) else { return }
         vc.placeId = id
-        viewModel.checkVisit(id: id) { check in
-            if check == "success" {
-                vc.isVisited = true
-            } else {
-                vc.isVisited = false
-            }
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-       
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -29,8 +29,6 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-        rectangleView.layoutIfNeeded()
-        rectangleView.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
     }
     
     required init?(coder: NSCoder) {
@@ -40,6 +38,7 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     //MARK: - Functions
     private func setupViews() {
         self.contentView.backgroundColor = .clear
+        self.rectangleView.roundCornersWithShadow([.topLeft,.topRight, .bottomLeft], radius: 16)
         self.contentView.addSubviews(rectangleView)
         self.rectangleView.addSubviews(placeImage, addPhotoImage)
         setupLayout()

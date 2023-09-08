@@ -84,6 +84,7 @@ class HomeVC: UIViewController {
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
+        self.rectangleView.backgroundColor = ColorEnum.viewColor.uiColor
         self.view.addSubviews(imgHeader,rectangleView)
         self.rectangleView.addSubviews(tableView)
         setupLayout()
@@ -108,8 +109,13 @@ class HomeVC: UIViewController {
         
     }
     
-    @objc func seeAllButtonTapped() {
+    @objc func seeAllButtonTapped(_ sender: UIButton) {
+        let tappedSection = sender.tag
         
+        if tappedSection == 0 {
+            let vc = PopularPlacesVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
 }
@@ -148,7 +154,6 @@ extension HomeVC: UITableViewDelegate {
         let label = UILabel()
         let sectionTitles = ["Popular Places", "New Places", "My Added Places"]
         label.text = sectionTitles[section]
-        label.textColor = ColorEnum.fontColor.uiColor
         label.font = Font.poppins(fontType: 500, size: 20).font
         label.textColor = ColorEnum.fontColor.uiColor
         label.sizeToFit()
@@ -158,6 +163,7 @@ extension HomeVC: UITableViewDelegate {
         
         let seeAllButton = UIButton(type: .system)
         seeAllButton.setTitle("See All", for: .normal)
+        seeAllButton.tag = section
         seeAllButton.backgroundColor = .clear
         seeAllButton.setTitleColor(ColorEnum.seeAllButtonColor.uiColor, for: .normal)
         seeAllButton.titleLabel?.font = Font.poppins(fontType: 500, size: 14).font

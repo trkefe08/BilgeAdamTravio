@@ -15,11 +15,11 @@ extension UICollectionViewCell {
         rectanglePath.close()
         
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 0.4
+        layer.shadowOpacity = 0.2
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = 4
         layer.shadowPath = rectanglePath.cgPath
         contentView.roundCorners(corners: corners, radius: 16)
-        contentView.layer.masksToBounds = false
+        contentView.layer.masksToBounds = true
     }
 }

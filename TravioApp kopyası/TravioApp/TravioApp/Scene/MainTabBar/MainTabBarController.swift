@@ -41,7 +41,7 @@ class MainTabBarController: UITabBarController {
         
         
         let vc4 = MenuVC()
-        let nav4 = UINavigationController(rootViewController: vc4)
+        let nav4 = vc4
         let img4 = #imageLiteral(resourceName: "menu")
         let selectedImg4 = #imageLiteral(resourceName: "menu")
         vc4.tabBarItem = UITabBarItem(title: "Menu", image: img4, selectedImage: selectedImg4)

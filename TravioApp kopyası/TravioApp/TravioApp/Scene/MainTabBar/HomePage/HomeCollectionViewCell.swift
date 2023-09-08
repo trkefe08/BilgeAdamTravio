@@ -65,7 +65,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
     //MARK: - Functions
     private func setupViews() {
         self.radiusWithShadow(corners: [.topLeft,.topRight,.bottomLeft])
-        self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
+        self.contentView.backgroundColor = .clear
+        //self.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.addSubviews(mainImage)
         self.stackView.addArrangedSubviews(iconImage, placeLabel)
         self.mainImage.addSubviews(gradientView,titleLabel,stackView)

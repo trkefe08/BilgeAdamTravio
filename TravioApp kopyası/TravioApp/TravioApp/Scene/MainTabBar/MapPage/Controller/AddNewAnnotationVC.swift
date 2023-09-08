@@ -122,6 +122,7 @@ class AddNewAnnotationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     override func viewDidLayoutSubviews() {

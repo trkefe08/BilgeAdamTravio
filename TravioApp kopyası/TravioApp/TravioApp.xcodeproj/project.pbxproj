@@ -39,6 +39,9 @@
 		9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */; };
 		9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */; };
 		9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD81A2AA8645400990482 /* HomeViewModel.swift */; };
+		9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
+		9ABE02012AAB0AF300A2CF69 /* PopularPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE02002AAB0AF300A2CF69 /* PopularPlacesViewModel.swift */; };
+		9ABE02032AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE02022AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift */; };
 		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
 		9ACBCCA42A9B7F7200427D83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */; };
 		9ACBCCA62A9B7F7200427D83 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCCA52A9B7F7200427D83 /* SceneDelegate.swift */; };
@@ -111,6 +114,9 @@
 		9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+Extension.swift"; sourceTree = "<group>"; };
 		9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ABAD81A2AA8645400990482 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesVC.swift; sourceTree = "<group>"; };
+		9ABE02002AAB0AF300A2CF69 /* PopularPlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesViewModel.swift; sourceTree = "<group>"; };
+		9ABE02022AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCheckModel.swift; sourceTree = "<group>"; };
 		9ACBCCA02A9B7F7200427D83 /* TravioApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravioApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ACBCCA32A9B7F7200427D83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -196,6 +202,16 @@
 				5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */,
 			);
 			path = SecuritySettings;
+			sourceTree = "<group>";
+		};
+		9ABE01FD2AAB037A00A2CF69 /* SeeAllPages */ = {
+			isa = PBXGroup;
+			children = (
+				9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */,
+				9ABE02002AAB0AF300A2CF69 /* PopularPlacesViewModel.swift */,
+				9ABE02022AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift */,
+			);
+			path = SeeAllPages;
 			sourceTree = "<group>";
 		};
 		9ACBCC972A9B7F7200427D83 = {
@@ -375,6 +391,7 @@
 				9ABAD81A2AA8645400990482 /* HomeViewModel.swift */,
 				9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */,
 				9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */,
+				9ABE01FD2AAB037A00A2CF69 /* SeeAllPages */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -543,6 +560,7 @@
 				5F9C0C382A9FB97A00F7CE1F /* LaunchScreen.swift in Sources */,
 				9ACBCCC22A9B817000427D83 /* Router.swift in Sources */,
 				9ACBCD042A9B89FC00427D83 /* KeychainHelper.swift in Sources */,
+				9ABE02032AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift in Sources */,
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
 				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
@@ -555,18 +573,19 @@
 				9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */,
 				5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */,
 				9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */,
+				9ABE02012AAB0AF300A2CF69 /* PopularPlacesViewModel.swift in Sources */,
 				5F9C0C4A2A9FE61300F7CE1F /* VisitDetailCVC.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
 				5F5A9F282AA6527D00C7082C /* EditProfileVM.swift in Sources */,
 				5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,
-				9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */,
 				9ACBCCE32A9B854600427D83 /* VisitModel.swift in Sources */,
 				5F9C0C482A9FE5FD00F7CE1F /* VisitDetailVC.swift in Sources */,
 				9ACBCCC52A9B81B700427D83 /* UIColor+Extension.swift in Sources */,
 				9ACBCCD32A9B83C900427D83 /* SignUpM.swift in Sources */,
 				9ACBCCC92A9B826600427D83 /* UIStackView+Extension.swift in Sources */,
 				5F9C0C3C2A9FC22000F7CE1F /* MenuVM.swift in Sources */,
+				9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */,
 				5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */,
 				5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */,
 				5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */,

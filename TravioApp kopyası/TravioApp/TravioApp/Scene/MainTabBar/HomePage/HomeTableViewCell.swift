@@ -16,7 +16,7 @@ class HomeTableViewCell: UITableViewCell {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = ColorEnum.viewColor.uiColor
+        cv.backgroundColor = .clear
         cv.showsHorizontalScrollIndicator = false
         cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         return cv
@@ -35,7 +35,9 @@ class HomeTableViewCell: UITableViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
-        self.contentView.backgroundColor = ColorEnum.viewColor.uiColor
+        self.backgroundColor = ColorEnum.viewColor.uiColor
+        collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(collectionView)
         setupLayout()
     }

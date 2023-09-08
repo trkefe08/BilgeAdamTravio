@@ -62,6 +62,17 @@ class VisitsDetailViewModel {
         }
     }
     
+    func checkVisit(id: String, completion: @escaping((String?) -> Void)) {
+        TravioNetwork.shared.makeRequest(request: Router.checkVisitByPlaceId(id: id)) { (result:Result<ResponseCheckModel, Error>) in
+            switch result {
+            case .success(let result):
+                completion(result.status)
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    
     func getImagesCount() -> Int{
         return myArray.count
     }
