@@ -40,6 +40,9 @@
 		9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */; };
 		9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */; };
 		9ABA3C252AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */; };
+		9ABA3C282AAB9A5400A8ECB3 /* MyVisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C272AAB9A5400A8ECB3 /* MyVisitsVC.swift */; };
+		9ABA3C2A2AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C292AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift */; };
+		9ABA3C2C2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C2B2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift */; };
 		9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */; };
 		9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD81A2AA8645400990482 /* HomeViewModel.swift */; };
 		9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
@@ -118,6 +121,9 @@
 		9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesVC.swift; sourceTree = "<group>"; };
 		9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesViewModel.swift; sourceTree = "<group>"; };
 		9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlacesCollectionViewCell.swift; sourceTree = "<group>"; };
+		9ABA3C272AAB9A5400A8ECB3 /* MyVisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVisitsVC.swift; sourceTree = "<group>"; };
+		9ABA3C292AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVisitsViewModel.swift; sourceTree = "<group>"; };
+		9ABA3C2B2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyVisitsCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		9ABAD81A2AA8645400990482 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularPlacesVC.swift; sourceTree = "<group>"; };
@@ -230,11 +236,22 @@
 			path = NewPlacePage;
 			sourceTree = "<group>";
 		};
+		9ABA3C262AAB99B500A8ECB3 /* MyVisitsPage */ = {
+			isa = PBXGroup;
+			children = (
+				9ABA3C272AAB9A5400A8ECB3 /* MyVisitsVC.swift */,
+				9ABA3C292AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift */,
+				9ABA3C2B2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift */,
+			);
+			path = MyVisitsPage;
+			sourceTree = "<group>";
+		};
 		9ABE01FD2AAB037A00A2CF69 /* SeeAllPages */ = {
 			isa = PBXGroup;
 			children = (
 				9ABA3C1E2AAB903F00A8ECB3 /* PopularPage */,
 				9ABA3C1F2AAB905B00A8ECB3 /* NewPlacePage */,
+				9ABA3C262AAB99B500A8ECB3 /* MyVisitsPage */,
 			);
 			path = SeeAllPages;
 			sourceTree = "<group>";
@@ -561,6 +578,7 @@
 				9ACBCCBF2A9B80F600427D83 /* LoginVM.swift in Sources */,
 				9ACBCCD52A9B83E200427D83 /* SignUpVM.swift in Sources */,
 				9ACBCCFD2A9B892800427D83 /* AddNewAnnotationVC.swift in Sources */,
+				9ABA3C2A2AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift in Sources */,
 				5F370F6E2A9E31430007DD1C /* MenuCVC.swift in Sources */,
 				9ACBCD072A9B8A3E00427D83 /* HomeVC.swift in Sources */,
 				9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */,
@@ -587,12 +605,14 @@
 				9ACBCCC22A9B817000427D83 /* Router.swift in Sources */,
 				9ACBCD042A9B89FC00427D83 /* KeychainHelper.swift in Sources */,
 				9ABE02032AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift in Sources */,
+				9ABA3C282AAB9A5400A8ECB3 /* MyVisitsVC.swift in Sources */,
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
 				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
 				9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */,
 				5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */,
 				5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */,
+				9ABA3C2C2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift in Sources */,
 				9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */,
 				9ACBCCF82A9B88C300427D83 /* MapViewModel.swift in Sources */,
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,

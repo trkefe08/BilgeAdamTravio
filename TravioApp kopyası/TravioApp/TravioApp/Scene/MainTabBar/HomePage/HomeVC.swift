@@ -106,7 +106,6 @@ class HomeVC: UIViewController {
         tableView.leadingToSuperview(offset: 24)
         tableView.trailingToSuperview()
         tableView.bottomToSuperview()
-        
     }
     
     @objc func seeAllButtonTapped(_ sender: UIButton) {
@@ -117,6 +116,9 @@ class HomeVC: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         } else if tappedSection == 1 {
             let vc = NewPlacesVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = MyVisitsVC()
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -146,8 +148,6 @@ extension HomeVC: UITableViewDataSource {
         }
         return cell
     }
-    
-    
 }
 
 extension HomeVC: UITableViewDelegate {
@@ -155,7 +155,7 @@ extension HomeVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         let label = UILabel()
-        let sectionTitles = ["Popular Places", "New Places", "My Added Places"]
+        let sectionTitles = ["Popular Places", "New Places", "My Visits"]
         label.text = sectionTitles[section]
         label.font = Font.poppins(fontType: 500, size: 20).font
         label.textColor = ColorEnum.fontColor.uiColor
