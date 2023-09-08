@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F35D4732AAB19F900B60419 /* HelpAndSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35D4722AAB19F900B60419 /* HelpAndSupportVC.swift */; };
+		5F35D4772AAB348B00B60419 /* AboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35D4762AAB348B00B60419 /* AboutUsVC.swift */; };
+		5F35D4792AAB349D00B60419 /* TermOfUseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35D4782AAB349D00B60419 /* TermOfUseVC.swift */; };
+		5F35D47B2AAB3CB100B60419 /* HelpAndSupportCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F35D47A2AAB3CB100B60419 /* HelpAndSupportCVC.swift */; };
 		5F370F632A9E30840007DD1C /* CustomBackgroundRetangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */; };
 		5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F370F642A9E309D0007DD1C /* CustomTF.swift */; };
 		5F370F682A9E30BF0007DD1C /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5F370F672A9E30BF0007DD1C /* SnapKit */; };
@@ -81,6 +85,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5F35D4722AAB19F900B60419 /* HelpAndSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVC.swift; sourceTree = "<group>"; };
+		5F35D4762AAB348B00B60419 /* AboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsVC.swift; sourceTree = "<group>"; };
+		5F35D4782AAB349D00B60419 /* TermOfUseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermOfUseVC.swift; sourceTree = "<group>"; };
+		5F35D47A2AAB3CB100B60419 /* HelpAndSupportCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportCVC.swift; sourceTree = "<group>"; };
 		5F370F622A9E30840007DD1C /* CustomBackgroundRetangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBackgroundRetangle.swift; sourceTree = "<group>"; };
 		5F370F642A9E309D0007DD1C /* CustomTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTF.swift; sourceTree = "<group>"; };
 		5F370F692A9E30E00007DD1C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
@@ -167,6 +175,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F35D4712AAB19CE00B60419 /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				5F35D4722AAB19F900B60419 /* HelpAndSupportVC.swift */,
+				5F35D47A2AAB3CB100B60419 /* HelpAndSupportCVC.swift */,
+			);
+			path = FAQ;
+			sourceTree = "<group>";
+		};
+		5F35D4742AAB344C00B60419 /* Term of Use */ = {
+			isa = PBXGroup;
+			children = (
+				5F35D4782AAB349D00B60419 /* TermOfUseVC.swift */,
+			);
+			path = "Term of Use";
+			sourceTree = "<group>";
+		};
+		5F35D4752AAB345A00B60419 /* About Us */ = {
+			isa = PBXGroup;
+			children = (
+				5F35D4762AAB348B00B60419 /* AboutUsVC.swift */,
+			);
+			name = "About Us";
+			path = "FAQ/About Us";
+			sourceTree = "<group>";
+		};
 		5F3714E22AA0AE0C0017A7B2 /* Edit Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +218,9 @@
 				5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */,
 				5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */,
 				5F5A9F232AA5D24100C7082C /* MyAddedPlacesVM.swift */,
+				5F35D4712AAB19CE00B60419 /* FAQ */,
+				5F35D4752AAB345A00B60419 /* About Us */,
+				5F35D4742AAB344C00B60419 /* Term of Use */,
 			);
 			path = "My Added Places";
 			sourceTree = "<group>";
@@ -545,12 +582,15 @@
 				9ACBCD042A9B89FC00427D83 /* KeychainHelper.swift in Sources */,
 				9ACBCCF62A9B88A200427D83 /* MapVC.swift in Sources */,
 				9ACBCCCE2A9B830300427D83 /* TravioNetwork.swift in Sources */,
+				5F35D4732AAB19F900B60419 /* HelpAndSupportVC.swift in Sources */,
 				5F370F6A2A9E30E00007DD1C /* CustomButton.swift in Sources */,
 				5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */,
 				5F370F702A9E31650007DD1C /* SecuritySettingsVC.swift in Sources */,
 				9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */,
 				9ACBCCF82A9B88C300427D83 /* MapViewModel.swift in Sources */,
 				9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */,
+				5F35D47B2AAB3CB100B60419 /* HelpAndSupportCVC.swift in Sources */,
+				5F35D4792AAB349D00B60419 /* TermOfUseVC.swift in Sources */,
 				5F3714EB2AA213320017A7B2 /* MyAddedPlaceCVC.swift in Sources */,
 				9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */,
 				5F9C0C4C2A9FE62600F7CE1F /* VisitDetailVM.swift in Sources */,
@@ -560,7 +600,7 @@
 				5F5A9F282AA6527D00C7082C /* EditProfileVM.swift in Sources */,
 				5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,
-				9AFA3D0B2AA07C4F00ADB979 /* PostGalleryModel.swift in Sources */,
+				5F35D4772AAB348B00B60419 /* AboutUsVC.swift in Sources */,
 				9ACBCCE32A9B854600427D83 /* VisitModel.swift in Sources */,
 				5F9C0C482A9FE5FD00F7CE1F /* VisitDetailVC.swift in Sources */,
 				9ACBCCC52A9B81B700427D83 /* UIColor+Extension.swift in Sources */,
