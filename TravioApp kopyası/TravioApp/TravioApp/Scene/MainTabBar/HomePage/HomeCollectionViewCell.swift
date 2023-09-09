@@ -9,7 +9,7 @@ import UIKit
 import TinyConstraints
 import Kingfisher
 
-class HomeCollectionViewCell: UICollectionViewCell {
+final class HomeCollectionViewCell: UICollectionViewCell {
     //MARK: - Views
     private lazy var mainImage: UIImageView = {
         let img = UIImageView()

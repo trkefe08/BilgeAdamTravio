@@ -4,7 +4,6 @@
 //
 //  Created by Tarik Efe on 8.09.2023.
 //
-
 import UIKit
 
 final class MyVisitsCollectionViewCell: UICollectionViewCell {

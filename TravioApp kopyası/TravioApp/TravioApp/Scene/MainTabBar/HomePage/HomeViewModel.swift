@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HomeViewModel {
+final class HomeViewModel {
     //MARK: - Functions
     func fetchPopularPlaces(limit: Int, completion: @escaping (MapModel) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {

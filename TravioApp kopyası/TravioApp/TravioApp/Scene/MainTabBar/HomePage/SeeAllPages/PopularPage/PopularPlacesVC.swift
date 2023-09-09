@@ -4,7 +4,6 @@
 //
 //  Created by Tarik Efe on 8.09.2023.
 //
-
 import UIKit
 
 final class PopularPlacesVC: UIViewController {
@@ -152,7 +151,7 @@ extension PopularPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource,
         } else {
             vc.placeId = viewModel.sortedmyArrayZtoA[indexPath.row].id
         }
-        navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

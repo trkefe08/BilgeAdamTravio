@@ -7,7 +7,11 @@
 
 import UIKit
 
-class HomeTableViewCell: UITableViewCell {
+protocol HomeTableViewCellDelegate: AnyObject {
+    func didSelectItem(with model: Place)
+}
+
+final class HomeTableViewCell: UITableViewCell {
     //MARK: - Views
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -22,8 +26,8 @@ class HomeTableViewCell: UITableViewCell {
         return cv
     }()
     //MARK: - Variables
+    weak var delegate: HomeTableViewCellDelegate?
     var popularLastAndVisits: [Place] = []
-
     //MARK: - Constructor
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,7 +40,6 @@ class HomeTableViewCell: UITableViewCell {
     //MARK: - Functions
     private func setupViews() {
         self.backgroundColor = ColorEnum.viewColor.uiColor
-        //collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(collectionView)
         setupLayout()
@@ -60,6 +63,12 @@ extension HomeTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.size.width - 86, height: 178)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedModel = popularLastAndVisits[indexPath.item]
+        delegate?.didSelectItem(with: selectedModel)
+    }
+    
 }
 
 extension HomeTableViewCell: UICollectionViewDataSource {
@@ -74,6 +83,4 @@ extension HomeTableViewCell: UICollectionViewDataSource {
         cell.configureCell(model: model)
         return cell
     }
-    
-    
 }

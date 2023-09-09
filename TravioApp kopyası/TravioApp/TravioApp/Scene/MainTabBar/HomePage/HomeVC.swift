@@ -4,11 +4,10 @@
 //
 //  Created by Tarik Efe on 27.08.2023.
 //
-
 import UIKit
 import TinyConstraints
 
-class HomeVC: UIViewController {
+final class HomeVC: UIViewController {
     //MARK: - Views
     private lazy var imgHeader: UIImageView = {
         let img = UIImageView()
@@ -136,6 +135,7 @@ extension HomeVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell", for: indexPath) as? HomeTableViewCell else { return UITableViewCell() }
+        cell.delegate = self
         switch indexPath.section {
         case 0:
             cell.configureCell(model: popularPlaces)
@@ -187,7 +187,13 @@ extension HomeVC: UITableViewDelegate {
         return 178
     }
     
-    
-    
-    
+}
+//MARK: - Delegate Extension
+extension HomeVC: HomeTableViewCellDelegate {
+    func didSelectItem(with model: Place) {
+        let detailVC = VisitDetailVC()
+        detailVC.placeId = model.id
+        self.navigationController?.pushViewController(detailVC, animated: true)
+        
+    }
 }
