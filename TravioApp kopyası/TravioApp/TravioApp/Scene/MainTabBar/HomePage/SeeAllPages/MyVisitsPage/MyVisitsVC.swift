@@ -147,10 +147,10 @@ extension MyVisitsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let vc = VisitDetailVC()
         
         if isButtonActive {
-            vc.placeId = viewModel.sortedmyArrayAtoZ[indexPath.row].id
+            vc.postedID = viewModel.sortedmyArrayAtoZ[indexPath.row].place.id
             
         } else {
-            vc.placeId = viewModel.sortedmyArrayZtoA[indexPath.row].id
+            vc.postedID = viewModel.sortedmyArrayZtoA[indexPath.row].place.id
         }
         navigationController?.pushViewController(vc, animated: true)
     }
