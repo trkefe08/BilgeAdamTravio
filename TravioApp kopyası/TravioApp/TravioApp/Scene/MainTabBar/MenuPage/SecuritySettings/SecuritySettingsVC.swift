@@ -142,16 +142,24 @@ class SecuritySettingsVC: UIViewController {
     }
     
     
-    @objc func cameraSwitch(_ sender: UISwitch) {
-        openAppSettings(sender: sender)
+    @objc func cameraSwitch() {
+        openAppSettings()
     }
     
-    @objc func photoLibrarySwitch(_ sender: UISwitch) {
-        openAppSettings(sender: sender)
+    @objc func photoLibrarySwitch() {
+        openAppSettings()
     }
     
-    @objc func locationSwitch(_ sender: UISwitch) {
-        openAppSettings(sender: sender)
+    @objc func locationSwitch() {
+        openAppSettings()
+    }
+    
+    
+    func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     func updateLocationSwitchState() {
@@ -167,13 +175,18 @@ class SecuritySettingsVC: UIViewController {
         print("update Location")
     }
     
-    func openAppSettings(sender: UISwitch) {
-        if let url = URL(string: UIApplication.openSettingsURLString),
-           UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                self.openAppSettings()
+                print("izin verildi")
+            } else {
+                print("izin verilmedi")
+            }
         }
     }
     
+ 
       func updateCameraSwitchStates() {
           let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
           switch cameraAuthorizationStatus {
@@ -283,7 +296,6 @@ class SecuritySettingsVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
     }
-
     
     func setupLayouts() {
      
