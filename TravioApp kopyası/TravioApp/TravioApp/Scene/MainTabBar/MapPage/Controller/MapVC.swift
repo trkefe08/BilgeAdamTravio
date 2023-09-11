@@ -36,11 +36,7 @@ final class MapVC: UIViewController {
         cv.backgroundColor = .clear
         return cv
     }()
-    
-    //MARK: - Variables
-    var viewModel = MapViewModel()
-    var array = [Place]()
-    var isVisited: String?
+   
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,45 +44,6 @@ final class MapVC: UIViewController {
         viewModel.delegate = self
         viewModel.fetchPlaces() {
         }
-    }
-    
-    //MARK: - Functions
-    private func setupViews() {
-        self.view.backgroundColor = .white
-        self.view.addSubviews(mapView, collectionView)
-        setupLayout()
-    }
-    
-    private func setupLayout() {
-        mapView.edgesToSuperview()
-        
-        collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
-        collectionView.height(178)
-        collectionView.bottomToSuperview(offset: -16, usingSafeArea: true)
-        collectionView.bringSubviewToFront(mapView)
-    }
-    
-    private func updateMapWithLocationInfo(_ locationInfo: [Place]) {
-        for location in locationInfo {
-            let annotation = MKPointAnnotation()
-            guard let latitude = location.latitude else { return }
-            guard let longitude = location.longitude else { return }
-            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            annotation.title = location.title
-            annotation.subtitle = location.description
-            mapView.addAnnotation(annotation)
-            
-        }
-        centerMapOnLocation(locations: locationInfo.first ?? Place())
-    }
-    
-    private func centerMapOnLocation(locations: Place) {
-        guard let latitude = locations.latitude else { return }
-        guard let longitude = locations.longitude else { return }
-        let location = CLLocation(latitude: latitude, longitude: longitude)
-        let regionRadius: CLLocationDistance = 100000
-        let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -114,6 +71,28 @@ final class MapVC: UIViewController {
         }
     }
     
+    private func updateMapWithLocationInfo(_ locationInfo: [Place]) {
+        for location in locationInfo {
+            let annotation = MKPointAnnotation()
+            guard let latitude = location.latitude else { return }
+            guard let longitude = location.longitude else { return }
+            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            annotation.title = location.title
+            annotation.subtitle = location.description
+            mapView.addAnnotation(annotation)
+        }
+        centerMapOnLocation(locations: locationInfo.first ?? Place())
+    }
+    
+    private func centerMapOnLocation(locations: Place) {
+        guard let latitude = locations.latitude else { return }
+        guard let longitude = locations.longitude else { return }
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let regionRadius: CLLocationDistance = 100000
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
     private func addNewAnnotationVC(with city: String, country: String, latitude: Double, longitude: Double) {
         let vc = AddNewAnnotationVC()
         vc.cityName = city
@@ -124,8 +103,23 @@ final class MapVC: UIViewController {
         self.present(vc, animated: true)
     }
     
-    
+    //MARK: - Functions
+    private func setupViews() {
+        self.view.backgroundColor = .white
+        self.view.addSubviews(mapView, collectionView)
+        setupLayout()
+    }
+
+    private func setupLayout() {
+        mapView.edgesToSuperview()
+        
+        collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
+        collectionView.height(178)
+        collectionView.bottomToSuperview(offset: -16, usingSafeArea: true)
+        collectionView.bringSubviewToFront(mapView)
+    }
 }
+
 //MARK: - MapView Extension
 extension MapVC: MapViewModelDelegate {
     func mapLocationsLoaded() {
@@ -149,15 +143,11 @@ extension MapVC: MKMapViewDelegate {
             annotationView = MKAnnotationView(annotation: annotation as MKAnnotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            
             let customImage = UIImage(named: "map 1")
-            
             annotationView?.image = customImage
-            
         } else {
             annotationView?.annotation = annotation as any MKAnnotation
         }
-        
         return annotationView
     }
     

@@ -57,7 +57,6 @@ class MyAddedPlacesVC: UIViewController {
         return cv
     }()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

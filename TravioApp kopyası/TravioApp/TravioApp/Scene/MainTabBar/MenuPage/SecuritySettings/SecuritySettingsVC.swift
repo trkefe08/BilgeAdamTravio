@@ -17,7 +17,6 @@ import CoreLocation
 class SecuritySettingsVC: UIViewController {
   
     let vm = SecuritySettingsVM()
-   
     
     private lazy var scrollView: UIScrollView = {
            let scrollView = UIScrollView()
@@ -127,14 +126,42 @@ class SecuritySettingsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateLocationSwitchState()
-        updatePhotoLibrarySwitchState()
-        updateSwitchStates()
+        updateSettings()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: Notification.Name("appDidBecomeActive"), object: nil)
         setupView()
-        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
    
-   
+    @objc func updateSettings() {
+        updateCameraSwitchStates()
+        updateLocationSwitchState()
+        updatePhotoLibrarySwitchState()
+    }
+    
+    
+    @objc func cameraSwitch() {
+        openAppSettings()
+    }
+    
+    @objc func photoLibrarySwitch() {
+        openAppSettings()
+    }
+    
+    @objc func locationSwitch() {
+        openAppSettings()
+    }
+    
+    
+    func openAppSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     func updateLocationSwitchState() {
         let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
         switch locationAuthorizationStatus {
@@ -145,16 +172,40 @@ class SecuritySettingsVC: UIViewController {
         @unknown default:
             location.switchComponent.isOn  = false
         }
+        print("update Location")
     }
-
-    @objc func locationSwitch(_ sender: UISwitch) {
-        openAppSettings()
-
+    
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            if granted {
+                self.openAppSettings()
+                print("izin verildi")
+            } else {
+                print("izin verilmedi")
+            }
+        }
     }
-  // FIX ME -- viewwillappearda güncellenmemeli. Arka plandan gelince güncellenmesi lazım switchin.
-    override func viewWillAppear(_ animated: Bool) {
-        updateSwitchStates()
-    }
+    
+ 
+      func updateCameraSwitchStates() {
+          let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+          switch cameraAuthorizationStatus {
+          case .authorized:
+              // İzin verilmiş, switch'i açık tutabilirsiniz.
+            //  camera.switchComponent.isOn = true
+              camera.switchChanged = true
+          case .denied, .restricted, .notDetermined:
+              // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
+             // camera.switchComponent.isOn = false
+              camera.switchChanged = false
+          @unknown default:
+              // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+            //  camera.switchComponent.isOn = false
+              camera.switchChanged = true
+          }
+          print("update Camera")
+      }
+    
     func updatePhotoLibrarySwitchState() {
         let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
 
@@ -172,50 +223,10 @@ class SecuritySettingsVC: UIViewController {
             // Diğer durumlar için switch'i kapalı tutabilirsiniz.
             photoLibrary.switchComponent.isOn = false
         }
-    }
-
-    @objc func photoLibrarySwitch(_ sender: UISwitch) {
-        if photoLibrary.switchComponent.isOn {
-            // Burada izin alabilirsiniz.
-            openAppSettings()
-        } else {
-            // Kullanıcıya ayarları açması için yönlendirebilirsiniz.
-            openAppSettings()
-        }
-    }
-    
-    @objc func cameraSwitch(_ sender: UISwitch) {
-        if camera.switchComponent.isOn {
-        } else {
-            openAppSettings()
-        }
-    }
-    
-    func openAppSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString),
-           UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    func updateSwitchStates() {
-        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-        
-        switch cameraAuthorizationStatus {
-        case .authorized:
-            // İzin verilmiş, switch'i açık tutabilirsiniz.
-            camera.switchComponent.isOn = true
-        case .denied, .restricted, .notDetermined:
-            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
-            camera.switchComponent.isOn = false
-        @unknown default:
-            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
-            camera.switchComponent.isOn = false
-        }
+        print("update Library")
     }
     
     @objc func saveButtonTapped() {
-        
         guard let password = newPassword.txtField.text else {return}
         guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
         
@@ -285,7 +296,6 @@ class SecuritySettingsVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
     }
-
     
     func setupLayouts() {
      

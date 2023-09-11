@@ -163,7 +163,7 @@ class LoginVC: UIViewController {
         guard let email = txtMailView.txtField.text else { return }
         guard let password = txtPasswordView.txtField.text else { return }
         
-        let data = LoginInfo(email: email, password: password)
+        _ = LoginInfo(email: email, password: password)
         
         LoginViewModelInstance.login(params: ["email":email, "password":password] ) { error in
             if let error = error {
@@ -177,6 +177,7 @@ class LoginVC: UIViewController {
         }
     }
 }
+
 
 
 

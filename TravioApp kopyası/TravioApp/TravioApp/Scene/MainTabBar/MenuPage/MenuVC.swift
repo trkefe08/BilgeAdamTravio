@@ -172,6 +172,15 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 2:
             let vc = MyAddedPlacesVC()
             navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = HelpAndSupportVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = AboutUsVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 5:
+            let vc = TermOfUseVC()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }

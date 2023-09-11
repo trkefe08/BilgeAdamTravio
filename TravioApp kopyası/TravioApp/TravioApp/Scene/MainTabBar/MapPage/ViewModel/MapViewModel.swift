@@ -18,7 +18,6 @@ protocol MapViewModelProtocol {
     func getMapCollectionCount() -> Int
     func getIndexForAnnotation(_ annotation: MKPointAnnotation) -> Int?
     func getMapCollectionId(at index: Int) -> String?
-    
 }
 
 protocol MapViewModelDelegate: AnyObject {
