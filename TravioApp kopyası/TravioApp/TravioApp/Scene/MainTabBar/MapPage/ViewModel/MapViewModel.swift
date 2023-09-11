@@ -19,7 +19,6 @@ protocol MapViewModelProtocol {
     func getIndexForAnnotation(_ annotation: MKPointAnnotation) -> Int?
     func checkVisit(id: String, completion: @escaping((String?) -> Void))
     func getMapCollectionId(at index: Int) -> String?
-    
 }
 
 protocol MapViewModelDelegate: AnyObject {
@@ -59,7 +58,6 @@ class MapViewModel: MapViewModelProtocol {
             }
         }
     }
-    
     
     func getMapInfo() -> [Place] {
         guard let latitude = places?.data?.places else { return [Place]() }

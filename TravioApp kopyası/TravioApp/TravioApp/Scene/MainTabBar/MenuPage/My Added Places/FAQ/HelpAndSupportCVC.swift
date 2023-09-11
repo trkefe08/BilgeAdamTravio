@@ -9,6 +9,10 @@ import UIKit
 
 class HelpAndSupportCVC: UICollectionViewCell {
     
+    
+    var isAnswerHidden = false
+    
+    
     private lazy var containerView: UIView = {
        let view = UIView()
         view.backgroundColor = .white
@@ -19,17 +23,19 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return view
     }()
     
-    private lazy var question:UILabel = {
+ lazy var question:UILabel = {
         let lbl = UILabel()
         lbl.text = "Question"
         lbl.font = Font.poppins(fontType: 500, size: 14).font
+        lbl.numberOfLines = 0
         
         return lbl
     }()
     
-    private lazy var answer:UILabel = {
+    lazy var answer:UILabel = {
         let lbl = UILabel()
-        lbl.text = "Answer"
+        lbl.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu enim sed nisi condimentum tristique nec ac sapien. Etiam ultrices elit egestas sodales sagittis. Nulla facilisi. Nam vitae rhoncus urna. Duis ut pretium ligula. Nunc rhoncus nec augue nec malesuada. Mauris vulputate ante sed rutrum euismod. Duis vitae ligula nec elit condimentum ultricies vitae et ipsum. Maecenas dignissim tortor sit amet massa varius suscipit."
+        lbl.numberOfLines = 0
         lbl.font = Font.poppins(fontType: 300, size: 10).font
         
         return lbl
@@ -39,6 +45,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         let btn = UIButton()
         btn.setImage(UIImage(named: "faq_button"), for: .normal)
     
+       
         return btn
     }()
     
@@ -50,12 +57,12 @@ class HelpAndSupportCVC: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         addShadow()
-   
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
     
     func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
@@ -65,12 +72,9 @@ class HelpAndSupportCVC: UICollectionViewCell {
         clipsToBounds = false
     }
     
-    
     func setupView(){
-        
         addSubview(containerView)
         containerView.addSubviews(question,answer,button)
-        
         setupLayouts()
     }
     
@@ -82,9 +86,9 @@ class HelpAndSupportCVC: UICollectionViewCell {
         
         button.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-18.5)
-            make.top.equalToSuperview().offset(32)
+            make.center.equalTo(question)
             make.height.width.equalTo(15)
-           }
+        }
         
         question.snp.makeConstraints { make in
             make.trailing.equalTo(button.snp.leading).offset(-12)
@@ -97,7 +101,5 @@ class HelpAndSupportCVC: UICollectionViewCell {
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalToSuperview().offset(-12)
         }
-        
     }
-    
 }

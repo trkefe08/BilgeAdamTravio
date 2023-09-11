@@ -13,20 +13,19 @@ class VisitListVC: UIViewController {
     let visitCVCInstance = VisitCVC()
     
     var dizi: [Visit] = []
-    
-    
+
     private lazy var loadingIndicatorView:UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-        
+
         return view
     }()
-    
+
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.color = .white
-        
+
         return indicator
     }()
     
