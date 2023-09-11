@@ -39,17 +39,17 @@
 		5F9C0C4E2A9FE63500F7CE1F /* VisitDetailM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9C0C4D2A9FE63500F7CE1F /* VisitDetailM.swift */; };
 		5FEED56E2A9F7FAE003D971E /* MenuM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FEED56D2A9F7FAE003D971E /* MenuM.swift */; };
 		9A4473C52AA7648B00C12C52 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4473C42AA7648B00C12C52 /* CALayer+Extension.swift */; };
+		9A451A282AAF2DF400B6B4E2 /* NewPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */; };
+		9A451A292AAF2E1500B6B4E2 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
 		9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */; };
 		9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */; };
 		9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */; };
 		9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */; };
-		9ABA3C252AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */; };
 		9ABA3C282AAB9A5400A8ECB3 /* MyVisitsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C272AAB9A5400A8ECB3 /* MyVisitsVC.swift */; };
 		9ABA3C2A2AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C292AAB9A8B00A8ECB3 /* MyVisitsViewModel.swift */; };
 		9ABA3C2C2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C2B2AAB9AC900A8ECB3 /* MyVisitsCollectionViewCell.swift */; };
 		9ABAD8172AA84B4B00990482 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD8162AA84B4B00990482 /* HomeCollectionViewCell.swift */; };
 		9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABAD81A2AA8645400990482 /* HomeViewModel.swift */; };
-		9ABE01FF2AAB03BF00A2CF69 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
 		9ABE02012AAB0AF300A2CF69 /* PopularPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE02002AAB0AF300A2CF69 /* PopularPlacesViewModel.swift */; };
 		9ABE02032AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE02022AAB13AE00A2CF69 /* PopularPlacesCollectionViewCell.swift */; };
 		9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACB19F72AA600A100DD81B2 /* ResponseCheckModel.swift */; };
@@ -609,6 +609,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A451A292AAF2E1500B6B4E2 /* PopularPlacesVC.swift in Sources */,
+				9A451A282AAF2DF400B6B4E2 /* NewPlacesCollectionViewCell.swift in Sources */,
 				9ACBCCF32A9B876500427D83 /* MainTabBarController.swift in Sources */,
 				9ACBCD002A9B896800427D83 /* MapCollectionViewCell.swift in Sources */,
 				5F370F722A9E31820007DD1C /* CustomPrivacyView.swift in Sources */,

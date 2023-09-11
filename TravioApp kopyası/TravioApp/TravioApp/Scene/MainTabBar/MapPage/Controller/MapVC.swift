@@ -16,6 +16,8 @@ protocol AddAnnotationDelegate: AnyObject {
 
 final class MapVC: UIViewController {
     
+    let viewModel = MapViewModel()
+    
     //MARK: - Views
     private lazy var mapView: MKMapView = {
         let map = MKMapView()

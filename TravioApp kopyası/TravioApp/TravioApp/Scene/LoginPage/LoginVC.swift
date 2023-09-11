@@ -166,7 +166,7 @@ class LoginVC: UIViewController {
         _ = LoginInfo(email: email, password: password)
         
         LoginViewModelInstance.login(params: ["email":email, "password":password] ) { error in
-            if let error = error {
+            if let _ = error {
                 let alert = UIAlertController(title: "Hata!", message: "Kullanıcı Adı veya Şifre Hatalı", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yeniden Dene", style: .default, handler: nil))
                 self.present(alert, animated: true)
