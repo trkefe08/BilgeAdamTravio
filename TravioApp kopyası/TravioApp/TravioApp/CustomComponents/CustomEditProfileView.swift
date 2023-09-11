@@ -22,7 +22,6 @@ class CustomEditProfileView: UIView {
         }
     }
 
-
     private lazy var label: UILabel = {
         let label = UILabel()
         label.text = "Label"

@@ -15,6 +15,12 @@ class CustomPrivacyView: UIView {
             label.text = labelText
         }
     }
+    
+    var switchChanged = false {
+        didSet {
+            switchComponent.isOn = switchChanged
+        }
+    }
 
     private lazy var label: UILabel = {
        let label = UILabel()
@@ -24,7 +30,7 @@ class CustomPrivacyView: UIView {
         return label
     }()
 
-    private lazy var switchComponent: UISwitch = {
+    lazy var switchComponent: UISwitch = {
        let swt = UISwitch()
         swt.isOn = false
         

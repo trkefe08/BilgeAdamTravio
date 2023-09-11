@@ -87,6 +87,7 @@ class AddNewAnnotationVC: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
+        cv.showsHorizontalScrollIndicator = false
         cv.register(AddPlaceCollectionViewCell.self, forCellWithReuseIdentifier: "AddPlaceCollectionViewCell")
         cv.backgroundColor = .clear
         return cv
@@ -121,14 +122,15 @@ class AddNewAnnotationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        collectionView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     override func viewDidLayoutSubviews() {
         self.view.roundCorners(corners: [.topLeft, .topRight], radius: 24)
         rectangleView.roundCorners(corners: .allCorners, radius: 6)
-        placeNameView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        visitDescView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        countryCityView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        placeNameView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
+        visitDescView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
+        countryCityView.roundCornersWithShadow( [.topLeft, .topRight, .bottomLeft], radius: 16)
         addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
     //MARK: - Functions
@@ -186,7 +188,7 @@ class AddNewAnnotationVC: UIViewController {
         locationLabel.leading(to: countryCityLabel)
         
         collectionView.topToBottom(of: countryCityView, offset: 16)
-        collectionView.leadingToSuperview()
+        collectionView.leadingToSuperview(offset: 24)
         collectionView.trailingToSuperview()
         collectionView.height(215)
         
@@ -235,7 +237,7 @@ class AddNewAnnotationVC: UIViewController {
 //MARK: - CollectionView Extension
 extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: 215)
+        let size = CGSize(width: view.frame.width - 97 , height: 215)
         return size
     }
     

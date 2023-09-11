@@ -50,7 +50,7 @@ class LoginVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Password"
         view.placeholderName = "*********"
-        view.txtField.text = "dogucandurgun"
+        view.txtField.text = "dogucan"
         view.txtField.isSecureTextEntry = true
         
         return view
@@ -163,10 +163,10 @@ class LoginVC: UIViewController {
         guard let email = txtMailView.txtField.text else { return }
         guard let password = txtPasswordView.txtField.text else { return }
         
-        let data = LoginInfo(email: email, password: password)
+        _ = LoginInfo(email: email, password: password)
         
         LoginViewModelInstance.login(params: ["email":email, "password":password] ) { error in
-            if let error = error {
+            if let _ = error {
                 let alert = UIAlertController(title: "Hata!", message: "Kullanıcı Adı veya Şifre Hatalı", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Yeniden Dene", style: .default, handler: nil))
                 self.present(alert, animated: true)
@@ -177,6 +177,7 @@ class LoginVC: UIViewController {
         }
     }
 }
+
 
 
 

@@ -5,9 +5,8 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 
-import UIKit
 import Alamofire
-
+import UIKit
 
 enum Router: URLRequestConvertible {
     static let baseURLString = "https://api.iosclass.live"
@@ -19,20 +18,35 @@ enum Router: URLRequestConvertible {
     case travelsId(id: String)
     case gallery(id: String)
     case places
-<<<<<<< HEAD
     case upload(image: [Data?])
     case postGallery(parameters: Parameters)
-=======
-    case upload(parameters: Parameters)
     case getAllPlacesForUser
     case getAllGalleryByPlaceID(id: String)
     case getAPlaceById(id: String)
->>>>>>> sprint1/features/menuvc-developments
+    case getAllVisits
+    case checkVisitByPlaceId(id: String)
+    case postAVisit(parameters: Parameters)
+    case deleteAVisitById(id: String)
+    case getPopularPlaces(limit: Int)
+    case getLastPlaces(limit: Int)
+    case getAllVisitsLimit(page: Int, limit: Int)
     
+    case getProfile
+    case putEditProfile(parameters: Parameters)
+    case changePassword(parameters: Parameters)
+ 
     var method: HTTPMethod {
         switch self {
-        case .login, .register, .place, .upload, .postGallery:
+        case .login, .register, .place, .upload, .postGallery, .postAVisit:
             return .post
+<<<<<<< HEAD
+        case .deleteAVisitById:
+            return .delete
+        case .putEditProfile:
+=======
+        case .putEditProfile, .changePassword:
+>>>>>>> sprint2/features/SecuritySettings
+            return .put
         default:
             return .get
         }
@@ -56,36 +70,62 @@ enum Router: URLRequestConvertible {
             return "/v1/places"
         case .upload:
             return "/upload"
-<<<<<<< HEAD
         case .postGallery:
             return "/v1/galleries"
-=======
         case .getAllPlacesForUser:
             return "/v1/places/user"
         case .getAllGalleryByPlaceID(let id):
             return "/v1/galleries/\(id)"
         case .getAPlaceById(let id):
             return "/v1/places/\(id)"
->>>>>>> sprint1/features/menuvc-developments
+        case .getAllVisits:
+            return "/v1/visits"
+        case .checkVisitByPlaceId(let id):
+            return "/v1/visits/user/\(id)"
+        case .postAVisit:
+            return "/v1/visits"
+        case .deleteAVisitById(let id):
+            return "/v1/visits/\(id)"
+        case .getPopularPlaces:
+            return "/v1/places/popular"
+        case .getLastPlaces:
+            return "/v1/places/last"
+        case .getAllVisitsLimit:
+            return "/v1/visits"
+        case .getProfile:
+            return "/v1/me"
+        case .putEditProfile:
+            return "/v1/edit-profile"
+        case .changePassword:
+            return "/v1/change-password"
         }
     }
     
     var parameters: Parameters? {
         switch self {
-        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters):
+<<<<<<< HEAD
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .postAVisit(let parameters):
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters):
+=======
+        case .login(let parameters), .register(let parameters), .place(let parameters), .postGallery(let parameters), .putEditProfile(let parameters), .changePassword(let parameters):
+>>>>>>> sprint2/features/SecuritySettings
             return parameters
+        case .getPopularPlaces(let limit), .getLastPlaces(let limit):
+            return ["limit": limit]
+        case .getAllVisitsLimit(let page, let limit):
+            return ["page": page, "limit": limit]
         default:
             return nil
         }
     }
     
-    var multipartFormData:MultipartFormData {
+    var multipartFormData: MultipartFormData {
         let formData = MultipartFormData()
         switch self {
         case .upload(let imageData):
             imageData.forEach { image in
                 guard let image = image else { return }
-                formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg" )
+                formData.append(image, withName: "file", fileName: "image.jpg", mimeType: "image/jpeg")
             }
             return formData
         default:
@@ -95,7 +135,6 @@ enum Router: URLRequestConvertible {
     }
     
     var headers: HTTPHeaders {
-        
         guard let data = KeyChainHelper.shared.read(service: "access_token", account: "bilgeadam") else {
             return HTTPHeaders()
         }
@@ -106,14 +145,18 @@ enum Router: URLRequestConvertible {
         switch self {
         case .login, .register, .places:
             return [:]
-        case .travels, .travelsId, .postGallery, .place:
+<<<<<<< HEAD
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .checkVisitByPlaceId, .postAVisit, .deleteAVisitById, .getAllVisitsLimit:
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile:
+=======
+        case .travels, .travelsId, .postGallery, .place, .getAllPlacesForUser, .getAllVisits, .getProfile, .putEditProfile, .changePassword:
+>>>>>>> sprint2/features/SecuritySettings
             return ["Authorization": "Bearer \(token)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
         default:
             return [:]
         }
-        
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -122,11 +165,9 @@ enum Router: URLRequestConvertible {
         urlRequest.httpMethod = method.rawValue
         urlRequest.headers = headers
         
-        
         let encoding: ParameterEncoding = {
-            
             switch method {
-            case .get:
+            case .get, .delete:
                 return URLEncoding.default
             default:
                 return JSONEncoding.default
@@ -134,8 +175,5 @@ enum Router: URLRequestConvertible {
         }()
         
         return try encoding.encode(urlRequest, with: parameters)
-        
     }
-    
-    
 }

@@ -7,9 +7,15 @@
 
 import SnapKit
 import UIKit
+import SDWebImage
+
+
+
 
 class MenuVC: UIViewController {
+  
     let MVM = MenuViewModel()
+  
     
     private lazy var header: UILabel = {
         let label = UILabel()
@@ -28,8 +34,10 @@ class MenuVC: UIViewController {
 
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(named: "bruceWills")
+        img.image = UIImage(systemName: "person.circle.fill")
         img.layer.cornerRadius = 60
+        img.clipsToBounds = true
+        img.contentMode = .scaleAspectFill
         return img
     }()
 
@@ -69,12 +77,23 @@ class MenuVC: UIViewController {
 
     override func viewDidLoad() {
         setupView()
+        MVM.getProfile {
+            self.configure()
+        }
+        
     }
     
     @objc func editButtonTapped() {
         let vc = EditProfile()
+        vc.delegate = self
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
+    }
+    
+    func configure() {
+        guard let data = MVM.data else {return}
+        profileName.text = data.fullName
+        profileImage.sd_setImage(with:URL(string: data.ppUrl))
     }
     
     func setupView() {
@@ -153,6 +172,15 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         case 2:
             let vc = MyAddedPlacesVC()
             navigationController?.pushViewController(vc, animated: true)
+        case 3:
+            let vc = HelpAndSupportVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 4:
+            let vc = AboutUsVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case 5:
+            let vc = TermOfUseVC()
+            navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }
@@ -160,5 +188,13 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 9, left: 16, bottom: 0, right: 16)
+    }
+}
+
+extension MenuVC: ProfileUpdateDelegate {
+    func didUpdateProfile() {
+        MVM.getProfile {
+            self.configure()
+        }
     }
 }

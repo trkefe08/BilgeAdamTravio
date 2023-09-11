@@ -22,6 +22,7 @@ class MapCollectionViewCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.font = UIFont(name: "Poppins-SemiBold", size: 24)
         lbl.textColor = .white
+        lbl.numberOfLines = 1
         return lbl
     }()
     
@@ -44,6 +45,7 @@ class MapCollectionViewCell: UICollectionViewCell {
         let lbl = UILabel()
         lbl.textColor = .white
         lbl.font = UIFont(name: "Poppins-Regular", size: 14)
+        lbl.numberOfLines = 1
         return lbl
     }()
     //MARK: - Lifecycle
@@ -60,10 +62,10 @@ class MapCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Functions
-   private func setupViews() {
+    private func setupViews() {
         self.contentView.backgroundColor = .clear
-        self.contentView.addSubviews(mainImage, titleLabel, stackView)
-        self.contentView.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
+        self.contentView.addSubviews(mainImage)
+        self.mainImage.addSubviews(titleLabel, stackView)
         stackView.addArrangedSubviews(iconImage, placeLabel)
         setupLayout()
     }
@@ -76,13 +78,13 @@ class MapCollectionViewCell: UICollectionViewCell {
         
         titleLabel.leadingToSuperview(offset: 22)
         titleLabel.bottomToTop(of: stackView, offset: 3)
-        titleLabel.bringSubviewToFront(mainImage)
+        titleLabel.trailingToSuperview(offset: 8)
         
         iconImage.height(12)
         iconImage.width(9)
         stackView.leading(to: titleLabel)
+        stackView.trailing(to: titleLabel)
         stackView.bottomToSuperview(offset: -8)
-        stackView.bringSubviewToFront(mainImage)
     }
     
     func configureCell(model: Place) {
@@ -91,6 +93,6 @@ class MapCollectionViewCell: UICollectionViewCell {
         guard let image = URL(string: model.coverImageURL ?? "Not found") else { return }
         mainImage.kf.indicatorType = .activity
         mainImage.kf.setImage(with: image)
-        
+            
     }
 }

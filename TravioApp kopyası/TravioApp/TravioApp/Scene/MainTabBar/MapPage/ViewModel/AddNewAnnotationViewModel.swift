@@ -18,11 +18,11 @@ protocol AddNewAnnotationProtocol {
 final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     //MARK: - Variables
     var upload: UploadModel?
-    var place: PlacePostModel?
+    var place: ResponseModel?
     
     //MARK: - Functions
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void) {
-        TravioNetwork.shared.makeRequest(request: Router.place(parameters: params)) { (result: Result<PlacePostModel, Error>) in
+        TravioNetwork.shared.makeRequest(request: Router.place(parameters: params)) { (result: Result<ResponseModel, Error>) in
             switch result {
             case .success(let success):
                 self.place = success
@@ -46,7 +46,7 @@ final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
     }
     
     func postGallery(params: Parameters) {
-        TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<PostGalleryModel, Error>) in
+        TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<ResponseModel, Error>) in
             switch result {
             case .success(let success):
                 print(success)
