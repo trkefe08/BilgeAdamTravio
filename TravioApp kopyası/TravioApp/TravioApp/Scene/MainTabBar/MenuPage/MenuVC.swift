@@ -9,9 +9,6 @@ import SnapKit
 import UIKit
 import SDWebImage
 
-
-
-
 class MenuVC: UIViewController {
   
     let MVM = MenuViewModel()

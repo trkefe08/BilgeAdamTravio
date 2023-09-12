@@ -45,13 +45,6 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return image
     }()
     
-//    private lazy var button:UIButton = {
-//        let btn = UIButton()
-//        btn.setImage(UIImage(named: "faq_button"), for: .normal)
-//
-//        return btn
-//    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()

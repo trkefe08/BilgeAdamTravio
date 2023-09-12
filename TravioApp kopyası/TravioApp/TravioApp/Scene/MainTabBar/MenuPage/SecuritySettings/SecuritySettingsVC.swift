@@ -251,8 +251,6 @@ class SecuritySettingsVC: UIViewController {
                 
                 
             } else {
-                
-                
                 let params: Parameters = ["new_password": password]
                 self.vm.changePassword(params: params) {
                  
@@ -294,7 +292,7 @@ class SecuritySettingsVC: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
+        scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height)
     }
     
     func setupLayouts() {
