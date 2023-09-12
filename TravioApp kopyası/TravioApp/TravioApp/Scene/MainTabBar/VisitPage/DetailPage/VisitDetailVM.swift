@@ -9,7 +9,7 @@ import Alamofire
 import Foundation
 import SDWebImage
 
-class VisitsDetailViewModel {
+final class VisitsDetailViewModel {
     
     var visitDetail:Place2?
     var visitGallery:ImageResponse?

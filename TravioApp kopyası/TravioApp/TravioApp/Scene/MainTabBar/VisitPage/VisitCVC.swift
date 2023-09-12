@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-class VisitCVC: UICollectionViewCell {
+final class VisitCVC: UICollectionViewCell {
     
     private lazy var containerView:UIView = {
         let view = UIView()

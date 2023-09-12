@@ -10,7 +10,7 @@ import SDWebImage
 import SnapKit
 import UIKit
 
-class VisitDetailVC: UIViewController {
+final class VisitDetailVC: UIViewController {
     let viewModel = VisitsDetailViewModel()
     
     var postedID: String?
@@ -180,12 +180,6 @@ class VisitDetailVC: UIViewController {
     }
     
    private func updateComponents() {
-//       if isVisited == false {
-//           addButton()
-//       } else {
-//           deleteButton()
-//       }
-//
         guard let id = postedID ?? placeId  else { return }
         viewModel.fetchDetails(id: id) { success in
             DispatchQueue.main.async {

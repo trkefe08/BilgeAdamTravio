@@ -20,13 +20,13 @@ final class MyVisitsViewModel {
                         guard let first = $0.place.title, let second = $1.place.title else {
                             return false
                         }
-                        return first < second
+                        return first.localizedCompare(second) == .orderedAscending
                     }
                     self.sortedmyArrayZtoA = result.data.visits.sorted {
                         guard let first = $0.place.title, let second = $1.place.title else {
                             return false
                         }
-                        return second < first
+                        return first.localizedCompare(second) == .orderedDescending
                     }
                     completion()
                 case .failure(let err):

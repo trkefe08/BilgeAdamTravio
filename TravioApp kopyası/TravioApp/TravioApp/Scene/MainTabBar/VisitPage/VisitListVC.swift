@@ -8,7 +8,7 @@ import UIKit
 import TinyConstraints
 import Kingfisher
 
-class VisitListVC: UIViewController {
+final class VisitListVC: UIViewController {
     let viewModel = VisitsViewModel()
     let visitCVCInstance = VisitCVC()
     

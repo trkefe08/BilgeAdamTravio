@@ -7,7 +7,7 @@
 
 import Foundation
 
-class VisitsViewModel {
+final class VisitsViewModel {
     var places:[Visit]?
     
     func fetchVisitList(callback: @escaping (ApiResponse)->Void) {

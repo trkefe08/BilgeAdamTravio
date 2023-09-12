@@ -8,7 +8,7 @@ import UIKit
 import TinyConstraints
 import Kingfisher
 
-class PopularPlacesCollectionViewCell: UICollectionViewCell {
+final class PopularPlacesCollectionViewCell: UICollectionViewCell {
     //MARK: - Views
     private lazy var containerView: UIView = {
         let view = UIView()

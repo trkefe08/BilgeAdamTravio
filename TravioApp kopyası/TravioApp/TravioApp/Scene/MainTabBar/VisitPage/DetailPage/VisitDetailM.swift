@@ -7,7 +7,6 @@
 
 import Foundation
 
-// İmageları almak
 struct ImageResponse: Codable {
     let data: ImageData
     let status: String

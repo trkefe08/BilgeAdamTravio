@@ -6,7 +6,7 @@
 //
 import Foundation
 
-class PopularPlacesViewModel {
+final class PopularPlacesViewModel {
     //MARK: - Variables
     var sortedmyArrayAtoZ:[MyAddedPlace] = []
     var sortedmyArrayZtoA:[MyAddedPlace] = []
@@ -16,8 +16,12 @@ class PopularPlacesViewModel {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
-                    self.sortedmyArrayAtoZ = result.data.places.sorted { $0.title < $1.title }
-                    self.sortedmyArrayZtoA = result.data.places.sorted { $1.title < $0.title }
+                    self.sortedmyArrayAtoZ = result.data.places.sorted {
+                        $0.title.localizedCompare($1.title) == .orderedAscending
+                    }
+                    self.sortedmyArrayZtoA = result.data.places.sorted {
+                        $0.title.localizedCompare($1.title) == .orderedDescending
+                    }
                     completion()
                 case .failure(let err):
                     print(err.localizedDescription)

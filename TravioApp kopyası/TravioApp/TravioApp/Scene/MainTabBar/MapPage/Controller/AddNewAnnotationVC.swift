@@ -56,7 +56,6 @@ class AddNewAnnotationVC: UIViewController {
     private lazy var visitDescTxtView: UITextView = {
         let txt = UITextView()
         txt.font = UIFont(name: "Poppins-Regular", size: 12)
-        txt.text = "aaaaaaaaaaaaaaa"
         txt.textColor = .black
         return txt
     }()
