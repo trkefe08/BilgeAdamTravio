@@ -9,10 +9,6 @@ import UIKit
 
 class HelpAndSupportCVC: UICollectionViewCell {
     
-    
-    var isAnswerHidden = false
-    
-    
     private lazy var containerView: UIView = {
        let view = UIView()
         view.backgroundColor = .white
@@ -23,7 +19,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return view
     }()
     
- lazy var question:UILabel = {
+    private lazy var question:UILabel = {
         let lbl = UILabel()
         lbl.text = "Question"
         lbl.font = Font.poppins(fontType: 500, size: 14).font
@@ -32,7 +28,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return lbl
     }()
     
-    lazy var answer:UILabel = {
+    private lazy var answer:UILabel = {
         let lbl = UILabel()
         lbl.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu enim sed nisi condimentum tristique nec ac sapien. Etiam ultrices elit egestas sodales sagittis. Nulla facilisi. Nam vitae rhoncus urna. Duis ut pretium ligula. Nunc rhoncus nec augue nec malesuada. Mauris vulputate ante sed rutrum euismod. Duis vitae ligula nec elit condimentum ultricies vitae et ipsum. Maecenas dignissim tortor sit amet massa varius suscipit."
         lbl.numberOfLines = 0
@@ -45,7 +41,6 @@ class HelpAndSupportCVC: UICollectionViewCell {
         let btn = UIButton()
         btn.setImage(UIImage(named: "faq_button"), for: .normal)
     
-       
         return btn
     }()
     
@@ -63,7 +58,6 @@ class HelpAndSupportCVC: UICollectionViewCell {
         super.init(coder: coder)
     }
 
-    
     func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -101,5 +95,10 @@ class HelpAndSupportCVC: UICollectionViewCell {
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalToSuperview().offset(-12)
         }
+    }
+    
+    func configure(model:FAQ) {
+        question.text = model.question
+        answer.text = model.answer
     }
 }
