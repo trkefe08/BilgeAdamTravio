@@ -43,7 +43,7 @@ class AboutUsVC: UIViewController {
         super.viewDidLoad()
 
         setupView()
-        loadWebsite(urlString: "https://www.bilgeadam.com/about-us")
+        loadWebsite(urlString: "https://api.iosclass.live/about")
     }
     
     @objc func backButtonTapped() {

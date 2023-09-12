@@ -22,6 +22,9 @@
 		5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */; };
 		5F3714E92AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */; };
 		5F3714EB2AA213320017A7B2 /* MyAddedPlaceCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */; };
+		5F3A3C042AB0628C003018B6 /* HelpAndSupportM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C032AB0628C003018B6 /* HelpAndSupportM.swift */; };
+		5F3A3C062AB06314003018B6 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */; };
+		5F3A3C082AB07C37003018B6 /* HelpAndSupportCVH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */; };
 		5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */; };
 		5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */; };
 		5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */; };
@@ -108,6 +111,9 @@
 		5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditProfileView.swift; sourceTree = "<group>"; };
 		5F3714E82AA1CD0D0017A7B2 /* MyAddedPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVC.swift; sourceTree = "<group>"; };
 		5F3714EA2AA213320017A7B2 /* MyAddedPlaceCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlaceCVC.swift; sourceTree = "<group>"; };
+		5F3A3C032AB0628C003018B6 /* HelpAndSupportM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportM.swift; sourceTree = "<group>"; };
+		5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
+		5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportCVH.swift; sourceTree = "<group>"; };
 		5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsM.swift; sourceTree = "<group>"; };
 		5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVM.swift; sourceTree = "<group>"; };
 		5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesM.swift; sourceTree = "<group>"; };
@@ -197,7 +203,10 @@
 			isa = PBXGroup;
 			children = (
 				5F35D4722AAB19F900B60419 /* HelpAndSupportVC.swift */,
+				5F3A3C032AB0628C003018B6 /* HelpAndSupportM.swift */,
+				5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */,
 				5F35D47A2AAB3CB100B60419 /* HelpAndSupportCVC.swift */,
+				5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */,
 			);
 			path = FAQ;
 			sourceTree = "<group>";
@@ -609,6 +618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F3A3C082AB07C37003018B6 /* HelpAndSupportCVH.swift in Sources */,
 				9A451A292AAF2E1500B6B4E2 /* PopularPlacesVC.swift in Sources */,
 				9A451A282AAF2DF400B6B4E2 /* NewPlacesCollectionViewCell.swift in Sources */,
 				9ACBCCF32A9B876500427D83 /* MainTabBarController.swift in Sources */,
@@ -664,7 +674,9 @@
 				9ABAD81B2AA8645400990482 /* HomeViewModel.swift in Sources */,
 				9ABE02012AAB0AF300A2CF69 /* PopularPlacesViewModel.swift in Sources */,
 				5F9C0C4A2A9FE61300F7CE1F /* VisitDetailCVC.swift in Sources */,
+				5F3A3C062AB06314003018B6 /* HelpAndSupportVM.swift in Sources */,
 				9ACBCCE12A9B851D00427D83 /* VisitListViewModel.swift in Sources */,
+				5F3A3C042AB0628C003018B6 /* HelpAndSupportM.swift in Sources */,
 				5F5A9F282AA6527D00C7082C /* EditProfileVM.swift in Sources */,
 				5F5A9F262AA6526D00C7082C /* EditProfileM.swift in Sources */,
 				9ACBCCFA2A9B88EB00427D83 /* MapModel.swift in Sources */,

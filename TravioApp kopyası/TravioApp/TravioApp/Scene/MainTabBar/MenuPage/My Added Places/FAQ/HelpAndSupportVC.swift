@@ -10,20 +10,7 @@ import SnapKit
 
 class HelpAndSupportVC: UIViewController {
     
-    let sikcaSorulanSorular: [(soru: String, cevap: String)] = [
-        ("Swift ve Objective-C arasındaki ana fark nedir?", "Swift daha modern ve güvenli, Objective-C daha eski ve dinamik."),
-        ("Optional nedir?", "Değişkenin bir değeri olabileceği veya nil olabileceği anlamına gelir."),
-        ("guard ifadesi ne için kullanılır?", "Koşulları kontrol etmek ve erken çıkmak için."),
-        ("map, filter, reduce fonksiyonları ne işe yarar?", "Dizileri veya koleksiyonları dönüştürmek, süzmek ve bir araya getirmek için."),
-        ("Programatik bir şekilde buton oluşturmak için ne yapmalıyım?", "UIButton örneği oluştur ve addSubview ile ekleyin."),
-        ("Storyboard yerine programatik UI kullanmanın avantajları nelerdir?", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu enim sed nisi condimentum tristique nec ac sapien. Etiam ultrices elit egestas sodales sagittis. Nulla facilisi. Nam vitae rhoncus urna. Duis ut pretium ligula. Nunc rhoncus nec augue nec malesuada. Mauris vulputate ante sed rutrum euismod. Duis vitae ligula nec elit condimentum ultricies vitae et ipsum. Maecenas dignissim tortor sit amet massa varius suscipit."),
-        ("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu enim sed nisi condimentum tristique nec ac sapien. Etiam ultrices elit egestas sodales sagittis. Nulla facilisi. Nam vitae rhoncus urna. Duis ut pretium ligula. Nunc rhoncus nec augue nec malesuada. Mauris vulputate ante sed rutrum euismod. Duis vitae ligula nec elit condimentum ultricies vitae et ipsum. Maecenas dignissim tortor sit amet massa varius suscipit.", "Otomatik Referans Sayımı, bellek yönetimi için."),
-        ("Enum kullanmanın faydaları nelerdir?", "Daha okunabilir ve güvenli kod."),
-        ("closures ne işe yarar?", "Fonksiyonları değişken gibi kullanmayı sağlar."),
-        ("Codable protokolü ne için kullanılır?", "JSON serileştirme ve deserializasyon için.")
-    ]
-    
-    var isCellExpanded = Array(repeating: false, count: 10)
+    let vm = HelpAndSupportVM()
 
     private lazy var retangle:CustomBackgroundRetangle = {
         let view = CustomBackgroundRetangle()
@@ -48,14 +35,6 @@ class HelpAndSupportVC: UIViewController {
         return label
     }()
     
-    private lazy var label:UILabel = {
-        let lbl = UILabel()
-        lbl.text = "FAQ"
-        lbl.font = Font.poppins(fontType: 600, size: 24).font
-        lbl.textColor = ColorEnum.travioBackground.uiColor
-        return lbl
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -67,38 +46,29 @@ class HelpAndSupportVC: UIViewController {
         cv.dataSource = self
         cv.register(HelpAndSupportCVC.self, forCellWithReuseIdentifier: "cell")
         cv.backgroundColor = ColorEnum.viewColor.uiColor
+        cv.register(HelpAndSupportCVH.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
+        cv.showsVerticalScrollIndicator = false
         
         return cv
     }()
-    
-  
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
     }
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-    
-    func textSize(for text: String, font: UIFont, constrainedToWidth width: CGFloat) -> CGSize {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
-        return boundingBox.size
-    }
-    
+
     func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
-        
         view.addSubviews(retangle,backButton,header)
-        retangle.addSubviews(label,collectionView)
+        retangle.addSubviews(collectionView)
         setupLayouts()
     }
     
     func setupLayouts() {
-        
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
             make.leading.equalToSuperview().offset(20)
@@ -116,62 +86,45 @@ class HelpAndSupportVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        label.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(44)
-            make.leading.equalToSuperview().offset(24)
-        }
-        
         collectionView.snp.makeConstraints { make in
-            make.bottom.leading.trailing.equalToSuperview()
-            make.top.equalTo(label.snp.bottom).offset(20)
-            
+            make.top.bottom.leading.trailing.equalToSuperview()
         }
-        
-        
     }
-    
 }
 
 extension HelpAndSupportVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return vm.faqs.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? HelpAndSupportCVC else { return UICollectionViewCell()}
         
-        cell.question.text = sikcaSorulanSorular[indexPath.row].soru
-        cell.answer.text = sikcaSorulanSorular[indexPath.row].cevap
-        
+        let travels = vm.faqs[indexPath.row]
+        cell.configure(model: travels)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-           let questionText = sikcaSorulanSorular[indexPath.row].soru
-           let answerText = sikcaSorulanSorular[indexPath.row].cevap
-           
-        let questionFont = Font.poppins(fontType: 500, size: 14).font  // Soru için kullanılan font boyutu
-        let answerFont = Font.poppins(fontType: 300, size: 10).font // Cevap için kullanılan font boyutu
-
-        let questionSize = textSize(for: questionText, font: questionFont, constrainedToWidth: collectionView.frame.width-105.5)
-        let answerSize = textSize(for: answerText, font: answerFont, constrainedToWidth: collectionView.frame.width-64)
-           
-           let totalHeight = questionSize.height + answerSize.height + 28  // +20, soru ve cevap arasında biraz boşluk bırakmak için
-        
-        if isCellExpanded[indexPath.row] {
-            return CGSize(width: collectionView.frame.width-48, height: totalHeight) // Genişletilmiş boyut
-        } else {
-            return CGSize(width: collectionView.frame.width-48, height: questionSize.height + 31) // Normal boyut
-        }
-        
+        vm.sizeForItemAt(indexPath: indexPath, collectionViewWidth: collectionView.frame.width)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        isCellExpanded[indexPath.row] = !isCellExpanded[indexPath.row] // Durumu tersine çevir
-        collectionView.reloadItems(at: [indexPath]) // Hücreyi yeniden yükle
+        vm.isCellExpanded[indexPath.row] = !vm.isCellExpanded[indexPath.row]
+        collectionView.reloadItems(at: [indexPath])
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Header", for: indexPath) as? HelpAndSupportCVH else {return UICollectionReusableView()}
+            return headerView
+        }
+        return UICollectionReusableView()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 88)
+    }
 }
