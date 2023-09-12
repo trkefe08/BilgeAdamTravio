@@ -41,6 +41,7 @@ class AboutUsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupView()
         loadWebsite(urlString: "https://www.bilgeadam.com/about-us")
     }
