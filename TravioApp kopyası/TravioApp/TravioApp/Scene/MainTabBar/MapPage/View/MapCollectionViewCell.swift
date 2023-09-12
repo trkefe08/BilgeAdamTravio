@@ -72,9 +72,7 @@ class MapCollectionViewCell: UICollectionViewCell {
     
     private func setupLayout() {
         
-        mainImage.edgesToSuperview(excluding: [.left, .right])
-        mainImage.leadingToSuperview(offset: 16)
-        mainImage.trailingToSuperview(offset: 16)
+        mainImage.edgesToSuperview()
         
         titleLabel.leadingToSuperview(offset: 22)
         titleLabel.bottomToTop(of: stackView, offset: 3)

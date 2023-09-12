@@ -15,9 +15,6 @@ protocol AddAnnotationDelegate: AnyObject {
 }
 
 final class MapVC: UIViewController {
-    
-    let viewModel = MapViewModel()
-    
     //MARK: - Views
     private lazy var mapView: MKMapView = {
         let map = MKMapView()
@@ -35,10 +32,12 @@ final class MapVC: UIViewController {
         cv.delegate = self
         cv.dataSource = self
         cv.register(MapCollectionViewCell.self, forCellWithReuseIdentifier: "MapCollectionViewCell")
+        cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.backgroundColor = .clear
         return cv
     }()
-   
+    //MARK: - Variables
+    var viewModel = MapViewModel()
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,7 +110,7 @@ final class MapVC: UIViewController {
         self.view.addSubviews(mapView, collectionView)
         setupLayout()
     }
-
+    
     private func setupLayout() {
         mapView.edgesToSuperview()
         
@@ -153,13 +152,18 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
     
-    
-    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             if let index = viewModel.getIndexForAnnotation(annotation) {
                 let indexPath = IndexPath(item: index, section: 0)
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                let annotationCoordinate = annotation.coordinate
+                let regionRadius: CLLocationDistance = 100000
+                let coordinateRegion = MKCoordinateRegion(
+                    center: annotationCoordinate,
+                    latitudinalMeters: regionRadius,
+                    longitudinalMeters: regionRadius)
+                mapView.setRegion(coordinateRegion, animated: true)
             }
         }
     }
@@ -167,7 +171,7 @@ extension MapVC: MKMapViewDelegate {
 //MARK: - CollectionView Extension
 extension MapVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: 178)
+        let size = CGSize(width: collectionView.frame.width * 0.79, height: UIScreen.main.bounds.height * 0.21)
         return size
     }
     
@@ -202,7 +206,10 @@ extension MapVC: AddAnnotationDelegate {
         viewModel.fetchPlaces() {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                let indexPath = IndexPath(item: 0, section: 0)
+                self.collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             }
+            
         }
     }
 }

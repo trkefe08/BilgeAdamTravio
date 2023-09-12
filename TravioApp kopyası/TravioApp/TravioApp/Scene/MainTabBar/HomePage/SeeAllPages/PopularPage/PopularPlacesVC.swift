@@ -110,6 +110,7 @@ final class PopularPlacesVC: UIViewController {
         collectionView.trailingToSuperview()
         collectionView.bottomToSuperview()
         collectionView.topToSuperview(offset: 60)
+        
     }
 }
 //MARK: - UICollectionView Extensions

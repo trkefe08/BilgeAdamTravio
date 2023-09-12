@@ -29,6 +29,8 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
+        placeImage.layoutIfNeeded()
+        placeImage.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     required init?(coder: NSCoder) {
@@ -50,10 +52,7 @@ final class AddPlaceCollectionViewCell: UICollectionViewCell {
         rectangleView.topToSuperview(offset: 8)
         rectangleView.bottomToSuperview(offset: -8)
         
-        placeImage.leadingToSuperview(offset: 16)
-        placeImage.trailingToSuperview(offset: 16)
-        placeImage.topToSuperview(offset: 16)
-        placeImage.bottomToSuperview(offset: -16)
+        placeImage.edgesToSuperview()
         
         addPhotoImage.centerXToSuperview()
         addPhotoImage.centerYToSuperview()

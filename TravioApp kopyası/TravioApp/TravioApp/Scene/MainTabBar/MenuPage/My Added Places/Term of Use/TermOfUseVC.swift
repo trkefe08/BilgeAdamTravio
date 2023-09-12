@@ -44,8 +44,8 @@ final class TermOfUseVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         webView.layoutIfNeeded()
-        self.webView.roundCorners(corners: .topLeft, radius: 40)
-        loadWebsite(urlString: "https://bilgeadamtechnologies.com/privacy-policy/")
+        self.webView.roundCorners(corners: .topLeft, radius: 80)
+        loadWebsite(urlString: "https://api.iosclass.live/terms")
     }
     //MARK: - Functions
     private func loadWebsite(urlString: String) {

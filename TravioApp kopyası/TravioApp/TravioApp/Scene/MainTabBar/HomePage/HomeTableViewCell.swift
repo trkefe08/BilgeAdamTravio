@@ -21,6 +21,7 @@ final class HomeTableViewCell: UITableViewCell {
         cv.delegate = self
         cv.dataSource = self
         cv.backgroundColor = .clear
+        cv.contentInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
         cv.showsHorizontalScrollIndicator = false
         cv.register(HomeCollectionViewCell.self, forCellWithReuseIdentifier: "HomeCollectionViewCell")
         return cv

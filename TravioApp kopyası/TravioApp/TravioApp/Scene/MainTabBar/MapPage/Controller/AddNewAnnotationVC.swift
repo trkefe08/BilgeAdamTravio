@@ -215,18 +215,21 @@ class AddNewAnnotationVC: UIViewController {
               let desc = visitDescTxtView.text,
               let lat = latitude,
               let long = longitude else { return }
-        
-        viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": imageUrls.first, "latitude": lat, "longitude": long]) { placeId in
-            guard let placeId = placeId else {
-                print("Failed to post new place or place ID is empty.")
-                return
+        if let image = imageUrls.first {
+            guard let image = image else { return }
+            viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": image, "latitude": lat, "longitude": long]) { placeId in
+                guard let placeId = placeId else {
+                    print("Failed to post new place or place ID is empty.")
+                    return
+                }
+                self.postGalleryMethod(imageUrls: imageUrls, placeId: placeId)
             }
-            self.postGalleryMethod(imageUrls: imageUrls, placeId: placeId)
         }
     }
     
     func postGalleryMethod(imageUrls: [String?], placeId: String ) {
         for imageUrl in imageUrls {
+            guard let imageUrl = imageUrl else { return }
             self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
         }
         self.delegate?.didAddAnnotation()

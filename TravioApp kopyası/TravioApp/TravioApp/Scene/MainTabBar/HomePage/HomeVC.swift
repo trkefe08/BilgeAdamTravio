@@ -29,6 +29,7 @@ final class HomeVC: UIViewController {
         tv.register(HomeTableViewCell.self, forCellReuseIdentifier: "HomeTableViewCell")
         tv.separatorColor = UIColor.clear
         tv.backgroundColor = ColorEnum.viewColor.uiColor
+        tv.contentInset = UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0)
         return tv
     }()
     //MARK: - Variables
@@ -101,8 +102,8 @@ final class HomeVC: UIViewController {
         rectangleView.trailingToSuperview()
         rectangleView.bottomToSuperview()
         
-        tableView.topToSuperview(offset: 55)
-        tableView.leadingToSuperview(offset: 24)
+        tableView.topToSuperview()
+        tableView.leadingToSuperview()
         tableView.trailingToSuperview()
         tableView.bottomToSuperview()
     }
@@ -176,7 +177,7 @@ extension HomeVC: UITableViewDelegate {
         stackView.axis = .horizontal
         
         headerView.addSubview(stackView)
-        stackView.leading(to: headerView)
+        stackView.leading(to: headerView, offset: 24)
         stackView.trailing(to: headerView, offset: -16)
         stackView.centerY(to: headerView)
         stackView.bottomToSuperview(offset: -2)

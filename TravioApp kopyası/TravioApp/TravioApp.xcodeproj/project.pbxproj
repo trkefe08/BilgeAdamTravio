@@ -91,6 +91,7 @@
 		9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */; };
 		9ACBCD1F2A9BC1C700427D83 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD1E2A9BC1C700427D83 /* ResponseModel.swift */; };
 		9ACBCD212A9BC64800427D83 /* UploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACBCD202A9BC64800427D83 /* UploadModel.swift */; };
+		9AD183242AB04DCC00F6DDB4 /* CustomPagingClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD183232AB04DCC00F6DDB4 /* CustomPagingClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +176,7 @@
 		9ACBCD1B2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewAnnotationViewModel.swift; sourceTree = "<group>"; };
 		9ACBCD1E2A9BC1C700427D83 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		9ACBCD202A9BC64800427D83 /* UploadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadModel.swift; sourceTree = "<group>"; };
+		9AD183232AB04DCC00F6DDB4 /* CustomPagingClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPagingClass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +386,7 @@
 				5F370F642A9E309D0007DD1C /* CustomTF.swift */,
 				5F370F692A9E30E00007DD1C /* CustomButton.swift */,
 				5F3714E52AA0B7D80017A7B2 /* CustomEditProfileView.swift */,
+				9AD183232AB04DCC00F6DDB4 /* CustomPagingClass.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				9ACBCCDC2A9B84E000427D83 /* VisitListVC.swift in Sources */,
 				9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */,
 				5F3714E62AA0B7D80017A7B2 /* CustomEditProfileView.swift in Sources */,
+				9AD183242AB04DCC00F6DDB4 /* CustomPagingClass.swift in Sources */,
 				5F370F652A9E309D0007DD1C /* CustomTF.swift in Sources */,
 				9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */,
 				9ACBCD1C2A9BBDA500427D83 /* AddNewAnnotationViewModel.swift in Sources */,
