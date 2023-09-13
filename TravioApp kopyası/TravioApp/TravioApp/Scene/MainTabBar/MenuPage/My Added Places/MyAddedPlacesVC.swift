@@ -11,7 +11,7 @@ import SDWebImage
 
 class MyAddedPlacesVC: UIViewController {
     var viewModel = MyAddedPlacesVM()
-    var isButtonActive = false
+    var isButtonActive = true
 
     private lazy var retangle:CustomBackgroundRetangle = {
        let retangle = CustomBackgroundRetangle()
@@ -76,11 +76,11 @@ class MyAddedPlacesVC: UIViewController {
         isButtonActive.toggle()
                
                if isButtonActive {
-                   sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
+                   sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
                    self.collectionView.reloadData()
                     
                } else {
-                   sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
+                   sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
                    self.collectionView.reloadData()
                }
     }

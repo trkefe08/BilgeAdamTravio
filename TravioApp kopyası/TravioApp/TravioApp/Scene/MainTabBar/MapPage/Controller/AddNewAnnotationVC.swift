@@ -11,7 +11,7 @@ import UniformTypeIdentifiers
 import CoreLocation
 import MapKit
 
-class AddNewAnnotationVC: UIViewController {
+final class AddNewAnnotationVC: UIViewController {
     //MARK: - Views
     private lazy var rectangleView: UIView = {
         let v = UIView()
@@ -108,13 +108,13 @@ class AddNewAnnotationVC: UIViewController {
         return button
     }()
     //MARK: - Variables
-    var images: [Data?] = []
+    private var images: [Data?] = []
     var cityName: String?
     var countryName: String?
     var latitude: Double?
     var longitude: Double?
-    var selectedImages: [IndexPath: Data] = [:]
-    var viewModel = AddNewAnnotationViewModel()
+    private var selectedImages: [IndexPath: Data] = [:]
+    private var viewModel = AddNewAnnotationViewModel()
     weak var delegate: AddAnnotationDelegate?
     
     //MARK: - Lifecycle
@@ -222,7 +222,8 @@ class AddNewAnnotationVC: UIViewController {
             self.postPlaceMethod(imageUrls: imageUrls)
         }
     }
-    func postPlaceMethod(imageUrls: [String?]) {
+    
+    private func postPlaceMethod(imageUrls: [String?]) {
         guard let place = locationLabel.text, !place.isEmpty,
               let title = txtPlaceName.text, !title.isEmpty,
               let desc = visitDescTxtView.text, !desc.isEmpty,
@@ -242,7 +243,7 @@ class AddNewAnnotationVC: UIViewController {
         }
     }
     
-    func postGalleryMethod(imageUrls: [String?], placeId: String ) {
+    private func postGalleryMethod(imageUrls: [String?], placeId: String ) {
         for imageUrl in imageUrls {
             guard let imageUrl = imageUrl else { return }
             self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])

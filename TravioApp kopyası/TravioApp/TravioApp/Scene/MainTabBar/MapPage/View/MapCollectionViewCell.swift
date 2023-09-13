@@ -10,7 +10,7 @@ import TinyConstraints
 import Kingfisher
 
 //MARK: - Class
-class MapCollectionViewCell: UICollectionViewCell {
+final class MapCollectionViewCell: UICollectionViewCell {
     //MARK: - Views
     private lazy var mainImage: UIImageView = {
         let img = UIImageView()

@@ -4,19 +4,14 @@
 //
 //  Created by Tarik Efe on 27.08.2023.
 //
-
 import SnapKit
 import UIKit
 import SDWebImage
 
-
-
-
-class MenuVC: UIViewController {
-  
-    let MVM = MenuViewModel()
-  
-    
+final class MenuVC: UIViewController {
+    //MARK: - Variables
+    var viewModel = MenuViewModel()
+    //MARK: - Views
     private lazy var header: UILabel = {
         let label = UILabel()
         label.text = "Settings"
@@ -31,7 +26,7 @@ class MenuVC: UIViewController {
         
         return retangle
     }()
-
+    
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
         img.image = UIImage(systemName: "person.circle.fill")
@@ -40,7 +35,7 @@ class MenuVC: UIViewController {
         img.contentMode = .scaleAspectFill
         return img
     }()
-
+    
     private lazy var profileName: UILabel = {
         let label = UILabel()
         label.text = "Bruce Wills"
@@ -74,15 +69,15 @@ class MenuVC: UIViewController {
         
         return cv
     }()
-
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         setupView()
-        MVM.getProfile {
+        viewModel.getProfile {
             self.configure()
         }
         
     }
-    
+    //MARK: - Functions
     @objc func editButtonTapped() {
         let vc = EditProfile()
         vc.delegate = self
@@ -90,13 +85,13 @@ class MenuVC: UIViewController {
         self.present(vc, animated: true)
     }
     
-    func configure() {
-        guard let data = MVM.data else {return}
+    private func configure() {
+        guard let data = viewModel.data else {return}
         profileName.text = data.fullName
         profileImage.sd_setImage(with:URL(string: data.ppUrl))
     }
     
-    func setupView() {
+    private func setupView() {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         view.addSubviews(header, retangle)
         retangle.addSubviews(profileImage, profileName, editProfileButton, collectionView)
@@ -104,7 +99,7 @@ class MenuVC: UIViewController {
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
             make.leading.equalToSuperview().offset(20)
@@ -141,10 +136,10 @@ class MenuVC: UIViewController {
         }
     }
 }
-
+//MARK: - UICollectionView Extension
 extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = MVM.countCalc()
+        let count = viewModel.countCalc()
         
         return count
     }
@@ -152,7 +147,7 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else { return UICollectionViewCell() }
         
-        let array = MVM.settingsCVArray
+        let array = viewModel.settingsCVArray
         
         cell.configure(item: array[indexPath.row])
         return cell
@@ -185,15 +180,15 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             break
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 9, left: 16, bottom: 0, right: 16)
     }
 }
-
+//MARK: - Protocol
 extension MenuVC: ProfileUpdateDelegate {
     func didUpdateProfile() {
-        MVM.getProfile {
+        viewModel.getProfile {
             self.configure()
         }
     }

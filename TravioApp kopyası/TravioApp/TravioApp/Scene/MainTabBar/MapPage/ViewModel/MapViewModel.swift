@@ -25,7 +25,7 @@ protocol MapViewModelDelegate: AnyObject {
 }
 
 //MARK: - Class
-class MapViewModel: MapViewModelProtocol {
+final class MapViewModel: MapViewModelProtocol {
     
     //MARK: - Variables
     weak var delegate: MapViewModelDelegate?
