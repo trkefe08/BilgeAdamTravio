@@ -81,7 +81,7 @@ class MenuVC: UIViewController {
     }
     
     @objc func editButtonTapped() {
-        let vc = EditProfile()
+        let vc = EditProfileVC()
         vc.delegate = self
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)

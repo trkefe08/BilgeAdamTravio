@@ -7,18 +7,17 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
 import Alamofire
+import MobileCoreServices
 
 protocol ProfileUpdateDelegate: AnyObject {
     func didUpdateProfile()
 }
 
-class EditProfile: UIViewController {
+class EditProfileVC: UIViewController {
     
     let vm = EditProfileViewModel()
-    let mv = MenuVC()
-    let mvm = MenuViewModel()
+
     weak var delegate: ProfileUpdateDelegate?
     
     private lazy var header:UILabel = {
@@ -145,6 +144,7 @@ class EditProfile: UIViewController {
             createdDateView.labelText = "Unknown Date"
         }
     }
+
  
     @objc func backButtonTapped() {
         dismiss(animated: true)
@@ -252,13 +252,37 @@ class EditProfile: UIViewController {
     }
 }
 
-extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension EditProfileVC:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @objc func changePhotoButtonTapped() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        let alertController = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                self?.present(imagePicker, animated: true)
+            }
+        }
+
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [weak self] _ in
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            self?.present(imagePicker, animated: true)
+        }
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alertController.addAction(cameraAction)
+        }
+
+        alertController.addAction(libraryAction)
+        alertController.addAction(cancelAction)
+
+        present(alertController, animated: true)
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
