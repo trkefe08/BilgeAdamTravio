@@ -71,6 +71,13 @@ class MenuVC: UIViewController {
         
         return cv
     }()
+    
+    private lazy var logout: UIButton = {
+       let btn = UIButton()
+        btn.setImage(UIImage(named: "settings_logout"), for: .normal)
+        btn.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+        return btn
+    }()
 
     override func viewDidLoad() {
         setupView()
@@ -78,6 +85,11 @@ class MenuVC: UIViewController {
             self.configure()
         }
         
+    }
+    
+    @objc func logoutTapped() {
+        let vc = LoginVC()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func editButtonTapped() {
@@ -95,7 +107,7 @@ class MenuVC: UIViewController {
     
     func setupView() {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
-        view.addSubviews(header, retangle)
+        view.addSubviews(header, retangle, logout)
         retangle.addSubviews(profileImage, profileName, editProfileButton, collectionView)
         
         setupLayouts()
@@ -110,6 +122,13 @@ class MenuVC: UIViewController {
         retangle.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(54)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        logout.snp.makeConstraints { make in
+            make.centerY.equalTo(header)
+            make.height.width.equalTo(30)
+            make.trailing.equalToSuperview().offset(-24)
+            
         }
         
         profileImage.snp.makeConstraints { make in
@@ -150,7 +169,6 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else { return UICollectionViewCell() }
         
         let array = MVM.settingsCVArray
-        
         cell.configure(item: array[indexPath.row])
         return cell
     }

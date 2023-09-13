@@ -12,8 +12,6 @@ import AVFoundation
 import Photos
 import CoreLocation
 
-
-
 class SecuritySettingsVC: UIViewController {
   
     let vm = SecuritySettingsVM()
@@ -37,7 +35,6 @@ class SecuritySettingsVC: UIViewController {
         return view
     }()
     
-    
     private lazy var backButton:UIButton = {
        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
@@ -45,7 +42,6 @@ class SecuritySettingsVC: UIViewController {
         
         return button
     }()
-    
     
     private lazy var header:UILabel = {
        let label = UILabel()
@@ -141,7 +137,6 @@ class SecuritySettingsVC: UIViewController {
         updatePhotoLibrarySwitchState()
     }
     
-    
     @objc func cameraSwitch() {
         openAppSettings()
     }
@@ -185,7 +180,6 @@ class SecuritySettingsVC: UIViewController {
             }
         }
     }
-    
  
       func updateCameraSwitchStates() {
           let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
@@ -220,7 +214,7 @@ class SecuritySettingsVC: UIViewController {
             // seçili fotoğraflarda
             photoLibrary.switchComponent.isOn = true
         @unknown default:
-            // Diğer durumlar için switch'i kapalı tutabilirsiniz.
+
             photoLibrary.switchComponent.isOn = false
         }
         print("update Library")
@@ -231,7 +225,6 @@ class SecuritySettingsVC: UIViewController {
         guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
         
         if password == passwordConfirm {
-     
             if password.count == 0 {
                 
             } else if password.count < 6 {
@@ -243,12 +236,10 @@ class SecuritySettingsVC: UIViewController {
                 
             } else if password.count > 12 {
                 
-                
                 let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en fazla 12 eleman içermelidir", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
                 alertController.addAction(okAction)
                 self.present(alertController, animated: true, completion: nil)
-                
                 
             } else {
                 let params: Parameters = ["new_password": password]
@@ -287,25 +278,22 @@ class SecuritySettingsVC: UIViewController {
         
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         contentView.addSubviews(changePasswordLabel,newPassword,newPasswordConfirm,privacyLabel,camera,photoLibrary,location,button)
-        
         setupLayouts()
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height)
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: scrollView.frame.height - 40)
     }
     
     func setupLayouts() {
-     
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.bottom.top.equalToSuperview()
-
         }
         
         contentView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(button.snp.bottom)
             make.width.equalTo(UIScreen.main.bounds.width)
+            make.bottom.equalTo(location.snp.bottom).offset(20)
         }
         
         retangle.snp.makeConstraints { make in
@@ -373,12 +361,11 @@ class SecuritySettingsVC: UIViewController {
         }
         
         button.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(18)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-18)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)
         }
     }
-
 }
 
