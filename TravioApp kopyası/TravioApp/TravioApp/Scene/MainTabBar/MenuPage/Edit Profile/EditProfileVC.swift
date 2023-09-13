@@ -35,7 +35,7 @@ class EditProfileVC: UIViewController {
     }()
     
     private lazy var profileImage:UIImageView = {
-       let img = UIImageView()
+        let img = UIImageView()
         img.image = UIImage(systemName: "person.circle.fill")
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
@@ -45,8 +45,8 @@ class EditProfileVC: UIViewController {
     }()
     
     private lazy var backButton:UIButton = {
-       let button = UIButton()
-        button.setImage(UIImage(named: "Vector"), for: .normal)
+        let button = UIButton()
+        button.setImage(UIImage(named: "editProfile_exit"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         
         return button
@@ -128,8 +128,12 @@ class EditProfileVC: UIViewController {
     
     func configure() {
         guard let data = vm.data else {return}
-        
-        profileImage.sd_setImage(with: URL(string:data.ppUrl))
+        if data.ppUrl.isEmpty {
+            profileImage.image = UIImage(systemName: "person.circle.fill")
+            profileImage.tintColor = ColorEnum.travioBackground.uiColor
+        }else {
+            profileImage.sd_setImage(with: URL(string:data.ppUrl))
+        }
         profileName.text = data.fullName
         rolView.labelText = data.role
         fullNameView.txtField.text = data.fullName
@@ -144,7 +148,6 @@ class EditProfileVC: UIViewController {
         }
     }
 
- 
     @objc func backButtonTapped() {
         dismiss(animated: true)
     }
@@ -152,7 +155,7 @@ class EditProfileVC: UIViewController {
     @objc func saveButtonTapped() {
         guard let fullName = fullNameView.txtField.text else {return}
         guard let mail = emailView.txtField.text else {return}
-        let url = vm.images?.urls?.first ?? vm.oldURL
+        guard let url = vm.images?.urls?.first ?? vm.oldURL else {return}
         
         let params: Parameters = [
             "full_name": fullName,
@@ -181,7 +184,7 @@ class EditProfileVC: UIViewController {
     func setupLayouts() {
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
-            make.leading.equalTo(backButton.snp.trailing).offset(24)
+            make.leading.equalToSuperview().offset(24)
         }
         
         rectangle.snp.makeConstraints { make in
@@ -197,7 +200,7 @@ class EditProfileVC: UIViewController {
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
-            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(21)
             make.width.equalTo(24)
         }

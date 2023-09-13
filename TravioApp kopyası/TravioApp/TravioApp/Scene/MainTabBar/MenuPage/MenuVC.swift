@@ -31,7 +31,7 @@ class MenuVC: UIViewController {
 
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(systemName: "person.circle.fill")
+        
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
@@ -40,7 +40,7 @@ class MenuVC: UIViewController {
 
     private lazy var profileName: UILabel = {
         let label = UILabel()
-        label.text = "Bruce Wills"
+        label.text = ""
         label.font = Font.poppins(fontType: 600, size: 16).font
         label.textColor = .black
         return label
@@ -102,7 +102,13 @@ class MenuVC: UIViewController {
     func configure() {
         guard let data = MVM.data else {return}
         profileName.text = data.fullName
-        profileImage.sd_setImage(with:URL(string: data.ppUrl))
+        if data.ppUrl.isEmpty {
+            profileImage.image = UIImage(systemName: "person.circle.fill")
+            profileImage.tintColor = ColorEnum.travioBackground.uiColor
+        }else {
+            profileImage.sd_setImage(with: URL(string:data.ppUrl))
+        }
+
     }
     
     func setupView() {
