@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CustomBackgroundRetangle: UIView {
+class CustomBackgroundRectangle: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = ColorEnum.viewColor.uiColor 
