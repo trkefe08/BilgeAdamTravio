@@ -7,27 +7,24 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
+import Kingfisher
 
 final class VisitDetailCVC: UICollectionViewCell {
-    
+    //MARK: - Views
     private lazy var detailImage:UIImageView = {
-       let img = UIImageView()
-        img.image = UIImage(named: "istanbul")
-        
+        let img = UIImageView()
+        img.contentMode = .scaleAspectFill
         return img
     }()
     
     private lazy var retangle2:UIImageView = {
-       let img = UIImageView()
+        let img = UIImageView()
         img.image = UIImage(named: "gradient2")
-        
         return img
     }()
-   
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super .init(frame: frame)
-       backgroundColor = .orange
         setupViews()
     }
     
@@ -35,19 +32,20 @@ final class VisitDetailCVC: UICollectionViewCell {
         super .init(coder: coder)
         
     }
-    
+    //MARK: - Functions
     func configure(model: String) {
-        guard let image = URL(string: model) else {return}
-        detailImage.sd_setImage(with: image)
+        if let image = URL(string: model) {
+            detailImage.kf.indicatorType = .activity
+            detailImage.kf.setImage(with: image)
+        }
     }
-
+    
     func setupViews() {
         addSubviews(detailImage,retangle2)
         setupLayouts()
     }
     
     func setupLayouts() {
-        
         detailImage.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview().offset(0)
         }
@@ -56,7 +54,5 @@ final class VisitDetailCVC: UICollectionViewCell {
             make.bottom.leading.trailing.equalToSuperview().offset(0)
             make.height.equalToSuperview().multipliedBy(0.5)
         }
-        
-    
     }
 }

@@ -6,17 +6,17 @@
 //
 
 import Foundation
-
+//MARK: - ImageResponse
 struct ImageResponse: Codable {
     let data: ImageData
     let status: String
 }
-
+//MARK: - ImageData
 struct ImageData: Codable {
     let count: Int
     let images: [ImageDetail]
 }
-
+//MARK: - ImageDetail
 struct ImageDetail: Codable {
     let id: String
     let placeId: String
@@ -32,18 +32,16 @@ struct ImageDetail: Codable {
         case updatedAt = "updated_at"
     }
 }
-
-
-// Verileri almak
+//MARK: - PDetailResponse
 struct PDetailResponse: Codable {
     let data: PlaceData
     let status: String
 }
-
+//MARK: - PlaceData
 struct PlaceData: Codable {
     let place: Place2
 }
-
+//MARK: - Place2
 struct Place2: Codable {
     let id: String
     let creator: String

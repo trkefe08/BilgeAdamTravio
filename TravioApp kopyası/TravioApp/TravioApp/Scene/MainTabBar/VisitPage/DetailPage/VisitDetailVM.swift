@@ -10,11 +10,11 @@ import Foundation
 import SDWebImage
 
 final class VisitsDetailViewModel {
-    
+    //MARK: - Variables
     var visitDetail:Place2?
     var visitGallery:ImageResponse?
     var myArray: [ImageDetail] = []
-    
+    //MARK: - Functions
     func fetchDetails(id: String, callback: @escaping (Bool)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAPlaceById(id: id)) { (result:Result<PDetailResponse, Error>) in
             switch result {

@@ -11,12 +11,7 @@ import SnapKit
 import UIKit
 
 final class VisitDetailVC: UIViewController {
-    let viewModel = VisitsDetailViewModel()
-    
-    var postedID: String?
-    var placeId: String?
-    var isVisited: Bool?
-    
+    //MARK: - Views
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
@@ -28,8 +23,9 @@ final class VisitDetailVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
+        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(VisitDetailCVC.self, forCellWithReuseIdentifier: "cell")
-        
+        collectionView.backgroundView = UIImageView(image: UIImage(named: "default_Image"))
         return collectionView
     }()
     
@@ -38,7 +34,6 @@ final class VisitDetailVC: UIViewController {
         pageControl.backgroundStyle = .prominent
         pageControl.currentPage = 0
         pageControl.allowsContinuousInteraction = false
-        
         pageControl.pageIndicatorTintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         pageControl.currentPageIndicatorTintColor = .black
         return pageControl
@@ -60,20 +55,18 @@ final class VisitDetailVC: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        
         label.font = Font.poppins(fontType: 600, size: 30).font
         return label
     }()
     
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        
         return label
     }()
     
     private lazy var createdBy: UILabel = {
         let label = UILabel()
-        label.text = "created"
+        label.text = "added"
         label.font = Font.poppins(fontType: 400, size: 10).font
         label.textColor = #colorLiteral(red: 0.6642268896, green: 0.6642268896, blue: 0.6642268896, alpha: 1)
         
@@ -83,13 +76,11 @@ final class VisitDetailVC: UIViewController {
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.delegate =  self
-        
         return mapView
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        
         label.font = Font.poppins(fontType: 500, size: 14).font
         label.numberOfLines = 0
         return label
@@ -98,7 +89,6 @@ final class VisitDetailVC: UIViewController {
     private lazy var backButton: UIButton = {
         let btn = UIButton()
         btn.setImage(UIImage(named: "visits_back"), for: .normal)
-        
         btn.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return btn
     }()
@@ -115,14 +105,12 @@ final class VisitDetailVC: UIViewController {
         return img
     }()
     
-    private lazy var btnlabel:UILabel = {
-        let lbl = UILabel()
-        lbl.font = Font.poppins(fontType: 300, size: 10).font
-        lbl.textColor = .white
-        
-        return lbl
-    }()
-    
+    //MARK: - Variables
+    var viewModel = VisitsDetailViewModel()
+    var postedID: String?
+    var placeId: String?
+    var isVisited: Bool?
+    //MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         guard let id = postedID ?? placeId else { return }
         viewModel.checkVisit(id: id) { check in
@@ -136,7 +124,6 @@ final class VisitDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getGallery()
         updateComponents()
         setupViews()
@@ -151,8 +138,8 @@ final class VisitDetailVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: scrollContentView.frame.height)
     }
-    
-    func getGallery() {
+    //MARK: - Functions
+   private func getGallery() {
         guard let id = postedID ?? placeId else { return }
         viewModel.getAllGalleryByPlaceID(id: id) {
             DispatchQueue.main.async {
@@ -169,14 +156,13 @@ final class VisitDetailVC: UIViewController {
     }
     
     private func deleteButton() {
-        btnImageView.image = UIImage(named: "delete")
-        btnlabel.text = "Delete"
+        btnImageView.image = UIImage(named: "add")
+        btnImageView.tag = 1
     }
     
     private func addButton() {
-        btnImageView.image = UIImage(named: "visits_add")
-        visitButton.backgroundColor = ColorEnum.travioBackground.uiColor
-        btnlabel.text = "Add"
+        btnImageView.image = UIImage(named: "Delete 1")
+        btnImageView.tag = 0
     }
     
    private func updateComponents() {
@@ -188,7 +174,6 @@ final class VisitDetailVC: UIViewController {
                 self.titleLabel.text = vst.title
                 self.createdBy.text = "created by @\(vst.creator)"
                 self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
-                
                 updateMap()
             }
         }
@@ -200,41 +185,28 @@ final class VisitDetailVC: UIViewController {
             annotation.coordinate = coordinate
             annotation.title = vst.title
             self.mapView.addAnnotation(annotation)
-            
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 500, longitudinalMeters: 500)
             self.mapView.setRegion(region, animated: true)
-            
         }
-        
     }
     
     private func dateFormatter(visitDate: String, label: UILabel) {
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
         if let date = dateFormatter.date(from: visitDate) {
-            dateFormatter.dateFormat = "dd MMMM yyyy"
+            dateFormatter.dateFormat = "d MMMM yyyy"
             label.text = dateFormatter.string(from: date)
         } else {
             print("Tarih dönüştürülemedi")
         }
     }
     
-    
     private func setupViews() {
-        let yourView = UIView()
-        yourView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(yourView)
-        yourView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         view.backgroundColor = ColorEnum.viewColor.uiColor
         navigationController?.isNavigationBarHidden = true
-        
         view.addSubviews(collectionView, pageControl, backButton, scrollView, visitButton)
         view.bringSubviewToFront(visitButton)
-        visitButton.addSubviews(btnImageView,btnlabel)
+        visitButton.addSubviews(btnImageView)
         setupLayout()
     }
     
@@ -263,21 +235,25 @@ final class VisitDetailVC: UIViewController {
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.width.equalToSuperview()
+            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(50)
         }
         
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom)
-            make.leading.equalToSuperview().offset(26)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
         
         createdBy.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom)
             make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
         
         mapView.snp.makeConstraints { make in
@@ -293,10 +269,6 @@ final class VisitDetailVC: UIViewController {
             make.trailing.equalToSuperview().offset(-16)
         }
         
-        scrollContentView.snp.makeConstraints { make in
-            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(20)
-        }
-        
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
             make.leading.equalToSuperview().offset(24)
@@ -310,16 +282,9 @@ final class VisitDetailVC: UIViewController {
         }
         
         btnImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(8)
-            make.width.equalTo(22.5)
-            make.height.equalTo(18)
-            make.centerX.equalToSuperview()
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
         
-        btnlabel.snp.makeConstraints { make in
-            make.top.equalTo(btnImageView.snp.bottom)
-            make.centerX.equalToSuperview()
-        }
     }
     
     @objc func backButtonTapped() {
@@ -327,7 +292,8 @@ final class VisitDetailVC: UIViewController {
     }
     
     @objc func visitButtonTapped() {
-        if btnlabel.text == "Add" {
+        if btnImageView.tag == 0 {
+            guard let placeId = placeId else { return }
             viewModel.addVisit(parameters: ["place_id": placeId, "visited_at": "2023-08-10T00:00:00Z"]) {
                 self.deleteButton()
                 self.visitButton.backgroundColor = .clear
@@ -349,7 +315,7 @@ final class VisitDetailVC: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
 }
-
+//MARK: - UICollectionView Extension
 extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = CGSize(width: collectionView.frame.width, height: 250)
@@ -367,30 +333,25 @@ extension VisitDetailVC: UICollectionViewDelegateFlowLayout, UIScrollViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? VisitDetailCVC else {return UICollectionViewCell()}
-        
         let image = viewModel.myArray[indexPath.row].imageUrl
-        
+        collectionView.backgroundView = nil
         cell.configure(model: image)
-        
         return cell
     }
 }
-
+//MARK: - MapView Extension
 extension VisitDetailVC: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
         }
-        
         let annotationIdentifier = "CustomAnnotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier)
-        
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
         } else {
             annotationView?.annotation = annotation
         }
-        
         annotationView?.image = UIImage(named: "map 1")  // Özelleştirilmiş pin görüntüsü
         return annotationView
     }

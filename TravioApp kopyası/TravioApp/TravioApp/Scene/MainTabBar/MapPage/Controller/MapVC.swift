@@ -157,14 +157,20 @@ extension MapVC: MKMapViewDelegate {
             if let index = viewModel.getIndexForAnnotation(annotation) {
                 let indexPath = IndexPath(item: index, section: 0)
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                let annotationCoordinate = annotation.coordinate
-                let regionRadius: CLLocationDistance = 100000
-                let coordinateRegion = MKCoordinateRegion(
-                    center: annotationCoordinate,
-                    latitudinalMeters: regionRadius,
-                    longitudinalMeters: regionRadius)
-                mapView.setRegion(coordinateRegion, animated: true)
+                setRegionRadiusAndCenter(view: view)
             }
+        }
+    }
+    
+    func setRegionRadiusAndCenter(view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            let annotationCoordinate = annotation.coordinate
+            let regionRadius: CLLocationDistance = 100000
+            let coordinateRegion = MKCoordinateRegion(
+                center: annotationCoordinate,
+                latitudinalMeters: regionRadius,
+                longitudinalMeters: regionRadius)
+            mapView.setRegion(coordinateRegion, animated: true)
         }
     }
 }
@@ -209,7 +215,6 @@ extension MapVC: AddAnnotationDelegate {
                 let indexPath = IndexPath(item: 0, section: 0)
                 self.collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             }
-            
         }
     }
 }
