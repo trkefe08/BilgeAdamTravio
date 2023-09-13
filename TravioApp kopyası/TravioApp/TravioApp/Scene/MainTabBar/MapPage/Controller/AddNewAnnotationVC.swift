@@ -199,7 +199,21 @@ class AddNewAnnotationVC: UIViewController {
         
     }
     
+    private func showAlert(message: String) {
+        let alert = UIAlertController(title: "Hata", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    private func requiredImagesControl() {
+        guard !images.isEmpty else {
+            showAlert(message: "Lütfen Fotoğraf Ekleyiniz!")
+            return
+        }
+    }
+    
     @objc func addPlaceButtonTapped() {
+        requiredImagesControl()
         viewModel.upload(image: images) { urls in
             guard let imageUrls = urls else {
                 print("Upload failed or URLs are empty.")
@@ -209,11 +223,13 @@ class AddNewAnnotationVC: UIViewController {
         }
     }
     func postPlaceMethod(imageUrls: [String?]) {
-        guard let place = locationLabel.text,
-              let title = txtPlaceName.text,
-              let desc = visitDescTxtView.text,
+        guard let place = locationLabel.text, !place.isEmpty,
+              let title = txtPlaceName.text, !title.isEmpty,
+              let desc = visitDescTxtView.text, !desc.isEmpty,
               let lat = latitude,
-              let long = longitude else { return }
+              let long = longitude else {
+            showAlert(message: "Lütfen Tüm Alanları Doldurunuz!")
+            return }
         if let image = imageUrls.first {
             guard let image = image else { return }
             viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": image, "latitude": lat, "longitude": long]) { placeId in
@@ -284,7 +300,11 @@ extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationContr
 
 //MARK: - UITextField Extension
 extension AddNewAnnotationVC: UITextFieldDelegate {
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField.text?.isEmpty == true {
+            showAlert(message: "Lütfen Tüm Alanları Doldurunuz!")
+            return false
+        }
+        return true
+    }
 }
-
-
