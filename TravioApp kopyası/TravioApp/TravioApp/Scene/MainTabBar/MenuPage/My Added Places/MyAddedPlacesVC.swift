@@ -13,8 +13,8 @@ class MyAddedPlacesVC: UIViewController {
     var viewModel = MyAddedPlacesVM()
     var isButtonActive = false
 
-    private lazy var retangle:CustomBackgroundRetangle = {
-       let retangle = CustomBackgroundRetangle()
+    private lazy var retangle:CustomBackgroundRectangle = {
+       let retangle = CustomBackgroundRectangle()
        return retangle
     }()
 

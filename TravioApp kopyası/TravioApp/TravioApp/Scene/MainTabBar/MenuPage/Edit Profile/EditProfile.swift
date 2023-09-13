@@ -14,15 +14,13 @@ protocol ProfileUpdateDelegate: AnyObject {
     func didUpdateProfile()
 }
 
-
 class EditProfile: UIViewController {
-
-    var oldURL:String?
+    
     let vm = EditProfileViewModel()
     let mv = MenuVC()
     let mvm = MenuViewModel()
-    var finalURL:URL?
     weak var delegate: ProfileUpdateDelegate?
+    
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
@@ -32,8 +30,9 @@ class EditProfile: UIViewController {
         return label
     }()
     
-    private lazy var retangle:CustomBackgroundRetangle = {
-       let retangle = CustomBackgroundRetangle()
+    private lazy var rectangle:CustomBackgroundRectangle = {
+       let retangle = CustomBackgroundRectangle()
+        
        return retangle
     }()
     
@@ -43,6 +42,7 @@ class EditProfile: UIViewController {
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
+        
         return img
     }()
     
@@ -70,6 +70,7 @@ class EditProfile: UIViewController {
         label.text = "Bruce Wills"
         label.font = Font.poppins(fontType: 600, size: 24).font
         label.textColor = .black
+        
         return label
     }()
     
@@ -108,24 +109,21 @@ class EditProfile: UIViewController {
     private lazy var saveButton:CustomButton = {
        let button = CustomButton()
        button.labelText = "Save"
-        
        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        
        return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-      
-        
-        
+
         getProfile()
         setupView()
     }
     
     func getProfile(){
         vm.getProfile {
-            self.oldURL = self.vm.data?.ppUrl
+            self.vm.oldURL = self.vm.data?.ppUrl
             self.configure()
         }
     }
@@ -147,20 +145,15 @@ class EditProfile: UIViewController {
             createdDateView.labelText = "Unknown Date"
         }
     }
-    
-    
-    
-    
+ 
     @objc func backButtonTapped() {
         dismiss(animated: true)
-        
     }
  
     @objc func saveButtonTapped() {
-        
         guard let fullName = fullNameView.txtField.text else {return}
         guard let mail = emailView.txtField.text else {return}
-        let url = vm.images?.urls?.first ?? oldURL
+        let url = vm.images?.urls?.first ?? vm.oldURL
         
         let params: Parameters = [
             "full_name": fullName,
@@ -171,7 +164,6 @@ class EditProfile: UIViewController {
             self.vm.editProfile(params: params){
             }
         }
-        
         dismiss(animated: true) {
             self.delegate?.didUpdateProfile()
         }
@@ -181,8 +173,8 @@ class EditProfile: UIViewController {
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
         navigationController?.navigationBar.isHidden = true
         
-        view.addSubviews(header,retangle,backButton)
-        retangle.addSubviews(profileImage,createdDateView,changePhotoButton,profileName,rolView,fullNameView,emailView,saveButton)
+        view.addSubviews(header,rectangle,backButton)
+        rectangle.addSubviews(profileImage,createdDateView,changePhotoButton,profileName,rolView,fullNameView,emailView,saveButton)
         
         setupLayouts()
     }
@@ -193,7 +185,7 @@ class EditProfile: UIViewController {
             make.leading.equalTo(backButton.snp.trailing).offset(24)
         }
         
-        retangle.snp.makeConstraints { make in
+        rectangle.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(54)
             make.leading.trailing.bottom.equalToSuperview()
         }
@@ -276,7 +268,6 @@ extension EditProfile:UIImagePickerControllerDelegate, UINavigationControllerDel
             vm.uploadImage(image: [imageData] ) {
             }
         }
-        
         dismiss(animated: true)
     }
 

@@ -10,6 +10,8 @@ import Alamofire
 
 class EditProfileViewModel {
     
+    var oldURL:String?
+    var finalURL:URL?
     var changePhotoUrl: URL?
     var data: EditProfileModel?
     var images: UploadModel?
@@ -54,4 +56,6 @@ class EditProfileViewModel {
             }
         }
     }
+    
+    
 }

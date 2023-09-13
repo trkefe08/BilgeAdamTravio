@@ -8,8 +8,8 @@ import UIKit
 
 final class MyVisitsVC: UIViewController {
     //MARK: - Views
-    private lazy var rectangle:CustomBackgroundRetangle = {
-        let retangle = CustomBackgroundRetangle()
+    private lazy var rectangle:CustomBackgroundRectangle = {
+        let retangle = CustomBackgroundRectangle()
         return retangle
     }()
     
