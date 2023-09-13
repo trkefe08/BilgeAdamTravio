@@ -9,6 +9,8 @@ import Foundation
 
 class MyAddedPlacesVM {
     
+    var isButtonActive = false
+    
     var sortedmyArrayAtoZ:[MyAddedPlace] = []
     var sortedmyArrayZtoA:[MyAddedPlace] = []
     
