@@ -136,7 +136,6 @@ class VisitDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getGallery()
         updateComponents()
         setupViews()
@@ -228,13 +227,6 @@ class VisitDetailVC: UIViewController {
     
     
     private func setupViews() {
-        let yourView = UIView()
-        yourView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(yourView)
-        yourView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         view.backgroundColor = ColorEnum.viewColor.uiColor
         navigationController?.isNavigationBarHidden = true
         

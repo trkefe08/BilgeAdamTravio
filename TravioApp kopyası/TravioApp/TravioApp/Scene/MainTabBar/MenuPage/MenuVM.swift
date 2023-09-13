@@ -16,11 +16,9 @@ class MenuViewModel {
                                           settingsCVS(image: "settings_help&support", name: "Help&Support"),
                                           settingsCVS(image: "settings_about", name: "About"),
                                           settingsCVS(image: "settings_termsOfUse", name: "Term of Use")]
-    
     func countCalc() -> Int {
         return settingsCVArray.count
     }
-    
     
     func getProfile(callback: @escaping ()->Void) {
         DispatchQueue.global().async {

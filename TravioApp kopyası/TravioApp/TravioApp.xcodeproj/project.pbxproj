@@ -25,6 +25,7 @@
 		5F3A3C042AB0628C003018B6 /* HelpAndSupportM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C032AB0628C003018B6 /* HelpAndSupportM.swift */; };
 		5F3A3C062AB06314003018B6 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */; };
 		5F3A3C082AB07C37003018B6 /* HelpAndSupportCVH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */; };
+		5F3A3C0B2AB1AF5B003018B6 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3A3C0A2AB1AF5B003018B6 /* IQKeyboardManagerSwift */; };
 		5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */; };
 		5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */; };
 		5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */; };
@@ -193,6 +194,7 @@
 				9ACBCCBA2A9B805E00427D83 /* TinyConstraints in Frameworks */,
 				9ACBCCBD2A9B807900427D83 /* Alamofire in Frameworks */,
 				5F9C0C462A9FDB2C00F7CE1F /* SDWebImage in Frameworks */,
+				5F3A3C0B2AB1AF5B003018B6 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,6 +554,7 @@
 				9ACBCCDE2A9B850500427D83 /* Kingfisher */,
 				5F370F672A9E30BF0007DD1C /* SnapKit */,
 				5F9C0C452A9FDB2C00F7CE1F /* SDWebImage */,
+				5F3A3C0A2AB1AF5B003018B6 /* IQKeyboardManagerSwift */,
 			);
 			productName = TravioApp;
 			productReference = 9ACBCCA02A9B7F7200427D83 /* TravioApp.app */;
@@ -587,6 +590,7 @@
 				9ACBCCDD2A9B850500427D83 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */,
 				5F9C0C442A9FDB2C00F7CE1F /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				5F3A3C092AB1AF5B003018B6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 9ACBCCA12A9B7F7200427D83 /* Products */;
 			projectDirPath = "";
@@ -900,6 +904,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		5F3A3C092AB1AF5B003018B6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		5F9C0C442A9FDB2C00F7CE1F /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
@@ -939,6 +951,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		5F3A3C0A2AB1AF5B003018B6 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F3A3C092AB1AF5B003018B6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 		5F9C0C452A9FDB2C00F7CE1F /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;

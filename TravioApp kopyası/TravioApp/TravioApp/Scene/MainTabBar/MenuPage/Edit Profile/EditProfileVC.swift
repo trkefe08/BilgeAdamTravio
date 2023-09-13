@@ -17,7 +17,6 @@ protocol ProfileUpdateDelegate: AnyObject {
 class EditProfileVC: UIViewController {
     
     let vm = EditProfileViewModel()
-
     weak var delegate: ProfileUpdateDelegate?
     
     private lazy var header:UILabel = {

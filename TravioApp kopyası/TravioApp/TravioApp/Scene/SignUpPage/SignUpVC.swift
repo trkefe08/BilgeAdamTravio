@@ -25,7 +25,7 @@ class SignUpVC: UIViewController {
         let tf = CustomTF()
         
         tf.labelText = "Username"
-        tf.placeholderName = "bilge_adam"
+        tf.placeholderName = "Username"
         
         return tf
     }()
@@ -33,7 +33,7 @@ class SignUpVC: UIViewController {
     private lazy var mail: CustomTF = {
         let tf = CustomTF()
         tf.labelText = "Email"
-        tf.placeholderName = "developer@bilgeadam.com"
+        tf.placeholderName = "E-Mail"
         
         return tf
     }()
@@ -41,7 +41,7 @@ class SignUpVC: UIViewController {
     private lazy var password: CustomTF = {
         let tf = CustomTF()
         tf.labelText = "Password"
-        tf.placeholderName = ""
+        tf.placeholderName = "Password"
         tf.txtField.isSecureTextEntry = true
 
         return tf
@@ -50,7 +50,7 @@ class SignUpVC: UIViewController {
     private lazy var passwordConfirm: CustomTF = {
         let tf = CustomTF()
         tf.labelText = "Password Confirm"
-        tf.placeholderName = ""
+        tf.placeholderName = "Password Confirm"
         tf.txtField.isSecureTextEntry = true
         
         return tf
@@ -141,7 +141,7 @@ class SignUpVC: UIViewController {
         }
         
         registerButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-23)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-16)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
