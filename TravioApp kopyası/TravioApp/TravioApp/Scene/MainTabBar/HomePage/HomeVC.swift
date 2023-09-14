@@ -68,9 +68,10 @@ final class HomeVC: UIViewController {
         }
         dispatchGroup.enter()
         viewModel.fetchVisits(page: 1, limit: 5) { visit in
-            self.allVisits = visit.data.visits.map { item in
-                item.place
-                
+            guard let visit = visit.data?.visits else { return }
+            self.allVisits = visit.map { item in
+                guard let item = item.place else { return Place() }
+                return item
             }
             self.dispatchGroup.leave()
         }

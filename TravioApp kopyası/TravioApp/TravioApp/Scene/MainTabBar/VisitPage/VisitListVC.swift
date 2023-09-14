@@ -9,29 +9,23 @@ import TinyConstraints
 import Kingfisher
 
 final class VisitListVC: UIViewController {
-    let viewModel = VisitsViewModel()
-    let visitCVCInstance = VisitCVC()
-    
-    var dizi: [Visit] = []
-
+    //MARK: - Views
     private lazy var loadingIndicatorView:UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-
+        
         return view
     }()
-
+    
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.color = .white
-
         return indicator
     }()
     
     private lazy var retangle: UIView = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
@@ -52,15 +46,14 @@ final class VisitListVC: UIViewController {
         cv.dataSource = self
         cv.register(VisitCVC.self, forCellWithReuseIdentifier: "CustomCell")
         cv.backgroundColor = ColorEnum.viewColor.uiColor
-        
         return cv
     }()
-    
-    
+    //MARK: - Variables
+    var viewModel = VisitsViewModel()
+    //MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.fetchVisitList { result in
+        viewModel.fetchVisitList {
             DispatchQueue.main.async {
-                self.dizi = result.data.visits
                 self.collectionView.reloadData()
             }
         }
@@ -71,39 +64,34 @@ final class VisitListVC: UIViewController {
         setupViews()
         showLoadingIndicator()
         loadingIndicatorView.isHidden = true
-        viewModel.fetchVisitList(callback: { result in
+        viewModel.fetchVisitList {
             DispatchQueue.main.async {
-                self.dizi = result.data.visits
                 self.collectionView.reloadData()
             }
-            
-        })
+        }
     }
-    
-    func showLoadingIndicator() {
+    //MARK: - Functions
+    private func showLoadingIndicator() {
         loadingIndicator.startAnimating()
         loadingIndicator.isHidden = false
     }
     
-    func hideLoadingIndicator() {
+    private func hideLoadingIndicator() {
         loadingIndicator.stopAnimating()
         loadingIndicator.isHidden = true
     }
     
-    
-    func setupViews() {
+    private func setupViews() {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         navigationController?.navigationBar.isHidden = true
-        
         view.addSubviews(retangle,header,loadingIndicatorView)
         retangle.addSubviews(collectionView)
         loadingIndicatorView.addSubview(loadingIndicator)
         view.bringSubviewToFront(loadingIndicatorView)
-        
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         retangle.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview().offset(0)
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(128)
@@ -129,20 +117,18 @@ final class VisitListVC: UIViewController {
             make.centerX.centerY.equalToSuperview()
         }
     }
-    
 }
-
+//MARK: - UICollectionView Extension
 extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dizi.count
+        guard let count = viewModel.getCount else { return 0}
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
-        
-        let travel = dizi[indexPath.item]
-        cell.configure(with: travel)
-        
+        let model = viewModel.getPlacesIndex(at: indexPath.row)
+        cell.configure(with: model)
         hideLoadingIndicator()
         loadingIndicatorView.isHidden = true
         
@@ -154,11 +140,9 @@ extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let VisitsDetailVCInstance = VisitDetailVC()
-        VisitsDetailVCInstance.postedID = dizi[indexPath.row].placeId
-        
-        self.navigationController?.pushViewController(VisitsDetailVCInstance, animated: true)
+        let vc = VisitDetailVC()
+        vc.postedID = viewModel.getPlacesId(at: indexPath.row)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

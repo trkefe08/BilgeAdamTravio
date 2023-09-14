@@ -116,7 +116,8 @@ final class MyVisitsVC: UIViewController {
 extension MyVisitsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.sortedmyArrayAtoZ.count
+        guard let count = viewModel.sortedmyArrayAtoZ?.count else { return 0}
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -124,11 +125,13 @@ extension MyVisitsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         if isButtonActive {
             sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
-            cell.configure(item: viewModel.sortedmyArrayAtoZ[indexPath.row].place)
+            guard let item = viewModel.sortedmyArrayAtoZ?[indexPath.row].place else { return cell}
+            cell.configure(item: item)
             
         } else {
             sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
-            cell.configure(item: viewModel.sortedmyArrayZtoA[indexPath.row].place)
+            guard let item = viewModel.sortedmyArrayZtoA?[indexPath.row].place else { return cell }
+            cell.configure(item: item)
             
         }
         
@@ -146,10 +149,12 @@ extension MyVisitsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let vc = VisitDetailVC()
         
         if isButtonActive {
-            vc.postedID = viewModel.sortedmyArrayAtoZ[indexPath.row].place.id
+            guard let placeID = viewModel.sortedmyArrayAtoZ?[indexPath.row].place?.id else { return }
+            vc.postedID = placeID
             
         } else {
-            vc.postedID = viewModel.sortedmyArrayZtoA[indexPath.row].place.id
+            guard let placeID = viewModel.sortedmyArrayZtoA?[indexPath.row].place?.id else { return }
+            vc.postedID = placeID
         }
         navigationController?.pushViewController(vc, animated: true)
     }

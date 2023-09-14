@@ -172,7 +172,7 @@ final class VisitDetailVC: UIViewController {
                 guard let vst = self.viewModel.visitDetail else {return}
                 self.descriptionLabel.text = vst.description
                 self.titleLabel.text = vst.title
-                self.createdBy.text = "created by @\(vst.creator)"
+                self.createdBy.text = "added by @\(vst.creator)"
                 self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
                 updateMap()
             }
@@ -293,7 +293,7 @@ final class VisitDetailVC: UIViewController {
     
     @objc func visitButtonTapped() {
         if btnImageView.tag == 0 {
-            guard let placeId = placeId else { return }
+            guard let placeId = postedID ?? placeId else { return }
             viewModel.addVisit(parameters: ["place_id": placeId, "visited_at": "2023-08-10T00:00:00Z"]) {
                 self.deleteButton()
                 self.visitButton.backgroundColor = .clear

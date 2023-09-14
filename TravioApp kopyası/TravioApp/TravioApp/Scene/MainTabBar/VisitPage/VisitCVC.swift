@@ -7,10 +7,10 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
+import Kingfisher
 
 final class VisitCVC: UICollectionViewCell {
-    
+    //MARK: - Views
     private lazy var containerView:UIView = {
         let view = UIView()
         
@@ -55,7 +55,7 @@ final class VisitCVC: UICollectionViewCell {
         
         return img
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super .init(frame: frame)
         setupViews()
@@ -75,7 +75,7 @@ final class VisitCVC: UICollectionViewCell {
         shape.path = maskPath.cgPath
         layer.mask = shape
     }
-  
+    //MARK: - Functions
     func setupViews() {
         addSubviews(containerView)
         containerView.addSubviews(backgroundImage,gradient,locationImage,name,title)
@@ -93,6 +93,7 @@ final class VisitCVC: UICollectionViewCell {
         title.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(142)
             make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
         }
         
         locationImage.snp.makeConstraints { make in
@@ -104,6 +105,7 @@ final class VisitCVC: UICollectionViewCell {
         
         name.snp.makeConstraints { make in
             make.leading.equalTo(locationImage.snp.trailing).offset(6)
+            make.trailing.equalToSuperview().offset(-8)
             make.top.equalTo(title.snp.bottom)
         }
         
@@ -114,9 +116,10 @@ final class VisitCVC: UICollectionViewCell {
     }
 
     func configure(with travel: Visit) {
-        name.text = travel.place.place
-        title.text = travel.place.title
-      
-        backgroundImage.sd_setImage(with: URL(string: travel.place.coverImageURL ?? "not found"))
+        name.text = travel.place?.place
+        title.text = travel.place?.title
+        guard let image = URL(string: travel.place?.coverImageURL ?? "not found") else { return }
+        backgroundImage.kf.indicatorType = .activity
+        backgroundImage.kf.setImage(with: image)
     }
 }

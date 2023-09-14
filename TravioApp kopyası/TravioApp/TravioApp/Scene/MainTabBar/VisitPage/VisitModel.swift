@@ -6,24 +6,24 @@
 //
 
 import Foundation
-
+//MARK: - ApiResponse
 struct ApiResponse: Codable {
-    let data: VisitData
-    let status: String
+    var data: VisitData?
+    var status: String?
 }
-
+//MARK: - VisitData
 struct VisitData: Codable {
-    let count: Int
-    let visits: [Visit]
+    var count: Int?
+    var visits: [Visit]?
 }
-
+//MARK: - Visit
 struct Visit: Codable {
-    let id: String
-    let placeId: String
-    let visitedAt: String
-    let createdAt: String
-    let updatedAt: String
-    let place: Place
+    var id: String?
+    var placeId: String?
+    var visitedAt: String?
+    var createdAt: String?
+    var updatedAt: String?
+    var place: Place?
     
     enum CodingKeys: String, CodingKey {
         case id
