@@ -8,21 +8,21 @@
 import UIKit
 import TinyConstraints
 
-class LoginVC: UIViewController {
+final class LoginVC: UIViewController {
+    //MARK: - Views
     private lazy var LoginViewModelInstance: LoginViewModel = {
         let view = LoginViewModel()
-        
         return view
     }()
     
     private lazy var logo: UIImageView = {
         let logo = UIImageView()
         logo.image = UIImage(named: "travio-logo 1")
-        
+        logo.contentMode = .scaleAspectFill
         return logo
     }()
     
-    private lazy var retangle: CustomBackgroundRetangle = {
+    private lazy var rectangleView: CustomBackgroundRetangle = {
         let view = CustomBackgroundRetangle()
         
         return view
@@ -50,7 +50,7 @@ class LoginVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Password"
         view.placeholderName = "*********"
-        view.txtField.text = "dogucan"
+        view.txtField.text = "dogucandurgun"
         view.txtField.isSecureTextEntry = true
         
         return view
@@ -66,7 +66,6 @@ class LoginVC: UIViewController {
     
     private lazy var forgotStackView: UIStackView = {
         let stack = UIStackView()
-        
         return stack
     }()
     
@@ -88,77 +87,69 @@ class LoginVC: UIViewController {
         return button
         
     }()
-    
+
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
-    
-    func setupViews() {
-        view.backgroundColor = ColorEnum.travioBackground.uiColor
-        view.addSubview(logo)
-        view.addSubview(retangle)
-        retangle.addSubview(welcomeLabel)
-        retangle.addSubview(txtMailView)
-        retangle.addSubview(txtPasswordView)
-        retangle.addSubview(loginButton)
-        retangle.addSubview(forgotStackView)
-        forgotStackView.addArrangedSubview(accLabel)
-        forgotStackView.addArrangedSubview(signUp)
+    //MARK: - Functions
+    private func setupViews() {
+        self.view.backgroundColor = ColorEnum.travioBackground.uiColor
+        self.view.addSubviews(logo, rectangleView)
+        rectangleView.addSubviews(welcomeLabel, txtMailView, txtPasswordView, loginButton, forgotStackView)
+        forgotStackView.addArrangedSubviews(accLabel, signUp)
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         navigationController?.isNavigationBarHidden = true
         
-        logo.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(44)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(178)
-            make.width.equalTo(150)
-        }
+        let screenHeight = UIScreen.main.bounds.height
+        let rectangleViewHeightRatio: CGFloat = 598.0 / 844.0
+        let rectangleViewHeight = screenHeight * rectangleViewHeightRatio
         
-        retangle.snp.makeConstraints { make in
-            make.top.equalTo(logo.snp.bottom).offset(24)
-            make.leading.trailing.bottom.equalToSuperview().offset(0)
-        }
+        logo.topToSuperview(offset: 44, usingSafeArea: true)
+        logo.centerXToSuperview()
+        logo.height(UIScreen.main.bounds.height * 0.21)
+        logo.width(UIScreen.main.bounds.width * 0.38)
+    
         
-        welcomeLabel.snp.makeConstraints { make in
-            make.top.equalTo(retangle.snp.top).offset(64)
-            make.centerX.equalToSuperview()
-        }
         
-        txtMailView.snp.makeConstraints { make in
-            make.top.equalTo(welcomeLabel.snp.bottom).offset(41)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(74)
-        }
+        rectangleView.topToBottom(of: logo, offset: 24)
+        rectangleView.leadingToSuperview()
+        rectangleView.trailingToSuperview()
+        rectangleView.bottomToSuperview()
         
-        txtPasswordView.snp.makeConstraints { make in
-            make.top.equalTo(txtMailView.snp.bottom).offset(24)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(74)
-        }
+        welcomeLabel.topToSuperview(offset: rectangleViewHeight * 0.09)
+        welcomeLabel.centerXToSuperview()
         
-        loginButton.snp.makeConstraints { make in
-            make.top.equalTo(txtPasswordView.snp.bottom).offset(48)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(54)
-        }
+        txtMailView.topToBottom(of: welcomeLabel, offset: rectangleViewHeight * 0.08)
+        txtMailView.leadingToSuperview(offset: 24)
+        txtMailView.trailingToSuperview(offset: 24)
+        txtMailView.height(74)
         
-        forgotStackView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(-21)
-            make.centerX.equalToSuperview()
-        }
+        
+        txtPasswordView.topToBottom(of: txtMailView, offset: rectangleViewHeight * 0.048)
+        txtPasswordView.leading(to: txtMailView)
+        txtPasswordView.trailing(to: txtMailView)
+        txtPasswordView.height(74)
+        
+        loginButton.topToBottom(of: txtPasswordView, offset: rectangleViewHeight * 0.064)
+        loginButton.leading(to: txtPasswordView)
+        loginButton.trailing(to: txtPasswordView)
+        loginButton.height(54)
+        
+        forgotStackView.bottomToSuperview(offset: -rectangleViewHeight * 0.025)
+        forgotStackView.centerXToSuperview()
+        
     }
     
     @objc func signUpTapped() {
         let vc = SignUpVC()
         navigationController?.pushViewController(vc, animated: true)
     }
+    
     @objc func loginButtonTapped() {
         guard let email = txtMailView.txtField.text else { return }
         guard let password = txtPasswordView.txtField.text else { return }

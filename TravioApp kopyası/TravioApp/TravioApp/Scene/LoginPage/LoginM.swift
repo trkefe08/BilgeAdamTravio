@@ -6,12 +6,12 @@
 //
 
 import Foundation
-
+//MARK: - LoginInfo
 struct LoginInfo: Codable {
     var email: String
     var password: String
 }
-
+//MARK: - LoginReturn
 struct LoginReturn: Codable {
     var accessToken: String
     var refreshToken: String

@@ -49,15 +49,13 @@ final class MenuVC: UIViewController {
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = Font.poppins(fontType: 400, size: 12).font
         button.setTitleColor(ColorEnum.travioBackground.uiColor, for: .normal)
-        
         button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-        
         return button
     }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
         

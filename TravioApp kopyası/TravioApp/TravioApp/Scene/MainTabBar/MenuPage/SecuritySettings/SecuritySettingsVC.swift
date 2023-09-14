@@ -111,16 +111,13 @@ class SecuritySettingsVC: UIViewController {
        let view = CustomPrivacyView()
         view.labelText = "Location"
         view.switchComponent.addTarget(self, action: #selector(locationSwitch), for: .valueChanged)
-        
         return view
     }()
     
     private lazy var button: CustomButton = {
        let button = CustomButton()
         button.labelText = "Save"
-        
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        
         return button
     }()
 
@@ -294,7 +291,7 @@ class SecuritySettingsVC: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        scrollView.contentSize = CGSize(width: view.frame.width, height: retangle.frame.height + 50)
+        scrollView.contentSize = CGSize(width: contentView.frame.width, height: contentView.frame.height)
     }
     
     func setupLayouts() {
@@ -306,7 +303,7 @@ class SecuritySettingsVC: UIViewController {
         
         contentView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(button.snp.bottom)
+            make.bottom.equalTo(button.snp.bottom).offset(50)
             make.width.equalTo(UIScreen.main.bounds.width)
         }
         
@@ -375,7 +372,7 @@ class SecuritySettingsVC: UIViewController {
         }
         
         button.snp.makeConstraints { make in
-            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(18)
+            make.top.equalTo(location.snp.bottom).offset(16)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)

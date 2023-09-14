@@ -7,7 +7,8 @@
 
 import Foundation
 
-class LoginViewModel {
+final class LoginViewModel {
+    //MARK: - Functions
     func login(params: [String: Any], callback: @escaping (Error?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.login(parameters: params)) { (result: Result<LoginReturn, Error>) in
             switch result {

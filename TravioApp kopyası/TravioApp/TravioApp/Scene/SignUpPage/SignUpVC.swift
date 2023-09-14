@@ -8,7 +8,7 @@
 import UIKit
 
 class SignUpVC: UIViewController {
-    // private lazy var ile instance almak
+    
     private lazy var viewModelInstance: SignUpViewModel = {
         let view = SignUpViewModel()
         
