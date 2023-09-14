@@ -11,8 +11,8 @@ import TinyConstraints
 
 final class TermOfUseVC: UIViewController {
     //MARK: - Views
-    private lazy var rectangleView:CustomBackgroundRetangle = {
-        let view = CustomBackgroundRetangle()
+    private lazy var rectangleView:CustomBackgroundRectangle = {
+        let view = CustomBackgroundRectangle()
         return view
     }()
     

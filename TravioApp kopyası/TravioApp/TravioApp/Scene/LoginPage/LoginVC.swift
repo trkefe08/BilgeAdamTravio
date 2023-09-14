@@ -22,8 +22,8 @@ final class LoginVC: UIViewController {
         return logo
     }()
     
-    private lazy var rectangleView: CustomBackgroundRetangle = {
-        let view = CustomBackgroundRetangle()
+    private lazy var rectangleView: CustomBackgroundRectangle = {
+        let view = CustomBackgroundRectangle()
         
         return view
     }()

@@ -10,7 +10,7 @@ import SnapKit
 import SDWebImage
 
 class MyAddedPlacesVC: UIViewController {
-    var viewModel = MyAddedPlacesVM()
+    var vm = MyAddedPlacesVM()
     var isButtonActive = true
 
     private lazy var retangle:CustomBackgroundRectangle = {
@@ -79,9 +79,6 @@ class MyAddedPlacesVC: UIViewController {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
                    self.collectionView.reloadData()
                     
-               } else {
-                   sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
-                   self.collectionView.reloadData()
                } else {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
                    self.collectionView.reloadData()
