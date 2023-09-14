@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum PrivacyType {
+    case camera
+    case location
+    case photoLibrary
+}
+
 struct PasswordChangeRequest: Codable {
     let new_password: String
 }

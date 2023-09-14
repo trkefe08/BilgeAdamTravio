@@ -21,6 +21,7 @@ class SecuritySettingsVC: UIViewController {
     private lazy var scrollView: UIScrollView = {
            let scrollView = UIScrollView()
            scrollView.translatesAutoresizingMaskIntoConstraints = false
+           scrollView.showsVerticalScrollIndicator = false
            
            return scrollView
        }()
@@ -31,7 +32,7 @@ class SecuritySettingsVC: UIViewController {
         return view
     }()
     
-    private lazy var retangle:CustomBackgroundRectangle = {
+    private lazy var rectangle:CustomBackgroundRectangle = {
         let view = CustomBackgroundRectangle()
         
         return view
@@ -131,94 +132,92 @@ class SecuritySettingsVC: UIViewController {
     }
    
     @objc func updateSettings() {
-        updateCameraSwitchStates()
-        updateLocationSwitchState()
-        updatePhotoLibrarySwitchState()
+        updateSwitchState(type: .camera)
+        updateSwitchState(type: .location)
+        updateSwitchState(type: .photoLibrary)
+    }
+
+    func updateSwitchState(type: PrivacyType) {
+        switch type {
+        case .camera:
+            let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+            camera.switchComponent.isOn = (cameraAuthorizationStatus == .authorized)
+        case .location:
+            let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
+            location.switchComponent.isOn = (locationAuthorizationStatus == .authorizedWhenInUse || locationAuthorizationStatus == .authorizedAlways)
+        case .photoLibrary:
+            let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+            photoLibrary.switchComponent.isOn = (photoLibraryAuthorizationStatus == .authorized)
+        }
     }
     
     @objc func cameraSwitch() {
-        openAppSettings()
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorizationStatus {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                DispatchQueue.main.async {
+                    self.camera.switchComponent.isOn = granted
+                }
+            }
+            updateSettings()
+        case .restricted, .denied:
+            openAppSettings()
+        case .authorized:
+            openAppSettings()
+        @unknown default:
+            break
+        }
     }
     
     @objc func photoLibrarySwitch() {
-        openAppSettings()
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        
+        switch photoAuthorizationStatus {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { status in
+                DispatchQueue.main.async {
+                    self.photoLibrary.switchComponent.isOn = (status == .authorized)
+                }
+            }
+            updateSettings()
+        case .restricted, .denied:
+            openAppSettings()
+        case .authorized:
+            openAppSettings()
+        case .limited:
+            openAppSettings()
+        @unknown default:
+            break
+        }
     }
-    
+
     @objc func locationSwitch() {
-        openAppSettings()
+        let locationManager = CLLocationManager()
+        let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
+        
+        switch locationAuthorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            DispatchQueue.main.async {
+                self.location.switchComponent.isOn = (locationAuthorizationStatus == .authorizedWhenInUse || locationAuthorizationStatus == .authorizedAlways)
+            }
+            updateSettings()
+        case .restricted, .denied:
+            openAppSettings()
+        case .authorizedWhenInUse, .authorizedAlways:
+            openAppSettings()
+        @unknown default:
+            break
+        }
     }
-    
     
     func openAppSettings() {
-        if let url = URL(string: UIApplication.openSettingsURLString),
-           UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if let appSettingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(appSettingsURL, options: [:], completionHandler: nil)
         }
     }
-    
-    func updateLocationSwitchState() {
-        let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
-        switch locationAuthorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            location.switchComponent.isOn = true
-        case .denied, .restricted, .notDetermined:
-            location.switchComponent.isOn  = false
-        @unknown default:
-            location.switchComponent.isOn  = false
-        }
-        print("update Location")
-    }
-    
-    func requestCameraPermission() {
-        AVCaptureDevice.requestAccess(for: .video) { granted in
-            if granted {
-                self.openAppSettings()
-                print("izin verildi")
-            } else {
-                print("izin verilmedi")
-            }
-        }
-    }
- 
-      func updateCameraSwitchStates() {
-          let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-          switch cameraAuthorizationStatus {
-          case .authorized:
-              // İzin verilmiş, switch'i açık tutabilirsiniz.
-            //  camera.switchComponent.isOn = true
-              camera.switchChanged = true
-          case .denied, .restricted, .notDetermined:
-              // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
-             // camera.switchComponent.isOn = false
-              camera.switchChanged = false
-          @unknown default:
-              // Diğer durumlar için switch'i kapalı tutabilirsiniz.
-            //  camera.switchComponent.isOn = false
-              camera.switchChanged = true
-          }
-          print("update Camera")
-      }
-    
-    func updatePhotoLibrarySwitchState() {
-        let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-
-        switch photoLibraryAuthorizationStatus {
-        case .authorized:
-            // İzin verilmiş, switch'i açık tutabilirsiniz.
-            photoLibrary.switchComponent.isOn = true
-        case .denied, .restricted, .notDetermined:
-            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
-            photoLibrary.switchComponent.isOn = false
-        case .limited:
-            // seçili fotoğraflarda
-            photoLibrary.switchComponent.isOn = true
-        @unknown default:
-
-            photoLibrary.switchComponent.isOn = false
-        }
-        print("update Library")
-    }
-    
+  
     @objc func saveButtonTapped() {
         guard let password = newPassword.txtField.text else {return}
         guard let passwordConfirm = newPasswordConfirm.txtField.text else {return}
@@ -243,7 +242,6 @@ class SecuritySettingsVC: UIViewController {
             } else {
                 let params: Parameters = ["new_password": password]
                 self.vm.changePassword(params: params) {
-                 
                 }
                 
                 let alertController = UIAlertController(title: "Başarılı", message: """
@@ -271,9 +269,9 @@ class SecuritySettingsVC: UIViewController {
     func setupView(){
         navigationController?.navigationBar.isHidden = true
         
-        view.addSubviews(retangle,backButton,header)
+        view.addSubviews(rectangle,backButton,header)
         scrollView.addSubview(contentView)
-        retangle.addSubviews(scrollView)
+        rectangle.addSubviews(scrollView)
         
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         contentView.addSubviews(changePasswordLabel,newPassword,newPasswordConfirm,privacyLabel,camera,photoLibrary,location,button)
@@ -293,10 +291,9 @@ class SecuritySettingsVC: UIViewController {
             make.top.leading.trailing.equalToSuperview()
             make.bottom.equalTo(button.snp.bottom).offset(50)
             make.width.equalTo(UIScreen.main.bounds.width)
-            make.bottom.equalTo(location.snp.bottom).offset(20)
         }
         
-        retangle.snp.makeConstraints { make in
+        rectangle.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(125)
             make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -361,7 +358,7 @@ class SecuritySettingsVC: UIViewController {
         }
         
         button.snp.makeConstraints { make in
-            make.top.equalTo(location.snp.bottom).offset(16)
+            make.top.equalTo(location.snp.bottom).offset(50)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)

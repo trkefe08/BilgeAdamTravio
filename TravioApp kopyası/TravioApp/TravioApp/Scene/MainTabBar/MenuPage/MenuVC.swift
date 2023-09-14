@@ -80,7 +80,6 @@ final class MenuVC: UIViewController {
         viewModel.getProfile {
             self.configure()
         }
-        
     }
     
     @objc func logoutTapped() {
@@ -104,7 +103,6 @@ final class MenuVC: UIViewController {
         }else {
             profileImage.sd_setImage(with: URL(string:data.ppUrl))
         }
-
     }
     
     private func setupView() {
