@@ -20,7 +20,7 @@ final class VisitCVC: UICollectionViewCell {
     lazy var backgroundImage:UIImageView = {
        let img = UIImageView()
         img.image = UIImage(named: "istanbul")
-        
+        img.contentMode = .scaleAspectFill
         return img
     }()
     

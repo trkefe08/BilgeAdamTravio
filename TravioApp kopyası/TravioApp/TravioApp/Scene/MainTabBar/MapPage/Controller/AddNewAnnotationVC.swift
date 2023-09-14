@@ -131,6 +131,7 @@ final class AddNewAnnotationVC: UIViewController {
         visitDescView.roundCornersWithShadow([.topLeft, .topRight, .bottomLeft], radius: 16)
         countryCityView.roundCornersWithShadow( [.topLeft, .topRight, .bottomLeft], radius: 16)
         addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
+        
     }
     //MARK: - Functions
     private func setupViews() {
@@ -146,15 +147,16 @@ final class AddNewAnnotationVC: UIViewController {
     }
     
     private func setupLayout() {
+        let screenHeight = UIScreen.main.bounds.height
         rectangleView.centerXToSuperview()
-        rectangleView.topToSuperview(offset: 16)
+        rectangleView.topToSuperview(offset: screenHeight * 0.013 )
         rectangleView.height(8)
         rectangleView.width(70)
         
-        placeNameView.topToBottom(of: rectangleView, offset: 22)
+        placeNameView.topToBottom(of: rectangleView, offset: screenHeight * 0.013 * 1.5)
         placeNameView.leadingToSuperview(offset: 24)
         placeNameView.trailingToSuperview(offset: 24)
-        placeNameView.height(74)
+        placeNameView.height(screenHeight * 0.087)
         
         placeNameLabel.topToSuperview(offset: 8)
         placeNameLabel.leadingToSuperview(offset: 16)
@@ -162,11 +164,10 @@ final class AddNewAnnotationVC: UIViewController {
         txtPlaceName.leading(to: placeNameLabel)
         txtPlaceName.bottomToSuperview(offset: -8)
         
-        visitDescView.topToBottom(of: placeNameView, offset: 16)
+        visitDescView.topToBottom(of: placeNameView, offset: screenHeight * 0.013)
         visitDescView.leading(to: placeNameView)
         visitDescView.trailing(to: placeNameView)
-        visitDescView.height(215)
-        
+        visitDescView.height(screenHeight * 0.25)
         
         visitDescLabel.topToSuperview(offset: 8)
         visitDescLabel.leadingToSuperview(offset: 16)
@@ -175,26 +176,25 @@ final class AddNewAnnotationVC: UIViewController {
         visitDescTxtView.trailingToSuperview(offset: 16)
         visitDescTxtView.bottomToSuperview(offset: -16)
         
-        
-        countryCityView.topToBottom(of: visitDescView, offset: 16)
+        countryCityView.topToBottom(of: visitDescView, offset: screenHeight * 0.013)
         countryCityView.leading(to: placeNameView)
         countryCityView.trailing(to: placeNameView)
-        countryCityView.height(74)
+        countryCityView.height(screenHeight * 0.087)
         
         countryCityLabel.topToSuperview(offset: 8)
         countryCityLabel.leadingToSuperview(offset: 16)
         locationLabel.topToBottom(of: countryCityLabel, offset: 8)
         locationLabel.leading(to: countryCityLabel)
         
-        collectionView.topToBottom(of: countryCityView, offset: 16)
+        collectionView.topToBottom(of: countryCityView, offset: screenHeight * 0.013)
         collectionView.leadingToSuperview(offset: 24)
         collectionView.trailingToSuperview()
-        collectionView.height(215)
+        collectionView.height(screenHeight * 0.25)
         
-        addPlaceButton.topToBottom(of: collectionView, offset: 16)
+        addPlaceButton.topToBottom(of: collectionView, offset: screenHeight * 0.013)
         addPlaceButton.leadingToSuperview(offset: 24)
         addPlaceButton.trailingToSuperview(offset: 24)
-        addPlaceButton.height(54)
+        addPlaceButton.height(screenHeight * 0.063)
         addPlaceButton.bottomToSuperview(offset: -24, usingSafeArea: true)
         
     }
@@ -261,12 +261,39 @@ extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        alertController()
     }
     
+    private func alertController() {
+        let alertController = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+            if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.sourceType = .camera
+                self?.present(imagePicker, animated: true)
+            }
+        }
+        
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [weak self] _ in
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            self?.present(imagePicker, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alertController.addAction(cameraAction)
+        }
+        
+        alertController.addAction(libraryAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
 }
 
 extension AddNewAnnotationVC: UICollectionViewDataSource {

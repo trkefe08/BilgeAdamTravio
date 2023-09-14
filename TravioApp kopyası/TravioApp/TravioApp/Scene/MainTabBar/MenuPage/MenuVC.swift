@@ -80,7 +80,6 @@ final class MenuVC: UIViewController {
         viewModel.getProfile {
             self.configure()
         }
-        
     }
     
     @objc func logoutTapped() {

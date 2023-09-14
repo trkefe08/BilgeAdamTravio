@@ -13,7 +13,7 @@ import TinyConstraints
 protocol AddAnnotationDelegate: AnyObject {
     func didAddAnnotation()
 }
-
+//MARK: - Class
 final class MapVC: UIViewController {
     //MARK: - Views
     private lazy var mapView: MKMapView = {
@@ -115,7 +115,7 @@ final class MapVC: UIViewController {
         mapView.edgesToSuperview()
         
         collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
-        collectionView.height(178)
+        collectionView.height(UIScreen.main.bounds.height * 0.21)
         collectionView.bottomToSuperview(offset: -16, usingSafeArea: true)
         collectionView.bringSubviewToFront(mapView)
     }
@@ -177,7 +177,7 @@ extension MapVC: MKMapViewDelegate {
 //MARK: - CollectionView Extension
 extension MapVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width * 0.79, height: UIScreen.main.bounds.height * 0.21)
+        let size = CGSize(width: UIScreen.main.bounds.width * 0.79, height: UIScreen.main.bounds.height * 0.21)
         return size
     }
     
