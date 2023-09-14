@@ -8,6 +8,7 @@
 import Foundation
 
 struct MyAddedResponse: Codable {
+    
     let data: MyAddedPlaceData
     let status: String
 }

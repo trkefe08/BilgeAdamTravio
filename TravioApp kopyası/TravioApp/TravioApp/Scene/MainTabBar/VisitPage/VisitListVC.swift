@@ -30,7 +30,7 @@ final class VisitListVC: UIViewController {
     }()
     
     private lazy var retangle: UIView = {
-        let view = CustomBackgroundRetangle()
+        let view = CustomBackgroundRectangle()
         
         return view
     }()

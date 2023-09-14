@@ -57,8 +57,6 @@ class MenuCVC: UICollectionViewCell {
         settingsName.text = item.name
     }
     
-    
-    
     func setupView(){
         addSubview(bView)
         bView.addSubviews(image,settingsName,vector)

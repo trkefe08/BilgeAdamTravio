@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import WebKit
 
 class AboutUsVC: UIViewController {
 
-    private lazy var retangle:CustomBackgroundRetangle = {
-        let view = CustomBackgroundRetangle()
+    private lazy var retangle:CustomBackgroundRectangle = {
+        let view = CustomBackgroundRectangle()
         
         return view
     }()
@@ -32,20 +33,35 @@ class AboutUsVC: UIViewController {
         return label
     }()
     
+    private lazy var webView: WKWebView = {
+           let webView = WKWebView(frame: .zero)
+           webView.translatesAutoresizingMaskIntoConstraints = false
+           return webView
+       }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
+        loadWebsite(urlString: "https://api.iosclass.live/about")
     }
     
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
+    private func loadWebsite(urlString: String) {
+            if let url = URL(string: urlString) {
+                let request = URLRequest(url: url)
+                webView.load(request)
+            }
+        }
+    
     func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
         
         view.addSubviews(retangle,backButton,header)
+        retangle.addSubviews(webView)
         setupLayouts()
     }
     
@@ -67,7 +83,11 @@ class AboutUsVC: UIViewController {
             make.top.equalTo(header.snp.bottom).offset(54)
             make.leading.trailing.bottom.equalToSuperview()
         }
-
+        
+        webView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalToSuperview()
+        }
         
     }
     

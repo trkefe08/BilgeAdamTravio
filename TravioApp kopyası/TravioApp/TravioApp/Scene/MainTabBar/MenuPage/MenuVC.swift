@@ -21,15 +21,15 @@ final class MenuVC: UIViewController {
         return label
     }()
     
-    private lazy var retangle: CustomBackgroundRetangle = {
-        let retangle = CustomBackgroundRetangle()
+    private lazy var retangle: CustomBackgroundRectangle = {
+        let retangle = CustomBackgroundRectangle()
         
         return retangle
     }()
     
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
-        img.image = UIImage(systemName: "person.circle.fill")
+        
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
@@ -38,7 +38,7 @@ final class MenuVC: UIViewController {
     
     private lazy var profileName: UILabel = {
         let label = UILabel()
-        label.text = "Bruce Wills"
+        label.text = ""
         label.font = Font.poppins(fontType: 600, size: 16).font
         label.textColor = .black
         return label
@@ -67,7 +67,14 @@ final class MenuVC: UIViewController {
         
         return cv
     }()
-    //MARK: - Lifecycle
+    
+    private lazy var logout: UIButton = {
+       let btn = UIButton()
+        btn.setImage(UIImage(named: "settings_logout"), for: .normal)
+        btn.addTarget(self, action: #selector(logoutTapped), for: .touchUpInside)
+        return btn
+    }()
+
     override func viewDidLoad() {
         setupView()
         viewModel.getProfile {
@@ -75,9 +82,14 @@ final class MenuVC: UIViewController {
         }
         
     }
-    //MARK: - Functions
+    
+    @objc func logoutTapped() {
+        let vc = LoginVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc func editButtonTapped() {
-        let vc = EditProfile()
+        let vc = EditProfileVC()
         vc.delegate = self
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -86,12 +98,18 @@ final class MenuVC: UIViewController {
     private func configure() {
         guard let data = viewModel.data else {return}
         profileName.text = data.fullName
-        profileImage.sd_setImage(with:URL(string: data.ppUrl))
+        if data.ppUrl.isEmpty {
+            profileImage.image = UIImage(systemName: "person.circle.fill")
+            profileImage.tintColor = ColorEnum.travioBackground.uiColor
+        }else {
+            profileImage.sd_setImage(with: URL(string:data.ppUrl))
+        }
+
     }
     
     private func setupView() {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
-        view.addSubviews(header, retangle)
+        view.addSubviews(header, retangle, logout)
         retangle.addSubviews(profileImage, profileName, editProfileButton, collectionView)
         
         setupLayouts()
@@ -106,6 +124,13 @@ final class MenuVC: UIViewController {
         retangle.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(54)
             make.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        logout.snp.makeConstraints { make in
+            make.centerY.equalTo(header)
+            make.height.width.equalTo(30)
+            make.trailing.equalToSuperview().offset(-24)
+            
         }
         
         profileImage.snp.makeConstraints { make in

@@ -9,9 +9,7 @@ import UIKit
 
 class HelpAndSupportCVC: UICollectionViewCell {
     
-    
     var isAnswerHidden = false
-    
     
     private lazy var containerView: UIView = {
        let view = UIView()
@@ -23,7 +21,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return view
     }()
     
- lazy var question:UILabel = {
+    private lazy var question:UILabel = {
         let lbl = UILabel()
         lbl.text = "Question"
         lbl.font = Font.poppins(fontType: 500, size: 14).font
@@ -32,7 +30,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return lbl
     }()
     
-    lazy var answer:UILabel = {
+    private lazy var answer:UILabel = {
         let lbl = UILabel()
         lbl.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu enim sed nisi condimentum tristique nec ac sapien. Etiam ultrices elit egestas sodales sagittis. Nulla facilisi. Nam vitae rhoncus urna. Duis ut pretium ligula. Nunc rhoncus nec augue nec malesuada. Mauris vulputate ante sed rutrum euismod. Duis vitae ligula nec elit condimentum ultricies vitae et ipsum. Maecenas dignissim tortor sit amet massa varius suscipit."
         lbl.numberOfLines = 0
@@ -40,13 +38,11 @@ class HelpAndSupportCVC: UICollectionViewCell {
         
         return lbl
     }()
-    
-    private lazy var button:UIButton = {
-        let btn = UIButton()
-        btn.setImage(UIImage(named: "faq_button"), for: .normal)
-    
-       
-        return btn
+    private lazy var image: UIImageView = {
+       let image = UIImageView()
+        image.image = UIImage(named: "faq_button")
+        
+        return image
     }()
     
     override init(frame: CGRect) {
@@ -62,7 +58,6 @@ class HelpAndSupportCVC: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
     
     func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
@@ -72,9 +67,14 @@ class HelpAndSupportCVC: UICollectionViewCell {
         clipsToBounds = false
     }
     
+    func configure(model:FAQ) {
+        question.text = model.question
+        answer.text = model.answer
+    }
+    
     func setupView(){
         addSubview(containerView)
-        containerView.addSubviews(question,answer,button)
+        containerView.addSubviews(question,answer,image)
         setupLayouts()
     }
     
@@ -84,14 +84,15 @@ class HelpAndSupportCVC: UICollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        button.snp.makeConstraints { make in
+        image.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-18.5)
             make.center.equalTo(question)
-            make.height.width.equalTo(15)
+            make.height.equalTo(10.4)
+            make.width.equalTo(15.5)
         }
         
         question.snp.makeConstraints { make in
-            make.trailing.equalTo(button.snp.leading).offset(-12)
+            make.trailing.equalTo(image.snp.leading).offset(-12)
             make.leading.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(16)
         }

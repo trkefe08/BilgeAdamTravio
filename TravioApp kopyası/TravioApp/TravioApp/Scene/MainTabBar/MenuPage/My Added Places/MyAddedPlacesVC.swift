@@ -13,8 +13,8 @@ class MyAddedPlacesVC: UIViewController {
     var viewModel = MyAddedPlacesVM()
     var isButtonActive = true
 
-    private lazy var retangle:CustomBackgroundRetangle = {
-       let retangle = CustomBackgroundRetangle()
+    private lazy var retangle:CustomBackgroundRectangle = {
+       let retangle = CustomBackgroundRectangle()
        return retangle
     }()
 
@@ -63,7 +63,7 @@ class MyAddedPlacesVC: UIViewController {
         setupView()
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         
-        viewModel.getAllPlacesForUser {
+        vm.getAllPlacesForUser {
             self.collectionView.reloadData()
         }
     }
@@ -73,12 +73,15 @@ class MyAddedPlacesVC: UIViewController {
     }
     
     @objc func sortFilterTapped() {
-        isButtonActive.toggle()
+        vm.isButtonActive.toggle()
                
                if isButtonActive {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
                    self.collectionView.reloadData()
                     
+               } else {
+                   sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
+                   self.collectionView.reloadData()
                } else {
                    sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
                    self.collectionView.reloadData()
@@ -128,19 +131,18 @@ class MyAddedPlacesVC: UIViewController {
 extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.sortedmyArrayAtoZ.count
+        return vm.sortedmyArrayAtoZ.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MyAddedPlaceCVC else {return UICollectionViewCell()}
         
-        if isButtonActive {
-            sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
-            cell.configure(item: viewModel.sortedmyArrayAtoZ[indexPath.row])
-            
-        } else {
+        if vm.isButtonActive {
             sortFilter.setImage(UIImage(named: "myAddedPlace_AtoZ"), for: .normal)
-            cell.configure(item: viewModel.sortedmyArrayZtoA[indexPath.row])
+            cell.configure(item: vm.sortedmyArrayZtoA[indexPath.row])
+        } else {
+            sortFilter.setImage(UIImage(named: "myAddedPlace_ZtoA"), for: .normal)
+            cell.configure(item: vm.sortedmyArrayAtoZ[indexPath.row])
 
         }
        
@@ -157,10 +159,10 @@ extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource,
         
         let vc = VisitDetailVC()
         
-        if isButtonActive {
-            vc.postedID = viewModel.sortedmyArrayAtoZ[indexPath.row].id
+        if vm.isButtonActive {
+            vc.postedID = vm.sortedmyArrayAtoZ[indexPath.row].id
         } else {
-            vc.postedID = viewModel.sortedmyArrayZtoA[indexPath.row].id
+            vc.postedID = vm.sortedmyArrayZtoA[indexPath.row].id
         }
         navigationController?.pushViewController(vc, animated: true)
     }
