@@ -34,6 +34,7 @@ final class VisitDetailVC: UIViewController {
         pageControl.backgroundStyle = .prominent
         pageControl.currentPage = 0
         pageControl.allowsContinuousInteraction = false
+        pageControl.isUserInteractionEnabled = false
         pageControl.pageIndicatorTintColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.4)
         pageControl.currentPageIndicatorTintColor = .black
         return pageControl

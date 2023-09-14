@@ -56,24 +56,36 @@ final class HomeVC: UIViewController {
     private func configure() {
         dispatchGroup.enter()
         viewModel.fetchPopularPlaces(limit: 5) { popular in
-            guard let popular = popular.data?.places else { return }
-            self.popularPlaces = popular
-            self.dispatchGroup.leave()
+            if popular != nil {
+                guard let popular = popular?.data?.places else { return }
+                self.popularPlaces = popular
+                self.dispatchGroup.leave()
+            } else {
+                self.showAlert(title: "Hata", message: "Bir hata oluştu. Lütfen tekrar deneyin.")
+            }
         }
         dispatchGroup.enter()
         viewModel.fetchLastPlaces(limit: 5) { last in
-            guard let last = last.data?.places else { return }
-            self.lastPlaces = last
-            self.dispatchGroup.leave()
+            if last != nil {
+                guard let last = last?.data?.places else { return }
+                self.lastPlaces = last
+                self.dispatchGroup.leave()
+            } else {
+                self.showAlert(title: "Hata", message: "Bir hata oluştu. Lütfen tekrar deneyin.")
+            }
         }
         dispatchGroup.enter()
         viewModel.fetchVisits(page: 1, limit: 5) { visit in
-            guard let visit = visit.data?.visits else { return }
-            self.allVisits = visit.map { item in
-                guard let item = item.place else { return Place() }
-                return item
+            if visit != nil {
+                guard let visit = visit?.data?.visits else { return }
+                self.allVisits = visit.map { item in
+                    guard let item = item.place else { return Place() }
+                    return item
+                }
+                self.dispatchGroup.leave()
+            } else {
+                self.showAlert(title: "Hata", message: "Bir hata oluştu. Lütfen tekrar deneyin.")
             }
-            self.dispatchGroup.leave()
         }
         dispatchGroup.notify(queue: .main) {
             DispatchQueue.main.async {
