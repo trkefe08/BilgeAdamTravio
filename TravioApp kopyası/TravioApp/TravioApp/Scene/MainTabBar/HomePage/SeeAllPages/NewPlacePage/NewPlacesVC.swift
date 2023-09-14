@@ -57,8 +57,10 @@ final class NewPlacesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.fetchNewPlaces(limit: 10) {
-            DispatchQueue.main.async {
+        viewModel.fetchNewPlaces(limit: 10) { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata", message: errorMessage)
+            } else {
                 self.collectionView.reloadData()
             }
         }

@@ -57,8 +57,12 @@ final class MyVisitsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.fetchMyVisits(page: 1, limit: 10, completion: {
-            self.collectionView.reloadData()
+        viewModel.fetchMyVisits(page: 1, limit: 10, completion: { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata", message: errorMessage)
+            } else {
+                self.collectionView.reloadData()
+            }
         })
     }
     //MARK: - Functions
@@ -116,7 +120,7 @@ final class MyVisitsVC: UIViewController {
 extension MyVisitsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let count = viewModel.sortedmyArrayAtoZ?.count else { return 0}
+        guard let count = viewModel.sortedmyArrayAtoZ?.count else { return 0 }
         return count
     }
     

@@ -57,8 +57,12 @@ final class PopularPlacesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.fetchPopularPlaces(limit: 10, completion: {
-            self.collectionView.reloadData()
+        viewModel.fetchPopularPlaces(limit: 10, completion: { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata", message: errorMessage)
+            } else {
+                self.collectionView.reloadData()
+            }
         })
     }
     //MARK: - Functions

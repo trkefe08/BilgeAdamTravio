@@ -11,7 +11,7 @@ final class MyVisitsViewModel {
     var sortedmyArrayAtoZ:[Visit]?
     var sortedmyArrayZtoA:[Visit]?
     //MARK: - Functions
-    func fetchMyVisits(page: Int, limit: Int, completion: @escaping ()->Void) {
+    func fetchMyVisits(page: Int, limit: Int, completion: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAllVisitsLimit(page: page, limit: limit)) { (result:Result<ApiResponse, Error>) in
             DispatchQueue.main.async {
                 switch result {
@@ -28,9 +28,9 @@ final class MyVisitsViewModel {
                         }
                         return first.localizedCompare(second) == .orderedDescending
                     }
-                    completion()
+                    completion(nil)
                 case .failure(let err):
-                    print(err.localizedDescription)
+                    completion(err.localizedDescription)
                 }
             }
         }

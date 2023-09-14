@@ -11,7 +11,7 @@ final class PopularPlacesViewModel {
     var sortedmyArrayAtoZ:[MyAddedPlace] = []
     var sortedmyArrayZtoA:[MyAddedPlace] = []
     //MARK: - Functions
-    func fetchPopularPlaces(limit: Int, completion: @escaping ()->Void) {
+    func fetchPopularPlaces(limit: Int, completion: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getPopularPlaces(limit: limit)) { (result:Result<MyAddedResponse, Error>) in
             DispatchQueue.main.async {
                 switch result {
@@ -22,9 +22,9 @@ final class PopularPlacesViewModel {
                     self.sortedmyArrayZtoA = result.data.places.sorted {
                         $0.title.localizedCompare($1.title) == .orderedDescending
                     }
-                    completion()
+                    completion(nil)
                 case .failure(let err):
-                    print(err.localizedDescription)
+                    completion(err.localizedDescription)
                 }
             }
         }
