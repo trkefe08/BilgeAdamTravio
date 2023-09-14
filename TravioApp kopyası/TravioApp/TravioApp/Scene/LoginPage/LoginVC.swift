@@ -24,7 +24,6 @@ final class LoginVC: UIViewController {
     
     private lazy var rectangleView: CustomBackgroundRectangle = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
@@ -33,7 +32,6 @@ final class LoginVC: UIViewController {
         label.text = "Welcome to Travio"
         label.font = Font.poppins(fontType: 500, size: 24).font
         label.textColor = ColorEnum.fontColor.uiColor
-        
         return label
     }()
     
@@ -42,7 +40,6 @@ final class LoginVC: UIViewController {
         view.labelText = "Email"
         view.placeholderName = "bilgeadam@gmail.com"
         view.txtField.text = "dogucandurgun@gmail.com"
-        
         return view
     }()
     
@@ -52,7 +49,6 @@ final class LoginVC: UIViewController {
         view.placeholderName = "*********"
         view.txtField.text = "dogucandurgun"
         view.txtField.isSecureTextEntry = true
-        
         return view
     }()
     
@@ -73,7 +69,6 @@ final class LoginVC: UIViewController {
         let label = UILabel()
         label.text = "Don't have any account?"
         label.font = Font.poppins(fontType: 600, size: 14).font
-        
         return label
     }()
     
@@ -82,7 +77,6 @@ final class LoginVC: UIViewController {
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = Font.poppins(fontType: 600, size: 14).font
         button.setTitleColor(.black, for: .normal)
-        
         button.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         return button
         
@@ -158,9 +152,7 @@ final class LoginVC: UIViewController {
         
         LoginViewModelInstance.login(params: ["email":email, "password":password] ) { error in
             if let _ = error {
-                let alert = UIAlertController(title: "Hata!", message: "Kullanıcı Adı veya Şifre Hatalı", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Yeniden Dene", style: .default, handler: nil))
-                self.present(alert, animated: true)
+                self.showLoginAlert(title: "Hata!", message: "Kullanıcı Adı veya Şifre Hatalı")
             } else {
                 let tabBarController = MainTabBarController()
                 self.navigationController?.pushViewController(tabBarController, animated: true)

@@ -8,25 +8,21 @@
 import UIKit
 
 class SignUpVC: UIViewController {
-    
+    //MARK: - Views
     private lazy var viewModelInstance: SignUpViewModel = {
         let view = SignUpViewModel()
-        
         return view
     }()
    
     private lazy var retangle: UIView = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
     private lazy var username: CustomTF = {
         let tf = CustomTF()
-        
         tf.labelText = "Username"
         tf.placeholderName = "Username"
-        
         return tf
     }()
     
@@ -34,7 +30,6 @@ class SignUpVC: UIViewController {
         let tf = CustomTF()
         tf.labelText = "Email"
         tf.placeholderName = "E-Mail"
-        
         return tf
     }()
     
@@ -43,7 +38,6 @@ class SignUpVC: UIViewController {
         tf.labelText = "Password"
         tf.placeholderName = "Password"
         tf.txtField.isSecureTextEntry = true
-
         return tf
     }()
     
@@ -52,7 +46,6 @@ class SignUpVC: UIViewController {
         tf.labelText = "Password Confirm"
         tf.placeholderName = "Password Confirm"
         tf.txtField.isSecureTextEntry = true
-        
         return tf
     }()
     
@@ -61,9 +54,7 @@ class SignUpVC: UIViewController {
         btn.labelText = "Register"
         btn.backgroundColor = UIColor.gray
         btn.isEnabled = false
-        
         btn.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        
         return btn
     }()
     
@@ -71,7 +62,6 @@ class SignUpVC: UIViewController {
         let image = UIButton()
         image.setImage(UIImage(named: "Vector"), for: .normal)
         image.addTarget(self, action: #selector(backVectorTapped), for: .touchUpInside)
-        
         return image
     }()
     
@@ -82,15 +72,14 @@ class SignUpVC: UIViewController {
         label.textColor = .white
         return label
     }()
- 
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViews()
         delegates()
     }
-
-    func setupViews() {
+    //MARK: - Functions
+    private func setupViews() {
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         view.addSubview(retangle)
@@ -104,14 +93,14 @@ class SignUpVC: UIViewController {
         setupLayouts()
     }
     
-    func delegates() {
+    private func delegates() {
         username.txtField.delegate = self
         mail.txtField.delegate = self
         password.txtField.delegate = self
         passwordConfirm.txtField.delegate = self
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         retangle.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(124)
             make.leading.trailing.bottom.equalToSuperview().offset(0)
@@ -165,10 +154,12 @@ class SignUpVC: UIViewController {
         guard let password = password.txtField.text else { return }
         
         _ = RegisterInfo(full_name: username, email: email, password: password)
-        print("tikla")
-        viewModelInstance.signUp(params: ["full_name": username, "email": email, "password": password]) {
-            
-            self.navigationController?.popViewController(animated: true)
+        viewModelInstance.signUp(params: ["full_name": username, "email": email, "password": password]) { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     
@@ -176,7 +167,7 @@ class SignUpVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 }
-
+//MARK: - UITextField Extension
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if (username.txtField.text?.count)! >= 12 &&

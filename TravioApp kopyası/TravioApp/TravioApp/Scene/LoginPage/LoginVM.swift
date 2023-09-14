@@ -13,12 +13,11 @@ final class LoginViewModel {
         TravioNetwork.shared.makeRequest(request: Router.login(parameters: params)) { (result: Result<LoginReturn, Error>) in
             switch result {
             case .success(let value):
-                callback(nil)
                 let data = Data(value.accessToken.utf8)
                 KeyChainHelper.shared.save(data, service: "access_token", account: "bilgeadam")
+                callback(nil)
             case .failure(let err):
                 callback(err)
-                print(err.localizedDescription)
             }
         }
     }
