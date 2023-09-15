@@ -8,13 +8,12 @@
 import UIKit
 import SnapKit
 
-class HelpAndSupportVC: UIViewController {
-    
+final class HelpAndSupportVC: UIViewController {
+    //MARK: - Variables
     let vm = HelpAndSupportVM()
-
+    //MARK: - Views
     private lazy var retangle:CustomBackgroundRectangle = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
@@ -22,7 +21,6 @@ class HelpAndSupportVC: UIViewController {
        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
         return button
     }()
 
@@ -31,7 +29,6 @@ class HelpAndSupportVC: UIViewController {
         label.text = "Help&Support"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-
         return label
     }()
     
@@ -40,7 +37,6 @@ class HelpAndSupportVC: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 18
         layout.sectionInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
-        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
@@ -48,7 +44,6 @@ class HelpAndSupportVC: UIViewController {
         cv.backgroundColor = ColorEnum.viewColor.uiColor
         cv.register(HelpAndSupportCVH.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "Header")
         cv.showsVerticalScrollIndicator = false
-        
         return cv
     }()
 
@@ -91,7 +86,7 @@ class HelpAndSupportVC: UIViewController {
         }
     }
 }
-
+//MARK: - UICollectionView Extension
 extension HelpAndSupportVC:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return vm.faqs.count

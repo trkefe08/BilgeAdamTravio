@@ -60,7 +60,7 @@ final class MapVC: UIViewController {
             
             geoCoder.reverseGeocodeLocation(location) { placemarks, error in
                 if let error = error {
-                    print("Reverse geocoding error: \(error.localizedDescription)")
+                    self.showAlert(title: "Hata!", message: error.localizedDescription)
                     return
                 }
                 

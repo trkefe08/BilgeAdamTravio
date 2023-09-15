@@ -6,17 +6,16 @@
 //
 
 import Foundation
-
+//MARK: - MyAddedResponse
 struct MyAddedResponse: Codable {
-    
     let data: MyAddedPlaceData
     let status: String
 }
-
+//MARK: - MyAddedPlaceData
 struct MyAddedPlaceData: Codable {
     let places: [MyAddedPlace]
 }
-
+//MARK: - MyAddedPlace
 struct MyAddedPlace: Codable {
     let id: String
     let creator: String

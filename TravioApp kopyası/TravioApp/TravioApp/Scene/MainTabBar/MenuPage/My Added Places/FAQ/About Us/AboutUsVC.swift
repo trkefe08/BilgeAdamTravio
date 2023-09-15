@@ -8,11 +8,10 @@
 import UIKit
 import WebKit
 
-class AboutUsVC: UIViewController {
-
+final class AboutUsVC: UIViewController {
+    //MARK: - Views
     private lazy var retangle:CustomBackgroundRectangle = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
@@ -20,7 +19,6 @@ class AboutUsVC: UIViewController {
        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
         return button
     }()
 
@@ -29,7 +27,6 @@ class AboutUsVC: UIViewController {
         label.text = "About Us"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-
         return label
     }()
     
@@ -38,14 +35,13 @@ class AboutUsVC: UIViewController {
            webView.translatesAutoresizingMaskIntoConstraints = false
            return webView
        }()
-    
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         loadWebsite(urlString: "https://api.iosclass.live/about")
     }
-    
+    //MARK: - Functions
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -57,16 +53,14 @@ class AboutUsVC: UIViewController {
             }
         }
     
-    func setupView(){
+    private func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
-        
         view.addSubviews(retangle,backButton,header)
         retangle.addSubviews(webView)
         setupLayouts()
     }
     
-    func setupLayouts() {
-        
+    private func setupLayouts() {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
             make.leading.equalToSuperview().offset(20)
@@ -88,7 +82,5 @@ class AboutUsVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalToSuperview()
         }
-        
     }
-    
 }

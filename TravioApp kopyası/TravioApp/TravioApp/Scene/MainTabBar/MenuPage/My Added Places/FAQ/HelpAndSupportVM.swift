@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class HelpAndSupportVM {
-    
+final class HelpAndSupportVM {
+    //MARK: - Variables
     var isCellExpanded = Array(repeating: false, count: 30)
     
     let faqs: [FAQ] = [
@@ -34,7 +34,7 @@ class HelpAndSupportVM {
         FAQ(question: "Çocuklar için oyun alanı var mı?", answer: "Evet, bazı büyük havaalanlarında çocuklar için oyun alanlarımız bulunmaktadır."),
         FAQ(question: "Destek hattı 7/24 açık mı?", answer: "Evet, müşteri hizmetlerimiz 7/24 hizmet vermektedir.")
     ]
-
+    //MARK: - Functions
     func textSize(for text: String, font: UIFont, constrainedToWidth width: CGFloat) -> CGSize {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = text.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)

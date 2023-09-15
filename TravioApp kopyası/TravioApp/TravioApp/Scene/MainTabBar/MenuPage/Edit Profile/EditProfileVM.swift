@@ -8,51 +8,47 @@
 import Foundation
 import Alamofire
 
-class EditProfileViewModel {
-    
+final class EditProfileViewModel {
+    //MARK: - Variables
     var oldURL:String?
     var finalURL:URL?
     var changePhotoUrl: URL?
     var data: EditProfileModel?
     var images: UploadModel?
-    
-    func getProfile(callback: @escaping ()->Void) {
+    //MARK: - Functions
+    func getProfile(callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getProfile) { (result:Result<EditProfileModel, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let result):
                     self.data = result
-                    callback()
+                    callback(nil)
                 case .failure(let err):
-                    print(err.localizedDescription)
-                    callback()
+                    callback(err.localizedDescription)
                 }
             }
         }
     }
     
-    func editProfile(params: Parameters,callback: @escaping ()->Void) {
-  
+    func editProfile(params: Parameters,callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.putEditProfile(parameters: params)) { (result:Result<EditProfileResponse, Error>) in
                 switch result {
                 case .success:
-                    callback()
+                    callback(nil)
                 case .failure(let err):
-                    print(err.localizedDescription)
-                    callback()
-                }
+                    callback(err.localizedDescription)
+            }
         }
     }
     
-    func uploadImage(image: [Data?], completion: @escaping () -> Void) {
+    func uploadImage(image: [Data?], completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.uploadImage(route: .upload(image: image)) { (result: Result<UploadModel, Error>) in
             switch result {
             case .success(let response):
                 self.images = response
-                completion()
+                completion(nil)
             case .failure(let err):
-                print(err.localizedDescription)
-                completion()
+                completion(err.localizedDescription)
             }
         }
     }

@@ -38,8 +38,7 @@ final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
             switch result {
             case .success(let response):
                 completion(response.urls)
-            case .failure(let err):
-                print(err.localizedDescription)
+            case .failure(_):
                 completion(nil)
             }
         }

@@ -7,8 +7,8 @@
 
 import UIKit
 
-class HelpAndSupportCVH: UICollectionReusableView {
-        
+final class HelpAndSupportCVH: UICollectionReusableView {
+    //MARK: - Views
     private lazy var header: UILabel = {
         let label = UILabel()
         label.text = "FAQ"
@@ -17,7 +17,7 @@ class HelpAndSupportCVH: UICollectionReusableView {
         
        return label
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
            super.init(frame: frame)
         setupView()
@@ -27,16 +27,13 @@ class HelpAndSupportCVH: UICollectionReusableView {
            fatalError("init(coder:) has not been implemented")
        }
     
-    
-    func setupView(){
+    //MARK: - Functions
+    private func setupView(){
         addSubviews(header)
-        
-        
         setupLayouts()
     }
     
-    func setupLayouts() {
-        
+    private func setupLayouts() {
         header.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.bottom.equalToSuperview().offset(-20)

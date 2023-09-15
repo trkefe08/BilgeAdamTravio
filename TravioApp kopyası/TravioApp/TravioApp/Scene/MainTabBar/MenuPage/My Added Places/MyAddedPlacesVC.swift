@@ -9,10 +9,11 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-class MyAddedPlacesVC: UIViewController {
+final class MyAddedPlacesVC: UIViewController {
+    //MARK: - Variables
     var vm = MyAddedPlacesVM()
     var isButtonActive = true
-
+    //MARK: - Views
     private lazy var retangle:CustomBackgroundRectangle = {
        let retangle = CustomBackgroundRectangle()
        return retangle
@@ -22,7 +23,6 @@ class MyAddedPlacesVC: UIViewController {
        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-
         return button
     }()
 
@@ -31,7 +31,6 @@ class MyAddedPlacesVC: UIViewController {
         label.text = "My Added Places"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-
         return label
     }()
 
@@ -47,7 +46,6 @@ class MyAddedPlacesVC: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 18
         layout.sectionInset = UIEdgeInsets(top: 10 , left: 24, bottom: 0, right: 24)
-
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
@@ -56,18 +54,19 @@ class MyAddedPlacesVC: UIViewController {
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
-
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupView()
         view.backgroundColor = ColorEnum.travioBackground.uiColor
-        
-        vm.getAllPlacesForUser {
+        vm.getAllPlacesForUser { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             self.collectionView.reloadData()
         }
     }
-
+    //MARK: - Functions
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
@@ -85,16 +84,13 @@ class MyAddedPlacesVC: UIViewController {
                }
     }
 
-    func setupView(){
-
+    private func setupView(){
         view.addSubviews(retangle,backButton,header)
         retangle.addSubviews(sortFilter,collectionView)
-
         setupLayouts()
     }
 
-    func setupLayouts() {
-
+    private func setupLayouts() {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
             make.leading.equalToSuperview().offset(20)
@@ -124,7 +120,7 @@ class MyAddedPlacesVC: UIViewController {
         }
     }
 }
-
+//MARK: - UICollectionView Extension
 extension MyAddedPlacesVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

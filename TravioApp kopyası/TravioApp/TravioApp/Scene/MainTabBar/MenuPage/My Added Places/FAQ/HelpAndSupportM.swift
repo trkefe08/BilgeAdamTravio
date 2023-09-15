@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+//MARK: - FAQ
 struct FAQ {
     var question:String
     var answer:String

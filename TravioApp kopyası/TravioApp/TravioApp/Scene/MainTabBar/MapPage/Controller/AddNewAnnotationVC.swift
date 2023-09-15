@@ -199,15 +199,9 @@ final class AddNewAnnotationVC: UIViewController {
         
     }
     
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Hata", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     private func requiredImagesControl() {
         guard !images.isEmpty else {
-            showAlert(message: "Lütfen Fotoğraf Ekleyiniz!")
+            showAlert(title: "Hata!", message: "Lütfen Fotoğraf Ekleyiniz")
             return
         }
     }
@@ -216,7 +210,7 @@ final class AddNewAnnotationVC: UIViewController {
         requiredImagesControl()
         viewModel.upload(image: images) { urls in
             if urls == nil {
-                self.showAlert(title: "Hata", message: "URL Dizini Boş")
+                self.showAlert(title: "Hata!", message: "URL Dizini Boş")
             }
             guard let imageUrls = urls else {
                 return
@@ -231,7 +225,7 @@ final class AddNewAnnotationVC: UIViewController {
               let desc = visitDescTxtView.text, !desc.isEmpty,
               let lat = latitude,
               let long = longitude else {
-            showAlert(message: "Lütfen Tüm Alanları Doldurunuz!")
+            showAlert(title: "Hata!", message: "Lütfen Tüm Alanları Doldurunuz")
             return }
         if let image = imageUrls.first {
             guard let image = image else { return }
@@ -274,34 +268,19 @@ extension AddNewAnnotationVC: UICollectionViewDelegateFlowLayout {
     }
     
     private func alertController() {
-        let alertController = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
-        
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+        cameraLibraryAlert(title: "Photo Source", message: "Choose a Source") {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = .camera
-                self?.present(imagePicker, animated: true)
+                self.present(imagePicker, animated: true)
             }
-        }
-        
-        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [weak self] _ in
+        } libraryHandler: {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            self?.present(imagePicker, animated: true)
+            self.present(imagePicker, animated: true)
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alertController.addAction(cameraAction)
-        }
-        
-        alertController.addAction(libraryAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true)
     }
 }
 
@@ -339,7 +318,7 @@ extension AddNewAnnotationVC: UIImagePickerControllerDelegate, UINavigationContr
 extension AddNewAnnotationVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField.text?.isEmpty == true {
-            showAlert(message: "Lütfen Tüm Alanları Doldurunuz!")
+            showAlert(title: "Hata!", message: "Lütfen Tüm Alanları Doldurunuz!")
             return false
         }
         return true

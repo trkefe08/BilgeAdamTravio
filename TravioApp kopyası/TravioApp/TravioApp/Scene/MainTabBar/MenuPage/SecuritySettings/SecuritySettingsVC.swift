@@ -154,16 +154,13 @@ final class SecuritySettingsVC: UIViewController {
         @unknown default:
             location.switchComponent.isOn  = false
         }
-        print("update Location")
     }
     
     private func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
                 self.openAppSettings()
-                print("izin verildi")
             } else {
-                print("izin verilmedi")
             }
         }
     }

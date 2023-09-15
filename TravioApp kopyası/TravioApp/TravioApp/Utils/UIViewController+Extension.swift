@@ -28,4 +28,26 @@ extension UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    func cameraLibraryAlert(title: String, message: String, cameraHandler: (() -> Void)?, libraryHandler: (() -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+            cameraHandler?()
+        }
+        
+        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) {
+            _ in libraryHandler?()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alertController.addAction(cameraAction)
+        }
+        
+        alertController.addAction(libraryAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
 }

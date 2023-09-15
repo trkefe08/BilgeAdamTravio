@@ -7,91 +7,84 @@
 
 import SnapKit
 import UIKit
-import SDWebImage
+import Kingfisher
 
-class MyAddedPlaceCVC: UICollectionViewCell {
-    
+final class MyAddedPlaceCVC: UICollectionViewCell {
+    //MARK: - Views
     private lazy var containerView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.layer.masksToBounds = true
-        
         return view
     }()
     
     private lazy var placeImage: UIImageView = {
-       let img = UIImageView()
+        let img = UIImageView()
         img.contentMode = .scaleToFill
-        
         return img
     }()
     
     private lazy var placeName: UILabel = {
-       let lbl = UILabel()
+        let lbl = UILabel()
         lbl.font = Font.poppins(fontType: 600, size: 24).font
         lbl.text = "Colleseum"
         lbl.textColor = ColorEnum.fontColor.uiColor
-        
         return lbl
     }()
     
     private lazy var cityName: UILabel = {
-       let lbl = UILabel()
+        let lbl = UILabel()
         lbl.font = Font.poppins(fontType: 300, size: 14).font
         lbl.text = "Rome"
         lbl.textColor = ColorEnum.fontColor.uiColor
-        
         return lbl
     }()
     
     private lazy var locationMark:UIImageView = {
-       let mark = UIImageView()
+        let mark = UIImageView()
         mark.image = #imageLiteral(resourceName: "myAddedPlace_locationMark")
-        
         return mark
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupView()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         addShadow()
-   
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func addShadow(){
+    private func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.15
         layer.shadowRadius = 4
         clipsToBounds = false
     }
-
+    
     func configure(item:MyAddedPlace) {
         placeName.text = item.title
         cityName.text = item.place
-        
         let url = URL(string: item.coverImageUrl)
-        placeImage.sd_setImage(with: url)
+        placeImage.kf.indicatorType = .activity
+        placeImage.kf.setImage(with: url)
     }
-  
-    func setupView() {
+    
+    private func setupView() {
         addSubview(containerView)
         containerView.addSubviews(placeImage,placeName,cityName,locationMark)
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

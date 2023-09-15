@@ -7,14 +7,13 @@
 
 import Foundation
 
-class MyAddedPlacesVM {
-    
+final class MyAddedPlacesVM {
+    //MARK: - Variables
     var isButtonActive = false
-    
     var sortedmyArrayAtoZ:[MyAddedPlace] = []
     var sortedmyArrayZtoA:[MyAddedPlace] = []
-    
-    func getAllPlacesForUser(callback: @escaping ()->Void) {
+    //MARK: - Functions
+    func getAllPlacesForUser(callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAllPlacesForUser) { (result:Result<MyAddedResponse, Error>) in
             DispatchQueue.main.async {
                 switch result {
@@ -25,10 +24,9 @@ class MyAddedPlacesVM {
                     self.sortedmyArrayZtoA = result.data.places.sorted {
                         $0.title.localizedCompare($1.title) == .orderedDescending
                     }
-                    callback()
+                    callback(nil)
                 case .failure(let err):
-                    print(err.localizedDescription)
-                    callback()
+                    callback(err.localizedDescription)
                 }
             }
         }

@@ -7,12 +7,12 @@
 
 import UIKit
 
-class HelpAndSupportCVC: UICollectionViewCell {
-    
+final class HelpAndSupportCVC: UICollectionViewCell {
+    //MARK: - Variables
     var isAnswerHidden = false
-    
+    //MARK: - Views
     private lazy var containerView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -39,12 +39,12 @@ class HelpAndSupportCVC: UICollectionViewCell {
         return lbl
     }()
     private lazy var image: UIImageView = {
-       let image = UIImageView()
+        let image = UIImageView()
         image.image = UIImage(named: "faq_button")
         
         return image
     }()
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -59,7 +59,7 @@ class HelpAndSupportCVC: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    func addShadow(){
+    private func addShadow(){
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.15
@@ -72,14 +72,13 @@ class HelpAndSupportCVC: UICollectionViewCell {
         answer.text = model.answer
     }
     
-    func setupView(){
+    private func setupView(){
         addSubview(containerView)
         containerView.addSubviews(question,answer,image)
         setupLayouts()
     }
     
-    func setupLayouts() {
-        
+    private func setupLayouts() {
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

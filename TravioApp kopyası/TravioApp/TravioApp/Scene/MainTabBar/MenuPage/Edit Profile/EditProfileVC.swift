@@ -9,29 +9,27 @@ import UIKit
 import SnapKit
 import Alamofire
 import MobileCoreServices
-
+//MARK: - Protocol
 protocol ProfileUpdateDelegate: AnyObject {
     func didUpdateProfile()
 }
-
-class EditProfileVC: UIViewController {
-    
+//MARK: - Class
+final class EditProfileVC: UIViewController {
+    //MARK: - Variables
     let vm = EditProfileViewModel()
     weak var delegate: ProfileUpdateDelegate?
-    
+    //MARK: - Views
     private lazy var header:UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-        
         return label
     }()
     
     private lazy var rectangle:CustomBackgroundRectangle = {
-       let retangle = CustomBackgroundRectangle()
-        
-       return retangle
+        let retangle = CustomBackgroundRectangle()
+        return retangle
     }()
     
     private lazy var profileImage:UIImageView = {
@@ -40,7 +38,6 @@ class EditProfileVC: UIViewController {
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
-        
         return img
     }()
     
@@ -48,27 +45,23 @@ class EditProfileVC: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "editProfile_exit"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        
         return button
     }()
     
     private lazy var changePhotoButton:UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("Change Photo", for: .normal)
         button.titleLabel?.font = Font.poppins(fontType: 400, size: 12).font
         button.setTitleColor(ColorEnum.travioBackground.uiColor, for: .normal)
-        
         button.addTarget(self, action: #selector(changePhotoButtonTapped), for: .touchUpInside)
-        
         return button
     }()
     
     private lazy var profileName:UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Bruce Wills"
         label.font = Font.poppins(fontType: 600, size: 24).font
         label.textColor = .black
-        
         return label
     }()
     
@@ -76,7 +69,6 @@ class EditProfileVC: UIViewController {
         let view = CustomEditProfileView()
         view.newImage = #imageLiteral(resourceName: "editProfile_date")
         view.labelText = "Date"
-        
         return view
     }()
     
@@ -84,7 +76,6 @@ class EditProfileVC: UIViewController {
         let view = CustomEditProfileView()
         view.newImage = #imageLiteral(resourceName: "editProfile_rol")
         view.labelText = "Role"
-        
         return view
     }()
     
@@ -92,7 +83,6 @@ class EditProfileVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Full Name"
         view.placeholderName = "bilge_adam"
-        
         return view
     }()
     
@@ -100,33 +90,33 @@ class EditProfileVC: UIViewController {
         let view = CustomTF()
         view.labelText = "Email"
         view.placeholderName = "bilge_adam"
-        
         return view
     }()
     
     private lazy var saveButton:CustomButton = {
-       let button = CustomButton()
-       button.labelText = "Save"
-       button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        
-       return button
+        let button = CustomButton()
+        button.labelText = "Save"
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         getProfile()
         setupView()
     }
     
     func getProfile(){
-        vm.getProfile {
+        vm.getProfile { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             self.vm.oldURL = self.vm.data?.ppUrl
             self.configure()
         }
     }
     
-    func configure() {
+    private func configure() {
         guard let data = vm.data else {return}
         if data.ppUrl.isEmpty {
             profileImage.image = UIImage(systemName: "person.circle.fill")
@@ -147,11 +137,11 @@ class EditProfileVC: UIViewController {
             createdDateView.labelText = "Unknown Date"
         }
     }
-
+    
     @objc func backButtonTapped() {
         dismiss(animated: true)
     }
- 
+    
     @objc func saveButtonTapped() {
         guard let fullName = fullNameView.txtField.text else {return}
         guard let mail = emailView.txtField.text else {return}
@@ -163,25 +153,26 @@ class EditProfileVC: UIViewController {
             "pp_url": url]
         
         DispatchQueue.main.async {
-            self.vm.editProfile(params: params){
+            self.vm.editProfile(params: params) { errorMessage in
+                if let errorMessage = errorMessage {
+                    self.showAlert(title: "Hata!", message: errorMessage)
+                }
             }
         }
         dismiss(animated: true) {
             self.delegate?.didUpdateProfile()
         }
     }
- 
-    func setupView(){
+    
+    private func setupView(){
         self.view.backgroundColor = ColorEnum.travioBackground.uiColor
         navigationController?.navigationBar.isHidden = true
-        
         view.addSubviews(header,rectangle,backButton)
         rectangle.addSubviews(profileImage,createdDateView,changePhotoButton,profileName,rolView,fullNameView,emailView,saveButton)
-        
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         header.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
             make.leading.equalToSuperview().offset(24)
@@ -244,7 +235,7 @@ class EditProfileVC: UIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
-      
+        
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(emailView.snp.bottom).offset(101)
             make.height.equalTo(51)
@@ -253,49 +244,37 @@ class EditProfileVC: UIViewController {
         }
     }
 }
-
+//MARK: - UIImagePicker Extension
 extension EditProfileVC:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     @objc func changePhotoButtonTapped() {
-        let alertController = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
-
-        let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] _ in
+        cameraLibraryAlert(title: "Photo Source", message: "Choose a Source") {
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePicker = UIImagePickerController()
                 imagePicker.delegate = self
                 imagePicker.sourceType = .camera
-                self?.present(imagePicker, animated: true)
+                self.present(imagePicker, animated: true)
             }
-        }
-
-        let libraryAction = UIAlertAction(title: "Photo Library", style: .default) { [weak self] _ in
+        } libraryHandler: {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            self?.present(imagePicker, animated: true)
+            self.present(imagePicker, animated: true)
         }
-
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            alertController.addAction(cameraAction)
-        }
-
-        alertController.addAction(libraryAction)
-        alertController.addAction(cancelAction)
-
-        present(alertController, animated: true)
     }
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
             profileImage.image = selectedImage
-           let imageData = selectedImage.jpegData(compressionQuality: 0.5)
-            vm.uploadImage(image: [imageData] ) {
+            let imageData = selectedImage.jpegData(compressionQuality: 0.5)
+            vm.uploadImage(image: [imageData] ) { errorMessage in
+                if let errorMessage = errorMessage {
+                    self.showAlert(title: "Hata!", message: errorMessage)
+                }
             }
         }
         dismiss(animated: true)
     }
-
+    
 }
 
