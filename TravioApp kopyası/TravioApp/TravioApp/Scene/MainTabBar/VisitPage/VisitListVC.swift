@@ -13,7 +13,6 @@ final class VisitListVC: UIViewController {
     private lazy var loadingIndicatorView:UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-        
         return view
     }()
     
@@ -52,9 +51,13 @@ final class VisitListVC: UIViewController {
     var viewModel = VisitsViewModel()
     //MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.fetchVisitList {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+        viewModel.fetchVisitList { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -64,9 +67,13 @@ final class VisitListVC: UIViewController {
         setupViews()
         showLoadingIndicator()
         loadingIndicatorView.isHidden = true
-        viewModel.fetchVisitList {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+        viewModel.fetchVisitList { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            } else {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -131,7 +138,6 @@ extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         cell.configure(with: model)
         hideLoadingIndicator()
         loadingIndicatorView.isHidden = true
-        
         return cell
     }
     

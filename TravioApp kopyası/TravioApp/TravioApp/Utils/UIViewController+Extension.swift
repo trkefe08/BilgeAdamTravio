@@ -21,4 +21,11 @@ extension UIViewController {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
+    
+    func showVisitAlert(message: String) {
+        let alertController = UIAlertController(title: "Bilgi", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }

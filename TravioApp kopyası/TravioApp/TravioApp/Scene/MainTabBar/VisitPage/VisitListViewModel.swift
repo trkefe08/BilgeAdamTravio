@@ -17,14 +17,14 @@ final class VisitsViewModel {
     
     var getCount: Int?
     //MARK: - Functions
-    func fetchVisitList(callback: @escaping ()->Void) {
+    func fetchVisitList(callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAllVisits) { (result:Result<ApiResponse, Error>) in
             switch result {
             case .success(let result):
                 self.places = result.data?.visits
-                callback()
+                callback(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                callback(err.localizedDescription)
             }
         }
     }

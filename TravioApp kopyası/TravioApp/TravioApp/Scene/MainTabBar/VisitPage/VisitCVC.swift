@@ -13,7 +13,6 @@ final class VisitCVC: UICollectionViewCell {
     //MARK: - Views
     private lazy var containerView:UIView = {
         let view = UIView()
-        
         return view
     }()
     
@@ -36,7 +35,6 @@ final class VisitCVC: UICollectionViewCell {
         lbl.text = "placeName"
         lbl.font = Font.poppins(fontType: 300, size: 16).font
         lbl.textColor = .white
-        
         return lbl
     }()
     
@@ -45,14 +43,12 @@ final class VisitCVC: UICollectionViewCell {
         lbl.text = "placeName"
         lbl.font = Font.poppins(fontType: 600, size: 30).font
         lbl.textColor = .white
-        
         return lbl
     }()
 
     private lazy var gradient:UIImageView = {
         let img = UIImageView()
         img.image = UIImage(named: "gradient")
-        
         return img
     }()
     //MARK: - Lifecycle
@@ -63,7 +59,6 @@ final class VisitCVC: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         super .init(coder: coder)
-        
     }
     
     override func layoutSubviews() {
@@ -76,13 +71,13 @@ final class VisitCVC: UICollectionViewCell {
         layer.mask = shape
     }
     //MARK: - Functions
-    func setupViews() {
+    private func setupViews() {
         addSubviews(containerView)
         containerView.addSubviews(backgroundImage,gradient,locationImage,name,title)
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         
         containerView.snp.makeConstraints { make in
             make.edges.equalToSuperview().offset(0)

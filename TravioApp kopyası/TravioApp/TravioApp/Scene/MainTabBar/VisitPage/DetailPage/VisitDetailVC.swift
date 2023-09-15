@@ -140,11 +140,13 @@ final class VisitDetailVC: UIViewController {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: scrollContentView.frame.height)
     }
     //MARK: - Functions
-   private func getGallery() {
+    private func getGallery() {
         guard let id = postedID ?? placeId else { return }
-        viewModel.getAllGalleryByPlaceID(id: id) {
+        viewModel.getAllGalleryByPlaceID(id: id) { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             DispatchQueue.main.async {
-                
                 let pNumber = self.viewModel.myArray.count
                 self.pageControl.numberOfPages = pNumber
                 
@@ -153,7 +155,9 @@ final class VisitDetailVC: UIViewController {
                 }
                 self.collectionView.reloadData()
             }
+            
         }
+        
     }
     
     private func deleteButton() {
@@ -166,20 +170,24 @@ final class VisitDetailVC: UIViewController {
         btnImageView.tag = 0
     }
     
-   private func updateComponents() {
+    private func updateComponents() {
         guard let id = postedID ?? placeId  else { return }
         viewModel.fetchDetails(id: id) { success in
-            DispatchQueue.main.async {
-                guard let vst = self.viewModel.visitDetail else {return}
-                self.descriptionLabel.text = vst.description
-                self.titleLabel.text = vst.title
-                self.createdBy.text = "added by @\(vst.creator)"
-                self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
-                updateMap()
+            if success != nil {
+                DispatchQueue.main.async {
+                    guard let vst = self.viewModel.visitDetail else {return}
+                    self.descriptionLabel.text = vst.description
+                    self.titleLabel.text = vst.title
+                    self.createdBy.text = " added by @\(vst.creator)"
+                    self.dateFormatter(visitDate: vst.createdAt, label: self.dateLabel)
+                    updateMap()
+                }
+            } else {
+                self.showAlert(title: "Hata!", message: "Bir Hata Oluştu. Lütfen Tekrar Deneyiniz")
             }
         }
         
-         func updateMap(){
+        func updateMap(){
             guard let vst = self.viewModel.visitDetail else { return }
             let coordinate = CLLocationCoordinate2D(latitude: vst.latitude, longitude: vst.longitude )
             let annotation = MKPointAnnotation()
@@ -198,7 +206,7 @@ final class VisitDetailVC: UIViewController {
             dateFormatter.dateFormat = "d MMMM yyyy"
             label.text = dateFormatter.string(from: date)
         } else {
-            print("Tarih dönüştürülemedi")
+            showAlert(title: "Hata!", message: "Tarih Dönüştürülemedi")
         }
     }
     
@@ -295,25 +303,24 @@ final class VisitDetailVC: UIViewController {
     @objc func visitButtonTapped() {
         if btnImageView.tag == 0 {
             guard let placeId = postedID ?? placeId else { return }
-            viewModel.addVisit(parameters: ["place_id": placeId, "visited_at": "2023-08-10T00:00:00Z"]) {
+            viewModel.addVisit(parameters: ["place_id": placeId, "visited_at": "2023-08-10T00:00:00Z"]) { errorMessage in
+                if let errorMessage = errorMessage {
+                    self.showAlert(title: "Hata", message: errorMessage)
+                }
                 self.deleteButton()
                 self.visitButton.backgroundColor = .clear
-                self.showAlert(message: "Visit Listenize Başarıyla Eklendi")
+                self.showVisitAlert(message: "Visit Listenize Başarıyla Eklendi")
             }
         } else {
             guard let id = postedID ?? placeId else { return }
-            viewModel.deleteVisit(id: id) {
+            viewModel.deleteVisit(id: id) { errorMessage in
+                if let errorMessage = errorMessage {
+                    self.showAlert(title: "Hata!", message: errorMessage)
+                }
                 self.addButton()
-                self.showAlert(message: "Visit Listenizden Başarıyla Kaldırıldı")
+                self.showVisitAlert(message: "Visit Listenizden Başarıyla Kaldırıldı")
             }
         }
-    }
-    
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: "Bilgi", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
     }
 }
 //MARK: - UICollectionView Extension

@@ -15,49 +15,48 @@ final class VisitsDetailViewModel {
     var visitGallery:ImageResponse?
     var myArray: [ImageDetail] = []
     //MARK: - Functions
-    func fetchDetails(id: String, callback: @escaping (Bool)->Void) {
+    func fetchDetails(id: String, callback: @escaping (Bool?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAPlaceById(id: id)) { (result:Result<PDetailResponse, Error>) in
             switch result {
             case .success(let result):
                 self.visitDetail = result.data.place
             callback(true)
-   
-            case .failure(let err):
-                print(err.localizedDescription)
+            case .failure(_):
+                callback(nil)
             }
         }
     }
     
-    func getAllGalleryByPlaceID(id: String, callback: @escaping ()->Void) {
+    func getAllGalleryByPlaceID(id: String, callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.getAllGalleryByPlaceID(id: id)) { (result:Result<ImageResponse, Error>) in
             switch result {
             case .success(let result):
                 self.myArray = (result.data.images)
-                callback()
+                callback(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                callback(err.localizedDescription)
             }
         }
     }
     
-    func addVisit(parameters: Parameters, completion: @escaping () -> Void) {
+    func addVisit(parameters: Parameters, completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.postAVisit(parameters: parameters)) { (result:Result<ResponseModel, Error>) in
             switch result {
             case .success(_):
-                completion()
+                completion(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(err.localizedDescription)
             }
         }
     }
     
-    func deleteVisit(id: String, completion: @escaping () -> Void) {
+    func deleteVisit(id: String, completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.deleteAVisitById(id: id)) { (result:Result<ResponseModel, Error>) in
             switch result {
             case .success(_):
-                completion()
+                completion(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(err.localizedDescription)
             }
         }
     }
@@ -68,7 +67,7 @@ final class VisitsDetailViewModel {
             case .success(let result):
                 completion(result.status)
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(err.localizedDescription)
             }
         }
     }

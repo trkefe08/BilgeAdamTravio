@@ -40,12 +40,12 @@ final class VisitDetailCVC: UICollectionViewCell {
         }
     }
     
-    func setupViews() {
+    private func setupViews() {
         addSubviews(detailImage,retangle2)
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         detailImage.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview().offset(0)
         }
