@@ -201,8 +201,9 @@ class SecuritySettingsVC: UIViewController {
             locationManager.requestWhenInUseAuthorization()
             DispatchQueue.main.async {
                 self.location.switchComponent.isOn = (locationAuthorizationStatus == .authorizedWhenInUse || locationAuthorizationStatus == .authorizedAlways)
+                self.updateSettings()
             }
-            updateSettings()
+            
         case .restricted, .denied:
             openAppSettings()
         case .authorizedWhenInUse, .authorizedAlways:

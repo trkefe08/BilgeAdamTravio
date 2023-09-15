@@ -115,7 +115,7 @@ final class MapVC: UIViewController {
         mapView.edgesToSuperview()
         
         collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
-        collectionView.height(178)
+        collectionView.height(UIScreen.main.bounds.height * 0.21)
         collectionView.bottomToSuperview(offset: -16, usingSafeArea: true)
         collectionView.bringSubviewToFront(mapView)
     }
