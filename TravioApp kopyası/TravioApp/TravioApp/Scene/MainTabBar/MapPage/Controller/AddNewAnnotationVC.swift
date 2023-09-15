@@ -215,8 +215,10 @@ final class AddNewAnnotationVC: UIViewController {
     @objc func addPlaceButtonTapped() {
         requiredImagesControl()
         viewModel.upload(image: images) { urls in
+            if urls == nil {
+                self.showAlert(title: "Hata", message: "URL Dizini Boş")
+            }
             guard let imageUrls = urls else {
-                print("Upload failed or URLs are empty.")
                 return
             }
             self.postPlaceMethod(imageUrls: imageUrls)
@@ -234,8 +236,10 @@ final class AddNewAnnotationVC: UIViewController {
         if let image = imageUrls.first {
             guard let image = image else { return }
             viewModel.postNewPlace(params: ["place": place, "title": title, "description": desc, "cover_image_url": image, "latitude": lat, "longitude": long]) { placeId in
+                if placeId == nil {
+                    self.showAlert(title: "Hata!", message: "Post New Place İşlemi Tamamlanamadı. ")
+                }
                 guard let placeId = placeId else {
-                    print("Failed to post new place or place ID is empty.")
                     return
                 }
                 self.postGalleryMethod(imageUrls: imageUrls, placeId: placeId)
@@ -246,7 +250,12 @@ final class AddNewAnnotationVC: UIViewController {
     private func postGalleryMethod(imageUrls: [String?], placeId: String ) {
         for imageUrl in imageUrls {
             guard let imageUrl = imageUrl else { return }
-            self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl])
+            self.viewModel.postGallery(params: ["place_id": placeId, "image_url": imageUrl]) { errorMessage in
+                if let errorMessage = errorMessage {
+                    self.showAlert(title: "Hata!", message: errorMessage)
+                }
+                
+            }
         }
         self.delegate?.didAddAnnotation()
         self.dismiss(animated: true, completion: nil)

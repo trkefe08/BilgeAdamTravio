@@ -12,45 +12,38 @@ import AVFoundation
 import Photos
 import CoreLocation
 
-
-
-class SecuritySettingsVC: UIViewController {
-  
+final class SecuritySettingsVC: UIViewController {
+    //MARK: - Variables
     let vm = SecuritySettingsVM()
-    
+    //MARK: - Views
     private lazy var scrollView: UIScrollView = {
-           let scrollView = UIScrollView()
-           scrollView.translatesAutoresizingMaskIntoConstraints = false
-           
-           return scrollView
-       }()
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
     private lazy var contentView:UIView = {
         let view = UIView()
-        
         return view
     }()
     
     private lazy var retangle:CustomBackgroundRectangle = {
         let view = CustomBackgroundRectangle()
-        
         return view
     }()
     
     private lazy var backButton:UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: "Vector"), for: .normal)
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        
         return button
     }()
     
     private lazy var header:UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "Security Settings"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-        
         return label
     }()
     
@@ -59,25 +52,22 @@ class SecuritySettingsVC: UIViewController {
         label.text = "Change Password"
         label.font = Font.poppins(fontType: 600, size: 16).font
         label.textColor = ColorEnum.travioBackground.uiColor
-        
         return label
     }()
     
     private lazy var newPassword:CustomTF = {
-       let tf = CustomTF()
+        let tf = CustomTF()
         tf.labelText = "New Password"
         tf.placeholderName = ""
         tf.isSecure = true
-    
         return tf
     }()
     
     private lazy var newPasswordConfirm:CustomTF = {
-       let tf = CustomTF()
+        let tf = CustomTF()
         tf.labelText = "New Password Confirm"
         tf.placeholderName = ""
         tf.isSecure = true
-        
         return tf
     }()
     
@@ -86,39 +76,37 @@ class SecuritySettingsVC: UIViewController {
         label.text = "Privacy"
         label.font = Font.poppins(fontType: 600, size: 16).font
         label.textColor = ColorEnum.travioBackground.uiColor
-        
         return label
     }()
     
     private lazy var camera: CustomPrivacyView = {
-       let view = CustomPrivacyView()
+        let view = CustomPrivacyView()
         view.labelText = "Camera"
         view.switchComponent.addTarget(self, action: #selector(cameraSwitch), for: .valueChanged)
-        
         return view
     }()
     
     private lazy var photoLibrary: CustomPrivacyView = {
-       let view = CustomPrivacyView()
+        let view = CustomPrivacyView()
         view.labelText = "Photo Library"
         view.switchComponent.addTarget(self, action: #selector(photoLibrarySwitch), for: .valueChanged)
         return view
     }()
     
     private lazy var location: CustomPrivacyView = {
-       let view = CustomPrivacyView()
+        let view = CustomPrivacyView()
         view.labelText = "Location"
         view.switchComponent.addTarget(self, action: #selector(locationSwitch), for: .valueChanged)
         return view
     }()
     
     private lazy var button: CustomButton = {
-       let button = CustomButton()
+        let button = CustomButton()
         button.labelText = "Save"
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         updateSettings()
@@ -129,7 +117,7 @@ class SecuritySettingsVC: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
-   
+    //MARK: - Functions
     @objc func updateSettings() {
         updateCameraSwitchStates()
         updateLocationSwitchState()
@@ -149,14 +137,14 @@ class SecuritySettingsVC: UIViewController {
     }
     
     
-    func openAppSettings() {
+    private func openAppSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString),
            UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
-    func updateLocationSwitchState() {
+    private func updateLocationSwitchState() {
         let locationAuthorizationStatus = CLLocationManager.authorizationStatus()
         switch locationAuthorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
@@ -169,7 +157,7 @@ class SecuritySettingsVC: UIViewController {
         print("update Location")
     }
     
-    func requestCameraPermission() {
+    private func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             if granted {
                 self.openAppSettings()
@@ -179,44 +167,32 @@ class SecuritySettingsVC: UIViewController {
             }
         }
     }
- 
-      func updateCameraSwitchStates() {
-          let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
-          switch cameraAuthorizationStatus {
-          case .authorized:
-              // İzin verilmiş, switch'i açık tutabilirsiniz.
-            //  camera.switchComponent.isOn = true
-              camera.switchChanged = true
-          case .denied, .restricted, .notDetermined:
-              // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
-             // camera.switchComponent.isOn = false
-              camera.switchChanged = false
-          @unknown default:
-              // Diğer durumlar için switch'i kapalı tutabilirsiniz.
-            //  camera.switchComponent.isOn = false
-              camera.switchChanged = true
-          }
-          print("update Camera")
-      }
     
-    func updatePhotoLibrarySwitchState() {
+    private func updateCameraSwitchStates() {
+        let cameraAuthorizationStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        switch cameraAuthorizationStatus {
+        case .authorized:
+            camera.switchChanged = true
+        case .denied, .restricted, .notDetermined:
+            camera.switchChanged = false
+        @unknown default:
+            camera.switchChanged = true
+        }
+    }
+    
+    private func updatePhotoLibrarySwitchState() {
         let photoLibraryAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-
+        
         switch photoLibraryAuthorizationStatus {
         case .authorized:
-            // İzin verilmiş, switch'i açık tutabilirsiniz.
             photoLibrary.switchComponent.isOn = true
         case .denied, .restricted, .notDetermined:
-            // İzin verilmemiş, kısıtlanmış veya henüz karar verilmemiş. Switch'i kapalı tutabilirsiniz.
             photoLibrary.switchComponent.isOn = false
         case .limited:
-            // seçili fotoğraflarda
             photoLibrary.switchComponent.isOn = true
         @unknown default:
-
             photoLibrary.switchComponent.isOn = false
         }
-        print("update Library")
     }
     
     @objc func saveButtonTapped() {
@@ -227,40 +203,28 @@ class SecuritySettingsVC: UIViewController {
             if password.count == 0 {
                 
             } else if password.count < 6 {
-                
-                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en az 6 eleman içermelidir", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
+                showAlert(title: "Uyarı", message: "Şifreniz en az 6 eleman içermelidir")
                 
             } else if password.count > 12 {
-                
-                let alertController = UIAlertController(title: "Uyarı", message: "Şifreniz en fazla 12 eleman içermelidir", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
-                
+                showAlert(title: "Uyarı", message: "Şifreniz en fazla 12 eleman içermelidir")
             } else {
                 let params: Parameters = ["new_password": password]
-                self.vm.changePassword(params: params) {
-                 
+                self.vm.changePassword(params: params) { errorMessage in
+                    if let errorMessage = errorMessage {
+                        self.showAlert(title: "Hata!", message: errorMessage)
+                    }
+                    
                 }
                 
-                let alertController = UIAlertController(title: "Başarılı", message: """
+                showAlert(title: "Başarılı", message: """
                                                                 Şifreniz başarıyla değiştirildi
                                                                 Yeni Şifre
                                                                 ** \(password) **
-                                                                """, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
+                                                                """)
             }
             
         } else {
-            let alertController = UIAlertController(title: "Uyarı", message: "Şifreler eşleşmiyor", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Tamam", style: .default, handler: nil)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
+            showAlert(title: "Uyarı", message: "Şifreler eşleşmiyor")
         }
     }
     
@@ -268,7 +232,7 @@ class SecuritySettingsVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    func setupView(){
+    private func setupView(){
         navigationController?.navigationBar.isHidden = true
         
         view.addSubviews(retangle,backButton,header)
@@ -279,12 +243,12 @@ class SecuritySettingsVC: UIViewController {
         contentView.addSubviews(changePasswordLabel,newPassword,newPasswordConfirm,privacyLabel,camera,photoLibrary,location,button)
         setupLayouts()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: contentView.frame.width, height: contentView.frame.height)
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         scrollView.snp.makeConstraints { make in
             make.leading.trailing.bottom.top.equalToSuperview()
         }
@@ -302,7 +266,7 @@ class SecuritySettingsVC: UIViewController {
             make.bottom.equalToSuperview()
             make.width.equalTo(UIScreen.main.bounds.width)
         }
-   
+        
         backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(32)
             make.leading.equalToSuperview().offset(24)

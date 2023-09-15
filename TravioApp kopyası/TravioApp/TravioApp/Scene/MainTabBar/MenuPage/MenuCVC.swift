@@ -8,8 +8,8 @@
 import UIKit
 import SnapKit
 
-class MenuCVC: UICollectionViewCell {
-    
+final class MenuCVC: UICollectionViewCell {
+    //MARK: - Views
     private lazy var bView: UIView = {
          let view = UIView()
          view.backgroundColor = .white
@@ -43,6 +43,7 @@ class MenuCVC: UICollectionViewCell {
         
         return image
     }()
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
             setupView()
@@ -51,20 +52,20 @@ class MenuCVC: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super .init(coder: coder)
     }
-
+    //MARK: - Functions
     func configure(item:settingsCVS) {
         image.image = UIImage(named: item.image)
         settingsName.text = item.name
     }
     
-    func setupView(){
+    private func setupView(){
         addSubview(bView)
         bView.addSubviews(image,settingsName,vector)
     
         setupLayouts()
     }
     
-    func setupLayouts() {
+    private func setupLayouts() {
         
         bView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(3)
@@ -89,5 +90,4 @@ class MenuCVC: UICollectionViewCell {
             make.width.equalTo(10.5)
         }
     }
-    
 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+//MARK: - settingsCVS
 struct settingsCVS {
     var image:String
     var name:String

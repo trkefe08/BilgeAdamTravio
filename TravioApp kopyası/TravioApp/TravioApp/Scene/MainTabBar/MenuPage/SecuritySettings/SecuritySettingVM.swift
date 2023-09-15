@@ -8,19 +8,15 @@
 import Foundation
 import Alamofire
 
-class SecuritySettingsVM {
-
-    func changePassword(params: Parameters,callback: @escaping ()->Void) {
-        
+final class SecuritySettingsVM {
+    //MARK: - Functions
+    func changePassword(params: Parameters,callback: @escaping (String?)->Void) {
         TravioNetwork.shared.makeRequest(request: Router.changePassword(parameters: params)) { (result:Result<PasswordChangeResponse, Error>) in
             switch result {
             case .success:
-                print("başarılı")
-                callback()
+                callback(nil)
             case .failure(let err):
-                print("başarısız")
-                print(err.localizedDescription)
-                callback()
+                callback(err.localizedDescription)
             }
         }
     }

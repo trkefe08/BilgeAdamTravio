@@ -11,7 +11,7 @@ import Alamofire
 protocol AddNewAnnotationProtocol {
     func postNewPlace(params: Parameters, completion: @escaping (String?) -> Void)
     func upload(image: [Data?], completion: @escaping ([String]?) -> Void)
-    func postGallery(params: Parameters)
+    func postGallery(params: Parameters, completion: @escaping (String?) -> Void)
 }
 
 //MARK: - Class
@@ -27,8 +27,8 @@ final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
             case .success(let success):
                 self.place = success
                 completion(success.message)
-            case .failure(let err):
-                print(err.localizedDescription)
+            case .failure(_):
+                completion(nil)
             }
         }
     }
@@ -45,13 +45,13 @@ final class AddNewAnnotationViewModel: AddNewAnnotationProtocol {
         }
     }
     
-    func postGallery(params: Parameters) {
+    func postGallery(params: Parameters, completion: @escaping (String?) -> Void) {
         TravioNetwork.shared.makeRequest(request: Router.postGallery(parameters: params)) { (result: Result<ResponseModel, Error>) in
             switch result {
-            case .success(let success):
-                print(success)
+            case .success(_):
+                completion(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(err.localizedDescription)
             }
         }
         

@@ -12,7 +12,7 @@ import MapKit
 //MARK: - Protocol
 protocol MapViewModelProtocol {
     var delegate: MapViewModelDelegate? { get set }
-    func fetchPlaces(completion: @escaping (() -> Void))
+    func fetchPlaces(completion: @escaping ((String?) -> Void))
     func getMapInfo() -> [Place]
     func getMapCollectionDetails(at index: Int) -> Place?
     func getMapCollectionCount() -> Int
@@ -33,16 +33,16 @@ final class MapViewModel: MapViewModelProtocol {
     private var loadedImagesIndexes = Set<Int>()
     
     //MARK: - Functions
-    func fetchPlaces(completion: @escaping (() -> Void)) {
+    func fetchPlaces(completion: @escaping ((String?) -> Void)) {
         TravioNetwork.shared.makeRequest(request: Router.places) {
             (result:Result<MapModel, Error>) in
             switch result {
             case .success(let result):
                 self.places = result
                 self.delegate?.mapLocationsLoaded()
-                completion()
+                completion(nil)
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(err.localizedDescription)
             }
         }
     }

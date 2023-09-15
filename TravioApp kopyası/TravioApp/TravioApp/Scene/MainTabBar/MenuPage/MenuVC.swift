@@ -17,19 +17,16 @@ final class MenuVC: UIViewController {
         label.text = "Settings"
         label.font = Font.poppins(fontType: 600, size: 32).font
         label.textColor = .white
-        
         return label
     }()
     
     private lazy var retangle: CustomBackgroundRectangle = {
         let retangle = CustomBackgroundRectangle()
-        
         return retangle
     }()
     
     private lazy var profileImage: UIImageView = {
         let img = UIImageView()
-        
         img.layer.cornerRadius = 60
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
@@ -58,13 +55,11 @@ final class MenuVC: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 2
         layout.minimumInteritemSpacing = 2
-        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.delegate = self
         cv.dataSource = self
         cv.backgroundColor = .clear
         cv.register(MenuCVC.self, forCellWithReuseIdentifier: "cell")
-        
         return cv
     }()
     
@@ -77,7 +72,10 @@ final class MenuVC: UIViewController {
 
     override func viewDidLoad() {
         setupView()
-        viewModel.getProfile {
+        viewModel.getProfile { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             self.configure()
         }
     }
@@ -110,7 +108,6 @@ final class MenuVC: UIViewController {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         view.addSubviews(header, retangle, logout)
         retangle.addSubviews(profileImage, profileName, editProfileButton, collectionView)
-        
         setupLayouts()
     }
     
@@ -129,7 +126,6 @@ final class MenuVC: UIViewController {
             make.centerY.equalTo(header)
             make.height.width.equalTo(30)
             make.trailing.equalToSuperview().offset(-24)
-            
         }
         
         profileImage.snp.makeConstraints { make in
@@ -162,15 +158,12 @@ final class MenuVC: UIViewController {
 extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = viewModel.countCalc()
-        
         return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? MenuCVC else { return UICollectionViewCell() }
-        
         let array = viewModel.settingsCVArray
-        
         cell.configure(item: array[indexPath.row])
         return cell
     }
@@ -210,7 +203,10 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
 //MARK: - Protocol
 extension MenuVC: ProfileUpdateDelegate {
     func didUpdateProfile() {
-        viewModel.getProfile {
+        viewModel.getProfile { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             self.configure()
         }
     }

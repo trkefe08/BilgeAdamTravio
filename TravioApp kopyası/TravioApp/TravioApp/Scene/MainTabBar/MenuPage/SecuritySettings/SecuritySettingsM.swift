@@ -6,11 +6,11 @@
 //
 
 import Foundation
-
+//MARK: - PasswordChangeRequest
 struct PasswordChangeRequest: Codable {
     let new_password: String
 }
-
+//MARK: - PasswordChangeResponse
 struct PasswordChangeResponse: Codable {
     let message: String
     let status: String

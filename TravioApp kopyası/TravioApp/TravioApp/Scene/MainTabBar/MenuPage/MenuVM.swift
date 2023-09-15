@@ -7,7 +7,8 @@
 
 import Foundation
 
-class MenuViewModel {
+final class MenuViewModel {
+    //MARK: - Variables
     var data: EditProfileModel?
     
     var settingsCVArray: [settingsCVS] = [settingsCVS(image: "settings_securitySettings", name: "Security Settings"),
@@ -16,28 +17,26 @@ class MenuViewModel {
                                           settingsCVS(image: "settings_help&support", name: "Help&Support"),
                                           settingsCVS(image: "settings_about", name: "About"),
                                           settingsCVS(image: "settings_termsOfUse", name: "Term of Use")]
+    //MARK: - Functions
     func countCalc() -> Int {
         return settingsCVArray.count
     }
     
-    func getProfile(callback: @escaping ()->Void) {
+    func getProfile(callback: @escaping (String?)->Void) {
         DispatchQueue.global().async {
-        TravioNetwork.shared.makeRequest(request: Router.getProfile) { (result:Result<EditProfileModel, Error>) in
+            TravioNetwork.shared.makeRequest(request: Router.getProfile) { (result:Result<EditProfileModel, Error>) in
                 switch result {
                 case .success(let result):
                     self.data = result
                     DispatchQueue.main.async {
-                        callback()
+                        callback(nil)
                     }
                 case .failure(let err):
-                    print(err.localizedDescription)
                     DispatchQueue.main.async {
-                        callback()
+                        callback(err.localizedDescription)
                     }
                 }
             }
         }
     }
-    
-    
 }

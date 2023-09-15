@@ -43,7 +43,10 @@ final class MapVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         viewModel.delegate = self
-        viewModel.fetchPlaces() {
+        viewModel.fetchPlaces() { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            } 
         }
     }
     
@@ -209,7 +212,10 @@ extension MapVC: UICollectionViewDataSource {
 //MARK: - Protocol Extension
 extension MapVC: AddAnnotationDelegate {
     func didAddAnnotation() {
-        viewModel.fetchPlaces() {
+        viewModel.fetchPlaces() { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
                 let indexPath = IndexPath(item: 0, section: 0)
