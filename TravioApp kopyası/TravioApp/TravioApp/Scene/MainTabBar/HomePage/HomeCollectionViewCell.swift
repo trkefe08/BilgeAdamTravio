@@ -81,7 +81,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         gradientView.bringSubviewToFront(mainImage)
         
         titleLabel.leadingToSuperview(offset: 16)
-        titleLabel.bottomToSuperview(offset: -26)
+        titleLabel.trailingToSuperview(offset: 8)
         titleLabel.bringSubviewToFront(gradientView)
         
         stackView.topToBottom(of: titleLabel)
@@ -89,7 +89,7 @@ final class HomeCollectionViewCell: UICollectionViewCell {
         stackView.trailingToSuperview(offset: 8)
         stackView.bottomToSuperview(offset: -5)
         
-        iconImage.height(12)
+        iconImage.height(21)
         iconImage.width(9)
         stackView.bringSubviewToFront(gradientView)
     }

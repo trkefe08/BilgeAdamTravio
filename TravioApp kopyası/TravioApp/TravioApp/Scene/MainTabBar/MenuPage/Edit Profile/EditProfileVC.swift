@@ -173,24 +173,25 @@ final class EditProfileVC: UIViewController {
     }
     
     private func setupLayouts() {
+        let screenHeight = UIScreen.main.bounds.height
         header.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(screenHeight * 0.027)
             make.leading.equalToSuperview().offset(24)
         }
         
         rectangle.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom).offset(54)
+            make.top.equalTo(header.snp.bottom).offset(screenHeight * 0.063)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
         profileImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(24)
+            make.top.equalToSuperview().offset(screenHeight * 0.028)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(120)
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(screenHeight * 0.042)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(21)
             make.width.equalTo(24)
@@ -209,36 +210,36 @@ final class EditProfileVC: UIViewController {
         }
         
         createdDateView.snp.makeConstraints { make in
-            make.top.equalTo(profileName.snp.bottom).offset(21)
+            make.top.equalTo(profileName.snp.bottom).offset(screenHeight * 0.024)
             make.leading.equalToSuperview().offset(24)
             make.width.equalTo((UIScreen.main.bounds.width-64)/2)
             make.height.equalTo(52)
         }
         
         rolView.snp.makeConstraints { make in
-            make.top.equalTo(profileName.snp.bottom).offset(21)
+            make.top.equalTo(profileName.snp.bottom).offset(screenHeight * 0.024)
             make.width.equalTo((UIScreen.main.bounds.width-64)/2)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(52)
         }
         
         fullNameView.snp.makeConstraints { make in
-            make.top.equalTo(createdDateView.snp.bottom).offset(19)
+            make.top.equalTo(createdDateView.snp.bottom).offset(screenHeight * 0.022)
             make.height.equalTo(74)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
         
         emailView.snp.makeConstraints { make in
-            make.top.equalTo(fullNameView.snp.bottom).offset(16)
+            make.top.equalTo(fullNameView.snp.bottom).offset(screenHeight * 0.018)
             make.height.equalTo(74)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
         
         saveButton.snp.makeConstraints { make in
-            make.top.equalTo(emailView.snp.bottom).offset(101)
-            make.height.equalTo(51)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-screenHeight * 0.021)
+            make.height.equalTo(50)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }

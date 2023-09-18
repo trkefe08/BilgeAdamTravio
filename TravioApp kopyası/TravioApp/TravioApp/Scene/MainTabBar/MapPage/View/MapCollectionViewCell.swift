@@ -75,10 +75,10 @@ final class MapCollectionViewCell: UICollectionViewCell {
         mainImage.edgesToSuperview()
         
         titleLabel.leadingToSuperview(offset: 22)
-        titleLabel.bottomToTop(of: stackView, offset: 3)
+        titleLabel.bottomToTop(of: stackView)
         titleLabel.trailingToSuperview(offset: 8)
         
-        iconImage.height(12)
+        iconImage.height(21)
         iconImage.width(9)
         stackView.leading(to: titleLabel)
         stackView.trailing(to: titleLabel)
