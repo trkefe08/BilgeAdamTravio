@@ -14,18 +14,17 @@ final class HelpAndSupportCVH: UICollectionReusableView {
         label.text = "FAQ"
         label.font = Font.poppins(fontType: 600, size: 24).font
         label.textColor = ColorEnum.travioBackground.uiColor
-        
-       return label
+        return label
     }()
     //MARK: - Lifecycle
     override init(frame: CGRect) {
-           super.init(frame: frame)
+        super.init(frame: frame)
         setupView()
-       }
-       
-       required init?(coder: NSCoder) {
-           fatalError("init(coder:) has not been implemented")
-       }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Functions
     private func setupView(){
@@ -38,7 +37,7 @@ final class HelpAndSupportCVH: UICollectionReusableView {
             make.leading.equalToSuperview().offset(24)
             make.bottom.equalToSuperview().offset(-20)
         }
-
+        
     }
     
 }

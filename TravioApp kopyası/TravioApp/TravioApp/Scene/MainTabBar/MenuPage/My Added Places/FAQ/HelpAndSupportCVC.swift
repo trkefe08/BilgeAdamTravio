@@ -17,7 +17,6 @@ final class HelpAndSupportCVC: UICollectionViewCell {
         view.layer.cornerRadius = 16
         view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.layer.masksToBounds = true
-        
         return view
     }()
     
@@ -26,7 +25,6 @@ final class HelpAndSupportCVC: UICollectionViewCell {
         lbl.text = "Question"
         lbl.font = Font.poppins(fontType: 500, size: 14).font
         lbl.numberOfLines = 0
-        
         return lbl
     }()
     
@@ -41,7 +39,6 @@ final class HelpAndSupportCVC: UICollectionViewCell {
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "faq_button")
-        
         return image
     }()
     //MARK: - Lifecycle
