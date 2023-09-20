@@ -64,11 +64,23 @@ final class HomeCollectionViewCell: UICollectionViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
+        skeletonConfigure()
         self.radiusWithShadow(corners: [.topLeft,.topRight,.bottomLeft])
         self.contentView.addSubviews(mainImage)
         self.stackView.addArrangedSubviews(iconImage, placeLabel)
         self.mainImage.addSubviews(gradientView,titleLabel,stackView)
         setupLayout()
+    }
+    
+    func skeletonConfigure() {
+        self.isSkeletonable = true
+        contentView.isSkeletonable = true
+        mainImage.isSkeletonable = true
+//        gradientView.isSkeletonable = true
+//        titleLabel.isSkeletonable = true
+//        stackView.isSkeletonable = true
+//        iconImage.isSkeletonable = true
+//        placeLabel.isSkeletonable = true
     }
     
     private func setupLayout() {

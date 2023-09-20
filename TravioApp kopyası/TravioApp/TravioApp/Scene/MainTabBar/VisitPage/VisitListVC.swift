@@ -7,22 +7,10 @@
 import UIKit
 import TinyConstraints
 import Kingfisher
+import SkeletonView
 
 final class VisitListVC: UIViewController {
     //MARK: - Views
-    private lazy var loadingIndicatorView:UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
-        return view
-    }()
-    
-    private lazy var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.color = .white
-        return indicator
-    }()
-    
     private lazy var retangle: UIView = {
         let view = CustomBackgroundRectangle()
         return view
@@ -65,36 +53,27 @@ final class VisitListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        showLoadingIndicator()
-        loadingIndicatorView.isHidden = true
+        collectionView.isSkeletonable = true
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .topLeftBottomRight)
+        collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds, secondaryColor: ColorEnum.travioBackground.uiColor), animation: animation, transition: .crossDissolve(0.25))
         viewModel.fetchVisitList { errorMessage in
             if let errorMessage = errorMessage {
                 self.showAlert(title: "Hata!", message: errorMessage)
             } else {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.collectionView.stopSkeletonAnimation()
+                    self.collectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
                 }
             }
         }
     }
     //MARK: - Functions
-    private func showLoadingIndicator() {
-        loadingIndicator.startAnimating()
-        loadingIndicator.isHidden = false
-    }
-    
-    private func hideLoadingIndicator() {
-        loadingIndicator.stopAnimating()
-        loadingIndicator.isHidden = true
-    }
-    
     private func setupViews() {
         view.backgroundColor = ColorEnum.travioBackground.uiColor
         navigationController?.navigationBar.isHidden = true
-        view.addSubviews(retangle,header,loadingIndicatorView)
+        view.addSubviews(retangle,header)
         retangle.addSubviews(collectionView)
-        loadingIndicatorView.addSubview(loadingIndicator)
-        view.bringSubviewToFront(loadingIndicatorView)
         setupLayouts()
     }
     
@@ -113,20 +92,20 @@ final class VisitListVC: UIViewController {
             make.bottom.leading.trailing.equalToSuperview().offset(0)
             make.top.equalToSuperview().offset(0)
         }
-        
-        loadingIndicator.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-        
-        loadingIndicatorView.snp.makeConstraints { make in
-            make.height.equalTo(UIScreen.main.bounds.height)
-            make.width.equalTo(UIScreen.main.bounds.width)
-            make.centerX.centerY.equalToSuperview()
-        }
     }
 }
 //MARK: - UICollectionView Extension
-extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension VisitListVC: UICollectionViewDelegate, SkeletonCollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let count = viewModel.getCount else { return 0}
+        return count
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "CustomCell"
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let count = viewModel.getCount else { return 0}
         return count
@@ -136,8 +115,6 @@ extension VisitListVC: UICollectionViewDelegate, UICollectionViewDataSource, UIC
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
         let model = viewModel.getPlacesIndex(at: indexPath.row)
         cell.configure(with: model)
-        hideLoadingIndicator()
-        loadingIndicatorView.isHidden = true
         return cell
     }
     

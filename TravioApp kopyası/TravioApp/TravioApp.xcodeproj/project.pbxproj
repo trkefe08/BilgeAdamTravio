@@ -46,6 +46,7 @@
 		9A451A282AAF2DF400B6B4E2 /* NewPlacesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C242AAB91AB00A8ECB3 /* NewPlacesCollectionViewCell.swift */; };
 		9A451A292AAF2E1500B6B4E2 /* PopularPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABE01FE2AAB03BF00A2CF69 /* PopularPlacesVC.swift */; };
 		9AAD37632AA7B3D6003AB193 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAD37622AA7B3D6003AB193 /* HomeTableViewCell.swift */; };
+		9AAD8CD72AB9723600379DAA /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 9AAD8CD62AB9723600379DAA /* SkeletonView */; };
 		9AB4253A2AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB425392AA9BE6A00D8A2CE /* UICollectionViewCell+Extension.swift */; };
 		9ABA3C212AAB90E200A8ECB3 /* NewPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C202AAB90E200A8ECB3 /* NewPlacesVC.swift */; };
 		9ABA3C232AAB917700A8ECB3 /* NewPlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ABA3C222AAB917700A8ECB3 /* NewPlacesViewModel.swift */; };
@@ -194,6 +195,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ACBCCDF2A9B850500427D83 /* Kingfisher in Frameworks */,
+				9AAD8CD72AB9723600379DAA /* SkeletonView in Frameworks */,
 				5F370F682A9E30BF0007DD1C /* SnapKit in Frameworks */,
 				9ACBCCBA2A9B805E00427D83 /* TinyConstraints in Frameworks */,
 				9ACBCCBD2A9B807900427D83 /* Alamofire in Frameworks */,
@@ -561,6 +563,7 @@
 				5F370F672A9E30BF0007DD1C /* SnapKit */,
 				5F9C0C452A9FDB2C00F7CE1F /* SDWebImage */,
 				5F3A3C0A2AB1AF5B003018B6 /* IQKeyboardManagerSwift */,
+				9AAD8CD62AB9723600379DAA /* SkeletonView */,
 			);
 			productName = TravioApp;
 			productReference = 9ACBCCA02A9B7F7200427D83 /* TravioApp.app */;
@@ -597,6 +600,7 @@
 				5F370F662A9E30BF0007DD1C /* XCRemoteSwiftPackageReference "SnapKit" */,
 				5F9C0C442A9FDB2C00F7CE1F /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				5F3A3C092AB1AF5B003018B6 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				9AAD8CD52AB9723600379DAA /* XCRemoteSwiftPackageReference "SkeletonView" */,
 			);
 			productRefGroup = 9ACBCCA12A9B7F7200427D83 /* Products */;
 			projectDirPath = "";
@@ -930,6 +934,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		9AAD8CD52AB9723600379DAA /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		9ACBCCB82A9B805E00427D83 /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/roberthein/TinyConstraints.git";
@@ -971,6 +983,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5F9C0C442A9FDB2C00F7CE1F /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		9AAD8CD62AB9723600379DAA /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9AAD8CD52AB9723600379DAA /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
 		};
 		9ACBCCB92A9B805E00427D83 /* TinyConstraints */ = {
 			isa = XCSwiftPackageProductDependency;

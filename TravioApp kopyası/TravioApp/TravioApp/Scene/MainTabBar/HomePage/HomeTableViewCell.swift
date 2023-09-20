@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 protocol HomeTableViewCellDelegate: AnyObject {
     func didSelectItem(with model: Place)
@@ -40,6 +41,10 @@ final class HomeTableViewCell: UITableViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
+        self.isSkeletonable = true
+        contentView.isSkeletonable = true
+        collectionView.isSkeletonable = true
+        collectionView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
         self.backgroundColor = ColorEnum.viewColor.uiColor
         self.contentView.backgroundColor = .clear
         self.contentView.addSubviews(collectionView)
@@ -54,6 +59,8 @@ final class HomeTableViewCell: UITableViewCell {
         popularLastAndVisits = model
         DispatchQueue.main.async {
             self.collectionView.reloadData()
+            self.collectionView.stopSkeletonAnimation()
+            self.collectionView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         }
         
     }
@@ -72,7 +79,15 @@ extension HomeTableViewCell: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension HomeTableViewCell: UICollectionViewDataSource {
+extension HomeTableViewCell: SkeletonCollectionViewDataSource {
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, cellIdentifierForItemAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "HomeCollectionViewCell"
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return popularLastAndVisits.count
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return popularLastAndVisits.count

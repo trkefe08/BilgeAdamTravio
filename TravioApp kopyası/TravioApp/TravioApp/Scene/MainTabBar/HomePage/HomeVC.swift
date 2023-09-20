@@ -6,6 +6,7 @@
 //
 import UIKit
 import TinyConstraints
+import SkeletonView
 
 final class HomeVC: UIViewController {
     //MARK: - Views
@@ -54,6 +55,9 @@ final class HomeVC: UIViewController {
     
     //MARK: - Functions
     private func configure() {
+        tableView.isSkeletonable = true
+        tableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds, secondaryColor: ColorEnum.travioBackground.uiColor), animation: nil, transition: .crossDissolve(0.25))
+    
         dispatchGroup.enter()
         viewModel.fetchPopularPlaces(limit: 5) { popular in
             if popular != nil {
@@ -90,6 +94,8 @@ final class HomeVC: UIViewController {
         dispatchGroup.notify(queue: .main) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.stopSkeletonAnimation()
+                self.tableView.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
             }
         }
     }
@@ -138,7 +144,11 @@ final class HomeVC: UIViewController {
     
 }
 //MARK: - TableView Extension
-extension HomeVC: UITableViewDataSource {
+extension HomeVC: SkeletonTableViewDataSource {
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "HomeTableViewCell"
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -189,7 +199,7 @@ extension HomeVC: UITableViewDelegate {
         let stackView = UIStackView(arrangedSubviews: [label, seeAllButton])
         stackView.axis = .horizontal
         
-        headerView.addSubview(stackView)
+        headerView.addSubviews(stackView)
         stackView.leading(to: headerView, offset: 24)
         stackView.trailing(to: headerView, offset: -16)
         stackView.centerY(to: headerView)

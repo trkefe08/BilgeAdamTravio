@@ -72,6 +72,14 @@ final class VisitCVC: UICollectionViewCell {
     }
     //MARK: - Functions
     private func setupViews() {
+        self.isSkeletonable = true
+        contentView.isSkeletonable = true
+        containerView.isSkeletonable = true
+        backgroundImage.isSkeletonable = true
+        locationImage.isSkeletonable = true
+        name.isSkeletonable = true
+        title.isSkeletonable = true
+        gradient.isSkeletonable = true
         addSubviews(containerView)
         containerView.addSubviews(backgroundImage,gradient,locationImage,name,title)
         setupLayouts()
@@ -89,6 +97,7 @@ final class VisitCVC: UICollectionViewCell {
             make.top.equalToSuperview().offset(142)
             make.leading.equalToSuperview().offset(8)
             make.trailing.equalToSuperview().offset(-8)
+        
         }
         
         locationImage.snp.makeConstraints { make in
