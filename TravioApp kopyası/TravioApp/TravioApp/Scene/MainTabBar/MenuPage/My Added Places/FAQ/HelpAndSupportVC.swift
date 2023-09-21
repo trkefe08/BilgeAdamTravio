@@ -108,7 +108,7 @@ extension HelpAndSupportVC:UICollectionViewDelegate,UICollectionViewDataSource,U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        vm.sizeForItemAt(indexPath: indexPath, collectionViewWidth: collectionView.frame.width)
+        vm.sizeForItemAt(indexPath: indexPath, collectionViewWidth: collectionView.frame.width - 24)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

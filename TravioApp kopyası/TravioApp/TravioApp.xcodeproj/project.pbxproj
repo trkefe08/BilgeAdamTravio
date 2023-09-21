@@ -26,6 +26,7 @@
 		5F3A3C062AB06314003018B6 /* HelpAndSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */; };
 		5F3A3C082AB07C37003018B6 /* HelpAndSupportCVH.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */; };
 		5F3A3C0B2AB1AF5B003018B6 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F3A3C0A2AB1AF5B003018B6 /* IQKeyboardManagerSwift */; };
+		5F42C5162AB4474B00E89CD9 /* AppDefaultsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F42C5152AB4474B00E89CD9 /* AppDefaultsVC.swift */; };
 		5F44FE552AA88E0200ADBD59 /* SecuritySettingsM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */; };
 		5F44FE572AA88E1200ADBD59 /* SecuritySettingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */; };
 		5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */; };
@@ -116,6 +117,7 @@
 		5F3A3C032AB0628C003018B6 /* HelpAndSupportM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportM.swift; sourceTree = "<group>"; };
 		5F3A3C052AB06314003018B6 /* HelpAndSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportVM.swift; sourceTree = "<group>"; };
 		5F3A3C072AB07C37003018B6 /* HelpAndSupportCVH.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpAndSupportCVH.swift; sourceTree = "<group>"; };
+		5F42C5152AB4474B00E89CD9 /* AppDefaultsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDefaultsVC.swift; sourceTree = "<group>"; };
 		5F44FE542AA88E0200ADBD59 /* SecuritySettingsM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsM.swift; sourceTree = "<group>"; };
 		5F44FE562AA88E1200ADBD59 /* SecuritySettingVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingVM.swift; sourceTree = "<group>"; };
 		5F5A9F212AA5D23600C7082C /* MyAddedPlacesM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesM.swift; sourceTree = "<group>"; };
@@ -252,8 +254,17 @@
 				5F35D4712AAB19CE00B60419 /* FAQ */,
 				5F35D4752AAB345A00B60419 /* About Us */,
 				5F35D4742AAB344C00B60419 /* Term of Use */,
+				5F42C5142AB4471500E89CD9 /* AppDefaults */,
 			);
 			path = "My Added Places";
+			sourceTree = "<group>";
+		};
+		5F42C5142AB4471500E89CD9 /* AppDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				5F42C5152AB4474B00E89CD9 /* AppDefaultsVC.swift */,
+			);
+			path = AppDefaults;
 			sourceTree = "<group>";
 		};
 		5F9C0C3E2A9FC25700F7CE1F /* SecuritySettings */ = {
@@ -655,6 +666,7 @@
 				9ACB19F82AA600A100DD81B2 /* ResponseCheckModel.swift in Sources */,
 				5F9C0C3A2A9FBDC300F7CE1F /* LoginM.swift in Sources */,
 				9ACBCCCB2A9B828500427D83 /* UIView+Extension.swift in Sources */,
+				5F42C5162AB4474B00E89CD9 /* AppDefaultsVC.swift in Sources */,
 				5F5A9F222AA5D23600C7082C /* MyAddedPlacesM.swift in Sources */,
 				9ACBCD0A2A9B8A6A00427D83 /* MenuVC.swift in Sources */,
 				9ACBCD022A9B898300427D83 /* AddPlaceCollectionViewCell.swift in Sources */,
