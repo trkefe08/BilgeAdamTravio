@@ -6,6 +6,7 @@ Travio App is a mobile application where you can view places to visit around the
 - Swift
 - UIKit
 - MVVM
+- Programmatic
 - Alamofire
 - Kingfisher
 - Snapkit
