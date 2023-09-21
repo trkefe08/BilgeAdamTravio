@@ -13,14 +13,8 @@ import TinyConstraints
 protocol AddAnnotationDelegate: AnyObject {
     func didAddAnnotation()
 }
-
+//MARK: - Class
 final class MapVC: UIViewController {
-    
-    //MARK: - Variables
-    var viewModel = MapViewModel()
-    var array = [Place]()
-    var isVisited: String?
-    
     //MARK: - Views
     private lazy var mapView: MKMapView = {
         let map = MKMapView()
@@ -38,16 +32,21 @@ final class MapVC: UIViewController {
         cv.delegate = self
         cv.dataSource = self
         cv.register(MapCollectionViewCell.self, forCellWithReuseIdentifier: "MapCollectionViewCell")
+        cv.contentInset = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
         cv.backgroundColor = .clear
         return cv
     }()
-   
+    //MARK: - Variables
+    var viewModel = MapViewModel()
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         viewModel.delegate = self
-        viewModel.fetchPlaces() {
+        viewModel.fetchPlaces() { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            } 
         }
     }
     
@@ -61,7 +60,7 @@ final class MapVC: UIViewController {
             
             geoCoder.reverseGeocodeLocation(location) { placemarks, error in
                 if let error = error {
-                    print("Reverse geocoding error: \(error.localizedDescription)")
+                    self.showAlert(title: "Hata!", message: error.localizedDescription)
                     return
                 }
                 
@@ -114,12 +113,16 @@ final class MapVC: UIViewController {
         self.view.addSubviews(mapView, collectionView)
         setupLayout()
     }
-
+    
     private func setupLayout() {
         mapView.edgesToSuperview()
         
+<<<<<<< HEAD
+        collectionView.edgesToSuperview(excluding: [.bottom, .top])
+=======
         collectionView.edgesToSuperview(excluding: [.bottom, .top], usingSafeArea: true)
-        collectionView.height(178)
+>>>>>>> sprint3/features2/SecuritySettings
+        collectionView.height(UIScreen.main.bounds.height * 0.21)
         collectionView.bottomToSuperview(offset: -16, usingSafeArea: true)
         collectionView.bringSubviewToFront(mapView)
     }
@@ -156,21 +159,32 @@ extension MapVC: MKMapViewDelegate {
         return annotationView
     }
     
-    
-    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             if let index = viewModel.getIndexForAnnotation(annotation) {
                 let indexPath = IndexPath(item: index, section: 0)
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                setRegionRadiusAndCenter(view: view)
             }
+        }
+    }
+    
+    func setRegionRadiusAndCenter(view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            let annotationCoordinate = annotation.coordinate
+            let regionRadius: CLLocationDistance = 100000
+            let coordinateRegion = MKCoordinateRegion(
+                center: annotationCoordinate,
+                latitudinalMeters: regionRadius,
+                longitudinalMeters: regionRadius)
+            mapView.setRegion(coordinateRegion, animated: true)
         }
     }
 }
 //MARK: - CollectionView Extension
 extension MapVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: 178)
+        let size = CGSize(width: UIScreen.main.bounds.width * 0.79, height: UIScreen.main.bounds.height * 0.21)
         return size
     }
     
@@ -178,18 +192,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout {
         let vc = VisitDetailVC()
         guard let id = viewModel.getMapCollectionId(at: indexPath.row) else { return }
         vc.placeId = id
-<<<<<<< HEAD
         self.navigationController?.pushViewController(vc, animated: true)
-=======
-        viewModel.checkVisit(id: id) { check in
-            if check == "success" {
-                vc.isVisited = true
-            } else {
-                vc.isVisited = false
-            }
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
->>>>>>> sprint2/features/V2
     }
 }
 
@@ -213,9 +216,14 @@ extension MapVC: UICollectionViewDataSource {
 //MARK: - Protocol Extension
 extension MapVC: AddAnnotationDelegate {
     func didAddAnnotation() {
-        viewModel.fetchPlaces() {
+        viewModel.fetchPlaces() { errorMessage in
+            if let errorMessage = errorMessage {
+                self.showAlert(title: "Hata!", message: errorMessage)
+            }
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
+                let indexPath = IndexPath(item: 0, section: 0)
+                self.collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
             }
         }
     }

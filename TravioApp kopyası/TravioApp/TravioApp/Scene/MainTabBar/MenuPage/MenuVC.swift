@@ -83,6 +83,7 @@ final class MenuVC: UIViewController {
     @objc func logoutTapped() {
         let vc = LoginVC()
         self.navigationController?.pushViewController(vc, animated: true)
+  
     }
     
     @objc func editButtonTapped() {
@@ -101,7 +102,6 @@ final class MenuVC: UIViewController {
         }else {
             profileImage.sd_setImage(with: URL(string:data.ppUrl))
         }
-
     }
     
     private func setupView() {
@@ -178,7 +178,8 @@ extension MenuVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollec
             let vc = SecuritySettingsVC()
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            break
+            let vc = AppDefaultsVC()
+            navigationController?.pushViewController(vc, animated: true)
         case 2:
             let vc = MyAddedPlacesVC()
             navigationController?.pushViewController(vc, animated: true)

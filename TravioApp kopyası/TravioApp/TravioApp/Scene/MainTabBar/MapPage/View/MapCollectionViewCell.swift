@@ -5,13 +5,15 @@
 //  Created by Tarik Efe on 27.08.2023.
 //
 
-import UIKit
-import TinyConstraints
 import Kingfisher
+import TinyConstraints
+import UIKit
 
-//MARK: - Class
+// MARK: - Class
+
 final class MapCollectionViewCell: UICollectionViewCell {
-    //MARK: - Views
+    // MARK: - Views
+
     private lazy var mainImage: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill
@@ -48,7 +50,9 @@ final class MapCollectionViewCell: UICollectionViewCell {
         lbl.numberOfLines = 1
         return lbl
     }()
-    //MARK: - Lifecycle
+
+    // MARK: - Lifecycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -57,21 +61,22 @@ final class MapCollectionViewCell: UICollectionViewCell {
         mainImage.roundCorners(corners: [.bottomLeft, .topLeft, .topRight], radius: 16)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Functions
+    // MARK: - Functions
+
     private func setupViews() {
-        self.contentView.backgroundColor = .clear
-        self.contentView.addSubviews(mainImage)
-        self.mainImage.addSubviews(titleLabel, stackView)
+        contentView.backgroundColor = .clear
+        contentView.addSubviews(mainImage)
+        mainImage.addSubviews(titleLabel, stackView)
         stackView.addArrangedSubviews(iconImage, placeLabel)
         setupLayout()
     }
     
     private func setupLayout() {
-        
         mainImage.edgesToSuperview()
         
         titleLabel.leadingToSuperview(offset: 22)
@@ -80,6 +85,7 @@ final class MapCollectionViewCell: UICollectionViewCell {
         
         iconImage.height(21)
         iconImage.width(9)
+        stackView.height(21)
         stackView.leading(to: titleLabel)
         stackView.trailing(to: titleLabel)
         stackView.bottomToSuperview(offset: -8)
@@ -91,6 +97,5 @@ final class MapCollectionViewCell: UICollectionViewCell {
         guard let image = URL(string: model.coverImageURL ?? "Not found") else { return }
         mainImage.kf.indicatorType = .activity
         mainImage.kf.setImage(with: image)
-            
     }
 }

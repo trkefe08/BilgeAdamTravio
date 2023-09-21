@@ -13,6 +13,7 @@ final class HelpAndSupportVM {
     var isCellExpanded = Array(repeating: false, count: 30)
     
     let faqs: [FAQ] = [
+        FAQ(question: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla odio, condimentum eget bibendum eget, maximus in lacus. In hac habitasse platea dictumst. Donec lacus mauris, tempus iaculis lacus at, sollicitudin congue purus. Sed eu ante nec mauris luctus vehicula. Maecenas tortor ex, facilisis non ornare sed, fermentum vitae quam. Duis tristique, odio et dapibus commodo, velit arcu suscipit enim, non imperdiet odio odio at arcu. Donec egestas velit blandit ante bibendum, id aliquet nibh venenatis. Nunc eu feugiat mauris, sit amet suscipit urna. Etiam maximus justo nec orci interdum, sit amet tincidunt tellus ultricies.", answer: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla odio, condimentum eget bibendum eget, maximus in lacus. In hac habitasse platea dictumst. Donec lacus mauris, tempus iaculis lacus at, sollicitudin congue purus. Sed eu ante nec mauris luctus vehicula. Maecenas tortor ex, facilisis non ornare sed, fermentum vitae quam. Duis tristique, odio et dapibus commodo, velit arcu suscipit enim, non imperdiet odio odio at arcu. Donec egestas velit blandit ante bibendum, id aliquet nibh venenatis. Nunc eu feugiat mauris, sit amet suscipit urna. Etiam maximus justo nec orci interdum, sit amet tincidunt."),
         FAQ(question: "Uygulamanız nasıl çalışır?", answer: "Uygulamamızı indirdikten sonra bir hesap oluşturun ve seyahat planlarınızı hemen yapmaya başlayın."),
         FAQ(question: "Üyelik ücretli mi?", answer: "Temel özellikler ücretsizdir, fakat premium özellikler için üyelik planımızı satın alabilirsiniz."),
         FAQ(question: "Biletlerimi nasıl iptal edebilirim?", answer: "Hesabınızdaki 'Biletlerim' bölümünden iptal işlemini gerçekleştirebilirsiniz."),
@@ -20,7 +21,6 @@ final class HelpAndSupportVM {
         FAQ(question: "Çocuklar için indirim var mı?", answer: "Evet, 12 yaş altı çocuklar için %50 indirim sağlamaktayız."),
         FAQ(question: "Bagaj hakkım nedir?", answer: "Bagaj hakkı seyahatin türüne göre değişkenlik göstermektedir."),
         FAQ(question: "Check-in nasıl yapılır?", answer: "Mobil uygulamamız üzerinden veya havaalanındaki kiosklardan check-in yapabilirsiniz."),
-        FAQ(question: "Uçakta yemek var mı?", answer: "Evet, uzun mesafeli uçuşlarda ücretsiz yemek servisi yapmaktayız."),
         FAQ(question: "Promosyon kodu nasıl kullanılır?", answer: "Ödeme ekranında 'Promosyon Kodu' bölümüne kodunuzu girebilirsiniz."),
         FAQ(question: "Evcil hayvan kabul ediliyor mu?", answer: "Evet, ancak belirli kurallar ve ücretler vardır."),
         FAQ(question: "WiFi var mı?", answer: "Evet, tüm uçuşlarımızda ücretli WiFi hizmetimiz vardır."),
